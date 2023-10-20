@@ -1,35 +1,39 @@
 "use client"
 
 import { FoodCard } from "@/components/food/food-card";
+import { FoodType } from "@/types";
+import { Dictionary } from "@reduxjs/toolkit";
 
-export type FoodProps = {
-    id: string
-    name: string,
-    price: string,
-    quantity: string,
-    totalOrder: string,
-    revenue: string
-}
+
 
 interface FoodListProps {
-    items: FoodProps[];
+    items: any;
 }
 export const FoodList = ({ items }: FoodListProps) => {
 
     return (
         <div>
             <div className="grid sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4 gap-4">
-                {items.map((item) => (
+                {Object.keys(items).map((item, id) => {
+                    return (
+                        <FoodCard
+                            key={items[item].id}
+                            category={items[item].categoryId}
+                            id={items[item].id}
+                            name={items[item].name}
+                            price={items[item].price}
+                        />
+                    )
+                })}
+                {/* {items.forEach((item: any) => (
                     <FoodCard
                         key={item.id}
-                        quantity={item.quantity}
+                        category={item.categoryId}
                         id={item.id}
                         name={item.name}
                         price={item.price}
-                        totalOrder={item.totalOrder}
-                        revenue={item.revenue}
                     />
-                ))}
+                ))} */}
             </div>
             {items.length === 0 && (
                 <div className="text-center text-sm text-muted-foreground mt-10">

@@ -1,10 +1,6 @@
-"use client";
-
+'use client';
 
 import {
-    FcEngineering,
-    FcFilmReel,
-    FcMultipleDevices,
     FcMusic,
     FcOldTimeCamera,
     FcSalesPerformance,
@@ -34,7 +30,7 @@ export const Categories = ({
     items,
 }: CategoriesProps) => {
     return (
-        <div className="flex items-center gap-x-2 overflow-x-auto pb-2">
+        <div className="flex flex-row items-center gap-x-2 overflow-x-auto pb-2">
             {items.map((item) => (
                 <CategoryItem
                     key={item.id}

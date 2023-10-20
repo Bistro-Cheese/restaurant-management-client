@@ -1,41 +1,59 @@
-import qs from "query-string";
-import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+'use client'
 
+import { useEffect, useState } from "react";
+
+import qs from "query-string";
+
+import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
+
+
+import { useRouter, usePathname } from "next/navigation";
+
 import { useDebounce } from "@/hooks/use-debounced";
+import { useGetParams } from "@/hooks/use-get-params";
 
 export const SearchInput = () => {
 
-    const [value, setValue] = useState("")
+    const [value, setValue] = useState('')
     const debouncedValue = useDebounce(value);
 
-    const searchParams = useSearchParams();
+
     const router = useRouter();
     const pathname = usePathname();
 
-    const isFoodMenu = pathname.includes("/food-menu")
+    const isFoodMenu = pathname.includes("/foods/menu")
 
-    const currentCategoryId = searchParams.get("categoryId");
+    const {
+        category,
+        sortCase,
+        isAscSort,
+        minPrice,
+        maxPrice
+    } = useGetParams()
 
-    useEffect(() => {
-        setValue("")
-    }, [pathname])
+    // useEffect(() => {
+    //     setValue("")
+    // }, [pathname])
 
     useEffect(() => {
         const url = qs.stringifyUrl({
             url: pathname,
             query: isFoodMenu ? {
-                categoryId: currentCategoryId,
-                food: debouncedValue,
+                category: category,
+                searchKey: debouncedValue,
+                sortCase: sortCase,
+                isAscSort: isAscSort,
+                minPrice: minPrice,
+                maxPrice: maxPrice
             } : {
                 employee: debouncedValue
             }
         }, { skipEmptyString: true, skipNull: true });
 
         router.push(url);
-    }, [debouncedValue, currentCategoryId, router, pathname, isFoodMenu])
+    }, [debouncedValue, pathname, isFoodMenu, router, category, sortCase, isAscSort, minPrice, maxPrice])
+
     return (
         <div className="relative">
             <Search

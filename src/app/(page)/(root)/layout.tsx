@@ -1,7 +1,7 @@
 import { Navbar } from "@/components/navbar";
 import { Sidebar } from "./(admin)/_components/sidebar";
 
-const DashboardLayout = ({
+const RootLayout = ({
     children
 }: {
     children: React.ReactNode;
@@ -21,4 +21,4 @@ const DashboardLayout = ({
     );
 }
 
-export default DashboardLayout;
+export default RootLayout;
