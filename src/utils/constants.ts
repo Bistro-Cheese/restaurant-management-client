@@ -1,4 +1,5 @@
 import { SidebarItemProps } from '@/app/(page)/(root)/(admin)/_components/sidebar-items';
+import { FilterItemProps } from '@/components/food/food-filter-case';
 import {
     Layout,
     Pizza,
@@ -18,7 +19,7 @@ export const ownerRoutes: SidebarItemProps[] = [
     {
         icon: Pizza,
         label: 'Food Menu',
-        href: '/owner/food-menu'
+        href: '/owner/foods/menu'
     },
     {
         icon: Users,
@@ -57,5 +58,14 @@ export const managerRoutes: SidebarItemProps[] = [
         icon: Contact,
         label: 'Customers',
         href: '/owner/customers'
+    }
+];
+
+export const filterByFields: FilterItemProps[] = [
+    {
+        name: 'Best seller'
+    },
+    {
+        name: 'The Newest'
     }
 ];

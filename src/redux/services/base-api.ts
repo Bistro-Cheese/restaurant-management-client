@@ -22,11 +22,9 @@ interface RefreshResult {
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
-    credentials: 'include', //will face CORS if credential is not provided
-    // credentials: "same-origin",
+    credentials: 'include',
     prepareHeaders(headers, { getState }) {
         const token = (getState() as RootState).reducer.auth.access_token;
-        console.log('tokenAPI:::', token);
         // If we have a token set in state, let's assume that we should be passing it.
         if (token) {
             headers.set('Content-Type', 'application/json');
@@ -80,5 +78,6 @@ const baseQueryWithReauth: BaseQueryFn<
 
 export const apiSlice = createApi({
     baseQuery: baseQueryWithReauth,
+    tagTypes: ['Food', 'User'],
     endpoints: (builder) => ({})
 });

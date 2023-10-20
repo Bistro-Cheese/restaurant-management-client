@@ -6,9 +6,7 @@ export type FoodProps = {
     id: string
     name: string,
     price: string,
-    quantity: string,
-    totalOrder: string,
-    revenue: string
+    category: string,
 }
 
 interface FoodListProps {
@@ -22,12 +20,11 @@ export const FoodList = ({ items }: FoodListProps) => {
                 {items.map((item) => (
                     <FoodCard
                         key={item.id}
-                        quantity={item.quantity}
+                        category={item.category}
                         id={item.id}
                         name={item.name}
                         price={item.price}
-                        totalOrder={item.totalOrder}
-                        revenue={item.revenue}
+
                     />
                 ))}
             </div>

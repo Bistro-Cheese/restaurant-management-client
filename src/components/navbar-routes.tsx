@@ -17,10 +17,11 @@ import {
     UserCircle
 } from "lucide-react"
 import { SearchInput } from "./search-input"
+import Link from "next/link"
 
 export const NavbarRoutes = () => {
     const pathname = usePathname();
-    const isSearchPage = pathname === "/owner/food-menu" || pathname === "/owner/employees";
+    const isSearchPage = pathname === "/owner/foods/menu" || pathname === "/owner/employees";
 
     return (
         <>
@@ -30,6 +31,13 @@ export const NavbarRoutes = () => {
                 </div>
             )}
             <div className="flex gap-x-2 ml-auto">
+                {isSearchPage && (
+                    <Link href="/owner/foods/create" className="hidden md:block justify-end">
+                        <Button >
+                            NEW FOOD
+                        </Button>
+                    </Link>)}
+
                 <Button value="outline">
                     Logout
                 </Button>
