@@ -16,141 +16,107 @@ export const categories = [
         name: 'Dessert'
     }
 ];
+
+export const foodStatus = [
+    {
+        id: '1',
+        name: 'Available',
+        status: 'AVAILABLE'
+    },
+    {
+        id: '2',
+        name: 'Out Stock',
+        status: 'OUT_OF_STOCK'
+    },
+    {
+        id: '3',
+        name: 'Draft',
+        status: 'DRAFT'
+    }
+];
 export const foodList = [
     {
         id: '1',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '2',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '3',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '4',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '5',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '6',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '7',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '8',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '9',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '10',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
-    },
-    {
-        id: '11',
-        name: 'pizza',
-        price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '12',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '13',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '14',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '15',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '16',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
     },
     {
         id: '17',
         name: 'pizza',
         price: '20000',
-        quantity: '33',
-        totalOrder: '13',
-        revenue: '13000000'
+        category: 'Main course'
+    },
+    {
+        id: '18',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '19',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '20',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '21',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '31',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '41',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
+    },
+    {
+        id: '51',
+        name: 'pizza',
+        price: '20000',
+        category: 'Main course'
     }
 ];

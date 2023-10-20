@@ -1,83 +1,117 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { toast } from "react-hot-toast"
 import { useForm } from "react-hook-form"
 import { Trash } from "lucide-react"
 
-import { Category, Product } from "@/types/index"
-
-
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useParams, useRouter } from "next/navigation"
-
-
+import { useRouter } from "next/navigation"
 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
     FormMessage,
 } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Heading } from "@/components/heading"
 import { AlertModal } from "@/components/modal/alert-modal"
 import ImageUpload from "@/components/image-upload"
-import { Checkbox } from "@/components/ui/checkbox"
+import { categories, foodStatus } from "@/utils/fake-data"
+import { selectFoodById, useAddNewFoodMutation, useDeleteFoodMutation, useUpdateFoodMutation } from "@/redux/services/food-api"
+import { useSelector } from "react-redux"
+import { EntityId } from "@reduxjs/toolkit"
 
 const formSchema = z.object({
     name: z.string().min(1),
     description: z.string().min(1),
-    categoryId: z.string().min(1),
-    image: z.string().min(0),
+    category: z.string().min(1),
+    product_image: z.string().min(0),
     price: z.coerce.number().min(1),
-    quantity: z.coerce.number().min(1),
-    isInStock: z.boolean().default(false).optional(),
-    isSelling: z.boolean().default(false).optional()
+    status: z.string(),
 });
 
 type FoodFormValues = z.infer<typeof formSchema>
 
-interface FoodFormProps {
-    initialData: Product | null;
-    categories: Category[];
+type ExtractedFood = {
+    category: {
+        id: string;
+    };
+    description: string;
+    name: string;
+    product_image: string;
+    status: string;
 };
 
-export const FoodForm: React.FC<FoodFormProps> = ({
-    initialData,
-    categories
-}) => {
+interface FoodFormProps {
+    foodId: string | null;
+};
 
-    const params = useParams();
+
+
+export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
+
+    console.log("ID FOOD FORM EDIT:::", foodId)
+
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const title = initialData ? 'Edit product' : 'Create product';
-    const description = initialData ? 'Edit a product.' : 'Add a new product';
-    const toastMessage = initialData ? 'Product updated.' : 'Product created.';
-    const action = initialData ? 'Save changes' : 'Create';
+    const food = useSelector(state => selectFoodById(state, foodId as EntityId))
 
-    const defaultValues = initialData ? {
-        ...initialData,
-        price: parseFloat(String(initialData?.price)),
+    console.log("FOOD FORM EDIT:::", food)
+
+
+    const [addNewFood, {
+        isLoading: isCreatingLoading,
+        isSuccess: isCreatedSuccess,
+        isError: isCreatingError,
+        error: creatingError
+    }] = useAddNewFoodMutation()
+
+    const [updateFood, {
+        isLoading: isUpdatingLoading,
+        isSuccess: isUpdatedSuccess,
+        isError: isUpdatedError,
+        error: updatedError
+    }] = useUpdateFoodMutation()
+
+    const [deleteFood, {
+        isLoading: isDeletingLoading,
+        isSuccess: isDeletedSuccess,
+        isError: isDeletedError,
+        error: deletedError
+    }] = useDeleteFoodMutation()
+
+    const isCreate = foodId !== "create"
+
+    const title = isCreate ? 'Edit Food' : 'Create Food';
+    const description = isCreate ? 'Edit a food.' : 'Add a new food';
+    const toastMessage = isCreate ? 'Food updated.' : 'Food created.';
+    const action = isCreate ? 'Save changes' : 'Create';
+
+    const defaultValues = isCreate ? {
+        name: food?.name,
+        description: food?.description,
+        product_image: "https://thucphamsieuthi.vn/wp-content/uploads/2021/08/banh-pizza-hai-san-dong-lanh.jpg",
+        category: JSON.stringify(food?.category.id),
+        price: parseFloat(String(food?.price)),
+        status: JSON.stringify(food?.status)
     } : {
         name: '',
         description: '',
-        categoryId: '',
-        image: '',
+        product_image: '',
+        category: '',
         price: 0,
-        quantity: 0,
-        isInStock: false,
-        isSelling: false,
+        status: '',
     }
 
     const form = useForm<FoodFormValues>({
@@ -85,20 +119,40 @@ export const FoodForm: React.FC<FoodFormProps> = ({
         defaultValues
     });
 
+    useEffect(() => {
+        if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
+            setLoading(true)
+        } else {
+            setLoading(false)
+        }
+    }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading])
+
+    useEffect(() => {
+        if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
+            console.log("isDeletedSuccess:::", isDeletedSuccess)
+            router.refresh();
+            router.push("/owner/foods/menu");
+            toast.success(toastMessage);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isCreatedSuccess, isUpdatedSuccess, isDeletedSuccess])
+
     const onSubmit = async (data: FoodFormValues) => {
-        if (initialData) {
-            console.log("update food:::", data)
+        if (data) {
+            isCreate ? await updateFood({ food_id: foodId, data: { ...data } }) : await addNewFood({ ...data })
         } else {
             console.log("create food:::", data)
         }
-
-        router.refresh();
-        router.push("/owner/food-menu");
-        toast.success(toastMessage);
     };
 
     const onDelete = async () => {
-        console.log(":::creating product deleted:::")
+        console.log("foodId:::", foodId)
+        try {
+            await deleteFood({ food_id: foodId })
+        } catch (err) {
+            console.log("err:::", err)
+        }
         setLoading(false);
         setOpen(false);
     }
@@ -112,7 +166,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({
                 loading={loading} />
             <div className="flex items-center justify-between">
                 <Heading title={title} description={description} />
-                {initialData && (
+                {food && (
                     <Button
                         disabled={loading}
                         variant="destructive"
@@ -128,7 +182,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
                     <FormField
                         control={form.control}
-                        name="image"
+                        name="product_image"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Images</FormLabel>
@@ -144,7 +198,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({
                             </FormItem>
                         )}
                     />
-                    <div className="md:grid md:grid-cols-3 gap-8">
+                    <div className="grid-cols-1 md:grid md:grid-cols-1 gap-8">
                         <FormField
                             control={form.control}
                             name="name"
@@ -173,13 +227,13 @@ export const FoodForm: React.FC<FoodFormProps> = ({
                         />
                         <FormField
                             control={form.control}
-                            name="categoryId"
+                            name="category"
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Category</FormLabel>
                                     <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                         <FormControl>
-                                            <SelectTrigger>
+                                            <SelectTrigger className="w-[180px]">
                                                 <SelectValue defaultValue={field.value} placeholder="Select a category" />
                                             </SelectTrigger>
                                         </FormControl>
@@ -196,47 +250,39 @@ export const FoodForm: React.FC<FoodFormProps> = ({
 
                         <FormField
                             control={form.control}
-                            name="isInStock"
+                            name="status"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                                    <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            // @ts-ignore
-                                            onCheckedChange={field.onChange}
-                                        />
-                                    </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>
-                                            Available
-                                        </FormLabel>
-                                        <FormDescription>
-                                            This Food will be available in quantity
-                                        </FormDescription>
-                                    </div>
+                                <FormItem>
+                                    <FormLabel>Status</FormLabel>
+                                    <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger className="w-[180px]">
+                                                <SelectValue defaultValue={field.value} placeholder="Select status" />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectGroup>
+                                                {foodStatus.map((status) => (
+                                                    <SelectItem key={status.id} value={status.id}>{status.name}</SelectItem>
+                                                ))}
+                                            </SelectGroup>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />
+
                         <FormField
                             control={form.control}
-                            name="isSelling"
+                            name="description"
                             render={({ field }) => (
-                                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                                <FormItem>
+                                    <FormLabel>Description</FormLabel>
                                     <FormControl>
-                                        <Checkbox
-                                            checked={field.value}
-                                            // @ts-ignore
-                                            onCheckedChange={field.onChange}
-                                        />
+                                        <Input disabled={loading} placeholder="0-255 characters" {...field} />
                                     </FormControl>
-                                    <div className="space-y-1 leading-none">
-                                        <FormLabel>
-                                            Publish
-                                        </FormLabel>
-                                        <FormDescription>
-                                            This product will be published in menu.
-                                        </FormDescription>
-                                    </div>
+                                    <FormMessage />
                                 </FormItem>
                             )}
                         />

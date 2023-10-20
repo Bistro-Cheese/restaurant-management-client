@@ -1,20 +1,24 @@
 "use client";
 
-import { categories } from "@/utils/fake-data";
 import { FoodForm } from "../../_components/create-food-form";
 
-const CreateFood = () => {
+interface ProductPageProps {
+    params: {
+        foodId: string
+    }
+}
 
-    const initialData = null
+const FoodPage: React.FC<ProductPageProps> = ({ params }) => {
+
 
     return (
         <div className="flex-col">
             <div className="flex-1 space-y-4 p-8 pt-6">
-                <FoodForm categories={categories} initialData={initialData} />
+                <FoodForm foodId={params.foodId} />
             </div>
         </div>
 
     );
 };
 
-export default CreateFood;
+export default FoodPage;

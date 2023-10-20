@@ -11,7 +11,6 @@ export const useGetProfile = () => {
     const dispatch = useAppDispatch();
     const { data, isLoading } = useGetProfileQuery();
 
-    console.log('GET PROFILE:::', data);
     useEffect(() => {
         if (data?.data) {
             dispatch(

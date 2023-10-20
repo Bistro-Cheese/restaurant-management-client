@@ -1,14 +1,32 @@
-import { FoodProps } from "@/components/food/food-list";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
+import { useRouter } from "next/navigation";
+import { EntityId } from "@reduxjs/toolkit";
+
+export type FoodCardProps = {
+    id: EntityId
+    name: string,
+    price: string,
+    category: string
+}
 
 export const FoodCard = ({
+    id,
     name,
     price,
-    quantity,
-}: FoodProps) => {
+    category,
+}: FoodCardProps) => {
+
     const isInStock = true;
+
+    const router = useRouter()
+
+    const handleClickEdit = (id: EntityId) => {
+        console.log("FoodId:::", id)
+        router.push(`/owner/foods/${id}`)
+    }
+
     return (
         <div className="group hover:shadow-sm transition overflow-hidden border rounded-lg p-3 h-full">
             <div className="relative w-full aspect-video rounded-md overflow-hidden">
@@ -32,7 +50,7 @@ export const FoodCard = ({
 
                 <div className="flex flex-row justify-between items-center">
                     <p className="text-xs text-muted-foreground">
-                        Qty: {quantity}
+                        category: {category}
                     </p>
                     <div className={cn("text-xs text-white font-bold p-[2px] rounded-sm", isInStock ? "bg-green-500" : "bg-red-500")}>
                         {isInStock ? "In Stock" : "Out Stock"}
@@ -41,7 +59,7 @@ export const FoodCard = ({
 
                 <div className="flex mt-6 flex-row justify-between items-center">
                     <Button variant="destructive" size="sm" className="py-[1px] px-5 text-xs">Remove</Button>
-                    <Button size="sm" className="py-[1px] px-5 text-xs">Edit</Button>
+                    <Button onClick={() => handleClickEdit(id)} size="sm" className="py-[1px] px-5 text-xs">Edit</Button>
                 </div>
             </div>
         </div>

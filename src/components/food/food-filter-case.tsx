@@ -10,17 +10,15 @@ import {
 import { cn } from "@/lib/utils";
 import { useGetParams } from "@/hooks/use-get-params";
 
-interface CategoryItemProps {
-    label: string;
-    value?: string;
+export interface FilterItemProps {
+    name: string;
     icon?: IconType;
 };
 
-export const CategoryItem = ({
-    label,
-    value,
+export const FoodFilterCase = ({
+    name,
     icon: Icon,
-}: CategoryItemProps) => {
+}: FilterItemProps) => {
 
     const pathname = usePathname();
     const router = useRouter();
@@ -34,37 +32,33 @@ export const CategoryItem = ({
         maxPrice
     } = useGetParams()
 
-    const isSelected = category === value;
+    const isSelected = sortCase === name;
 
     const handleClick = () => {
         const url = qs.stringifyUrl({
             url: pathname,
             query: {
-                searchKey: searchKey,
-                sortCase: sortCase,
+                category,
+                searchKey,
+                minPrice,
+                maxPrice,
                 isAscSort: isAscSort,
-                minPrice: minPrice,
-                maxPrice: maxPrice,
-                category: isSelected ? null : value,
-
+                sortCase: isSelected ? null : name,
             }
         }, { skipNull: true, skipEmptyString: true });
+
         router.push(url);
     };
 
     return (
-        <button
-            onClick={handleClick}
-            className={cn(
-                "py-2 px-3 text-sm border border-slate-200 rounded-full flex items-center gap-x-1 hover:border-sky-700 transition",
-                isSelected && "border-sky-700 bg-sky-200/20 text-sky-800"
-            )}
-            type="button"
-        >
+        <button onClick={handleClick} className={cn("py-2 px-3 text-sm border border-slate-200 rounded-lg flex items-center gap-x-1 hover:border-sky-700 transition",
+            isSelected && "border-sky-700 bg-sky-200/20 text-sky-800")}>
             {Icon && <Icon size={20} />}
             <div className="truncate">
-                {label}
+                {name}
             </div>
         </button>
+
+
     )
 }
