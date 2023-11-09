@@ -37,11 +37,8 @@ const FoodMenu = () => {
                     <div className="flex flex-col p-6 gap-y-0 space-y-2">
                         <FoodsFilter />
                     </div>
-
                     <FoodList items={entities} />
-
                 </div>
-
             </div>
         )
     }
