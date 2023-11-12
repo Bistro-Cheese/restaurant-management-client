@@ -22,7 +22,7 @@ export const useDispatchLogin = () => {
                         access_token: userData?.data?.access_token
                     })
                 );
-                router.push('/');
+                router.push('/owner/foods/menu');
             }
         } catch (err) {
             console.log('sign in fail::::', err);
