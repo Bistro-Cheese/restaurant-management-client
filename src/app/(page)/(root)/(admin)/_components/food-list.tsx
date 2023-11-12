@@ -1,8 +1,7 @@
 "use client"
 
 import { FoodCard } from "@/components/food/food-card";
-import { FoodType } from "@/types";
-import { Dictionary } from "@reduxjs/toolkit";
+
 
 
 
@@ -18,22 +17,15 @@ export const FoodList = ({ items }: FoodListProps) => {
                     return (
                         <FoodCard
                             key={items[item].id}
-                            category={items[item].categoryId}
+                            category={items[item].category.name}
                             id={items[item].id}
                             name={items[item].name}
                             price={items[item].price}
+                            status={items[item].status}
+                            image={items[item].productImage}
                         />
                     )
                 })}
-                {/* {items.forEach((item: any) => (
-                    <FoodCard
-                        key={item.id}
-                        category={item.categoryId}
-                        id={item.id}
-                        name={item.name}
-                        price={item.price}
-                    />
-                ))} */}
             </div>
             {items.length === 0 && (
                 <div className="text-center text-sm text-muted-foreground mt-10">

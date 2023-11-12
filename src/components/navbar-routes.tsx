@@ -31,13 +31,6 @@ export const NavbarRoutes = () => {
                 </div>
             )}
             <div className="flex gap-x-2 ml-auto">
-                {isSearchPage && (
-                    <Link href="/owner/foods/create" className="hidden md:block justify-end">
-                        <Button >
-                            NEW FOOD
-                        </Button>
-                    </Link>)}
-
                 <Button value="outline">
                     Logout
                 </Button>

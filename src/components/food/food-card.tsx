@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Trash2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
@@ -8,7 +9,9 @@ export type FoodCardProps = {
     id: EntityId
     name: string,
     price: string,
-    category: string
+    category: string,
+    status: number,
+    image: string
 }
 
 export const FoodCard = ({
@@ -16,10 +19,28 @@ export const FoodCard = ({
     name,
     price,
     category,
+    status,
+    image,
 }: FoodCardProps) => {
 
-    const isInStock = true;
+    var colorStatus = "";
+    var nameStatus = "";
 
+    switch (status) {
+        case 1:
+            colorStatus = "bg-green-500";
+            nameStatus = "Available";
+            break;
+        case 2:
+            colorStatus = "bg-red-500";
+            nameStatus = "Out Stock";
+            break;
+        default:
+            // Thực hiện hành động mặc định hoặc hành động cho trạng thái khác
+            colorStatus = "bg-slate-500";
+            nameStatus = "Draft";
+            break;
+    }
     const router = useRouter()
 
     const handleClickEdit = (id: EntityId) => {
@@ -32,18 +53,18 @@ export const FoodCard = ({
             <div className="relative w-full aspect-video rounded-md overflow-hidden">
                 <Image
                     fill
-                    className="object-cover"
+                    className="object-content"
                     alt={name}
                     sizes="100vw"
-                    src="https://thucphamsieuthi.vn/wp-content/uploads/2021/08/banh-pizza-hai-san-dong-lanh.jpg"
+                    src={image}
                 />
             </div>
             <div className="flex flex-col pt-2">
-                <div className="flex mb-1 flex-row justify-between text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">
-                    <div >
+                <div className="h-12 flex mb-1 flex-row justify-between text-lg md:text-base font-medium group-hover:text-sky-700 transition line-clamp-2">
+                    <p className="line-clamp-2 font-semibold w-32">
                         {name}
-                    </div>
-                    <div className="text-red-500">
+                    </p>
+                    <div className="text-red-500 font-bold">
                         {price}VND
                     </div>
                 </div>
@@ -52,14 +73,18 @@ export const FoodCard = ({
                     <p className="text-xs text-muted-foreground">
                         category: {category}
                     </p>
-                    <div className={cn("text-xs text-white font-bold p-[2px] rounded-sm", isInStock ? "bg-green-500" : "bg-red-500")}>
-                        {isInStock ? "In Stock" : "Out Stock"}
+                    <div className={cn("text-xs text-white font-bold p-[5px] rounded-sm", colorStatus)}>
+                        {nameStatus}
                     </div>
                 </div>
 
                 <div className="flex mt-6 flex-row justify-between items-center">
-                    <Button variant="destructive" size="sm" className="py-[1px] px-5 text-xs">Remove</Button>
-                    <Button onClick={() => handleClickEdit(id)} size="sm" className="py-[1px] px-5 text-xs">Edit</Button>
+                    <Button variant="destructive" size="sm" className="py-[1px] group/remove bg-white outline outline-gray-200 px-5  text-xs">
+                        <Trash2
+                            className="h-4 w-4 text-gray-400 group-hover/remove:text-sky-900"
+                        />
+                    </Button>
+                    <Button onClick={() => handleClickEdit(id)} size="sm" className="py-[1px] px-5 text-xs font-semibold text-sky-800 bg-yellow-400">Edit</Button>
                 </div>
             </div>
         </div>

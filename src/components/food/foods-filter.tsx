@@ -19,6 +19,8 @@ import * as z from "zod"
 import qs from "query-string"
 import { useEffect, useState } from "react"
 import { useDebounce } from "@/hooks/use-debounced"
+import Link from "next/link"
+import { Button } from "../ui/button"
 
 
 const formSchema = z.object({
@@ -189,6 +191,11 @@ export const FoodsFilter = () => {
                 <Input placeholder="min" value={minValue} type="number" min="0" inputMode="numeric" pattern="[0-9]" className={cn("w-20")} onChange={(e) => handleMinValueChange(e.target.value.replace(/[^\w\s]/gi, ""))} />
                 <div className="flex item-center justify-between"> - </div>
                 <Input placeholder="max" value={maxValue} type="number" inputMode="numeric" pattern="[0-9]" min="0" className={cn("w-20")} onChange={(e) => handleMaxValueChange(e.target.value.replace(/[^\w\s]/gi, ""))} />
+                <Link href="/owner/foods/create" className="hidden md:block justify-end">
+                    <Button className="bg-yellow-600">
+                        Add Food
+                    </Button>
+                </Link>
             </div>
         </div>
     )
