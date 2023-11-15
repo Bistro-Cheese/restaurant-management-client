@@ -5,8 +5,6 @@ import { useGetProfileQuery } from '@/redux/services/user-api';
 import { useAppDispatch } from './redux-hook';
 import { setProfile } from '@/redux/features/user-slice';
 
-import { useRouter } from 'next/navigation';
-
 export const useGetProfile = () => {
     const dispatch = useAppDispatch();
     const { data, isLoading } = useGetProfileQuery();
