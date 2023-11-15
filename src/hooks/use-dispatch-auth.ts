@@ -1,11 +1,12 @@
-import { useLoginMutation } from '@/redux/services/auth-api';
+import { useLoginMutation, useLogoutMutation } from '@/redux/services/auth-api';
 import { useAppDispatch } from './redux-hook';
-import { setCredentials } from '@/redux/features/auth-slice';
+import { setCredentials, removeCredentials } from '@/redux/features/auth-slice';
 import { useRouter } from 'next/navigation';
 
 export const useDispatchLogin = () => {
     const dispatch = useAppDispatch();
-    const [login, { isLoading }] = useLoginMutation();
+    const [login, { isLoading: isLoginLoading, error: loginError }] =
+        useLoginMutation();
 
     const router = useRouter();
 
@@ -29,5 +30,24 @@ export const useDispatchLogin = () => {
         }
     };
 
-    return { isLoading, dispatchLogin };
+    return { isLoginLoading, dispatchLogin, loginError };
+};
+
+export const useDispatchLogout = () => {
+    const dispatch = useAppDispatch();
+    const [logout, { isLoading: isLogoutLoading }] = useLogoutMutation();
+
+    const router = useRouter();
+
+    const dispatchLogout = async () => {
+        try {
+            await logout({}).unwrap();
+            dispatch(removeCredentials());
+            router.push('/');
+        } catch (err) {
+            console.log('sign out fail::::', err);
+        }
+    };
+
+    return { isLogoutLoading, dispatchLogout };
 };

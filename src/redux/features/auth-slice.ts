@@ -21,7 +21,7 @@ export const authSlice = createSlice({
         ) => {
             state.access_token = access_token;
         },
-        logout: (state) => {
+        removeCredentials: (state) => {
             state.access_token = null;
         },
         tokenUpdated: (
@@ -33,4 +33,5 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setCredentials, logout, tokenUpdated } = authSlice.actions;
+export const { setCredentials, removeCredentials, tokenUpdated } =
+    authSlice.actions;
