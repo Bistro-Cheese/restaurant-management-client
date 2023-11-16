@@ -1,9 +1,4 @@
-import {
-    AuthState,
-    logout,
-    setCredentials,
-    tokenUpdated
-} from '../features/auth-slice';
+import { removeCredentials, tokenUpdated } from '../features/auth-slice';
 import { Mutex } from 'async-mutex';
 import { RootState } from '@/redux/store';
 import {
@@ -61,7 +56,7 @@ const baseQueryWithReauth: BaseQueryFn<
                     // retry the initial query
                     result = await baseQuery(args, api, extraOptions);
                 } else {
-                    api.dispatch(logout());
+                    api.dispatch(removeCredentials());
                 }
             } finally {
                 // release must be called once the mutex should be released again.

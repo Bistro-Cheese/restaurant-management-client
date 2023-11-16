@@ -1,5 +1,4 @@
-import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit';
-import { access } from 'fs';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const authKey = 'auth';
 
