@@ -22,6 +22,11 @@ export const ownerRoutes: SidebarItemProps[] = [
         href: '/owner/foods/menu'
     },
     {
+        icon: Store,
+        label: 'Inventory',
+        href: '/owner/inventory'
+    },
+    {
         icon: Users,
         label: 'Employee',
         href: '/owner/employees'
