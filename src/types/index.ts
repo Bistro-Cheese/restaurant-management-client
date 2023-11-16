@@ -11,6 +11,18 @@ export type FoodType = {
     status: string;
 };
 
+export type IngredientType = {
+    id: number,
+    name: string,
+    ingredientType: number
+}
+
+export type InventoryType = {
+    id: string,
+    ingredient: IngredientType
+    quantity: number
+}
+
 export type Category = {
     id: string;
     name: string;

@@ -30,10 +30,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/heading';
 import { AlertModal } from '@/components/modal/alert-modal';
-import ImageUpload from '@/components/image-upload';
 import {
-    categories,
-    foodStatus,
     userRoles,
     userStatus
 } from '@/utils/fake-data';
@@ -45,7 +42,7 @@ import {
     useDeleteUserMutation
 } from '@/redux/services/user-api';
 import { useUpdateFoodMutation } from '@/redux/services/food-api';
-import { useRemoveUnwantedKeys } from '@/hooks/use-user';
+import { RemoveUnwantedKeys } from '@/utils/remove-key-object';
 
 const formSchema = z.object({
     username: z.string().min(1),
@@ -127,41 +124,41 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
     const defaultValues = isCreate
         ? {
-              username: user?.username,
-              first_name: user?.firstName,
-              last_name: user?.lastName,
-              date_of_birth: user?.dateOfBirth,
-              password: user?.password,
-              phone_number: user?.phoneNumber,
-              role: JSON.stringify(user?.role),
-              status: JSON.stringify(user?.status),
-              address_line: user?.address?.addressLine,
-              city: user?.address?.city,
-              region: user?.address?.region,
-              email: user?.email,
-              experienced_year: user?.experiencedYear,
-              certification_management: user?.certificationManagement,
-              foreign_language: user?.foreignLanguage,
-              academic_level: user?.academicLevel
-          }
+            username: user?.username,
+            first_name: user?.firstName,
+            last_name: user?.lastName,
+            date_of_birth: user?.dateOfBirth,
+            password: user?.password,
+            phone_number: user?.phoneNumber,
+            role: JSON.stringify(user?.role),
+            status: JSON.stringify(user?.status),
+            address_line: user?.address?.addressLine,
+            city: user?.address?.city,
+            region: user?.address?.region,
+            email: user?.email,
+            experienced_year: user?.experiencedYear,
+            certification_management: user?.certificationManagement,
+            foreign_language: user?.foreignLanguage,
+            academic_level: user?.academicLevel
+        }
         : {
-              username: '',
-              firstName: '',
-              lastName: '',
-              dateOfBirth: '',
-              password: '',
-              phoneNumber: '',
-              role: '',
-              status: '',
-              addressLine: '',
-              city: '',
-              region: '',
-              email: '',
-              experienced_year: '',
-              certification_management: '',
-              foreign_language: '',
-              academic_level: ''
-          };
+            username: '',
+            firstName: '',
+            lastName: '',
+            dateOfBirth: '',
+            password: '',
+            phoneNumber: '',
+            role: '',
+            status: '',
+            addressLine: '',
+            city: '',
+            region: '',
+            email: '',
+            experienced_year: '',
+            certification_management: '',
+            foreign_language: '',
+            academic_level: ''
+        };
 
     const form = useForm<UserFormValues>({
         resolver: zodResolver(formSchema),
@@ -189,13 +186,13 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
     const onSubmit = async (data: UserFormValues) => {
         if (data) {
-            let removedKeysData = useRemoveUnwantedKeys(data, unwantedKeys);
+            let removedKeysData = RemoveUnwantedKeys(data, unwantedKeys);
 
             isCreate
                 ? await updateUser({
-                      user_id: userId,
-                      data: { ...removedKeysData }
-                  })
+                    user_id: userId,
+                    data: { ...removedKeysData }
+                })
                 : await addUserFood({ ...removedKeysData });
         } else {
             console.log('create user:::', data);
