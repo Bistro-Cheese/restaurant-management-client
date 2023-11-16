@@ -35,24 +35,35 @@ export const inventoryApi = apiSlice.injectEndpoints({
                     : [{ type: 'Inventory', id: 'LIST' }]
             // highlight-end
         }),
+        importInventory: builder.mutation<any, {ingredient_id: number, payload: {quantity: number}}>({
+            query: ({ingredient_id, payload}) => ({
+                url: `/inventory/${ingredient_id}`,
+                method: 'POST',
+                body: {
+                    ...payload
+                }
+            }),
+            invalidatesTags: [{ type: 'Inventory', id: 'LIST' }]
+        }),
        
     })
 });
 
 export const {
     useGetInventoryQuery,
+    useImportInventoryMutation
 } = inventoryApi;
 
 // returns the query result object
-export const selectFoodsResult = inventoryApi.endpoints.getInventory.select();
+export const selectInventoryResult = inventoryApi.endpoints.getInventory.select();
 
 // creates memoized selector
-const selectFoodsData = createSelector(
-    selectFoodsResult,
-    (foodsResult) => foodsResult.data // normalized state object with ids & entities
+const selectInventoryData = createSelector(
+    selectInventoryResult,
+    (inventoryResult) => inventoryResult.data // normalized state object with ids & entities
 );
 
-export const { selectAll: selectAllFoods, selectById: selectFoodById } =
+export const { selectAll: selectInventory, selectById: selectInventoryById } =
    inventoryAdapter.getSelectors(
-        (state: any) => selectFoodsData(state) ?? initialState
+        (state: any) => selectInventoryData(state) ?? initialState
     );

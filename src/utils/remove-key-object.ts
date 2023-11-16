@@ -3,7 +3,7 @@ import * as z from 'zod';
 
 import { UserFormValues } from '@/app/(page)/(root)/(admin)/owner/_components/create-employee-form';
 
-export const useRemoveUnwantedKeys = (
+export const RemoveUnwantedKeys = (
     data: UserFormValues,
     unwantedKeys: string[]
 ) => {

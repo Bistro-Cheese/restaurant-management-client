@@ -5,10 +5,14 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import InventoryList from "../../../_components/inventory-list";
 import { useGetInventory } from "@/hooks/inventory/use-get-inventory";
+import { useGetIngredientsQuery } from "@/redux/services/ingredient-api";
 
 const Inventory = () => {
 
     const { inventory } = useGetInventory();
+    const { data: ingredients } = useGetIngredientsQuery();
+
+    console.log("INGREDIENTS:::", ingredients)
 
     console.log("INVENTORY:::", inventory);
 
@@ -17,14 +21,14 @@ const Inventory = () => {
             <div className='mb-4 flex justify-between'>
                 <Heading title='Inventory' description='' />
                 <Link
-                    href='/owner/create-employee'
+                    href='/owner/inventory/create'
                     className='hidden justify-end md:block'
                 >
                     <Button>ADD</Button>
                 </Link>
             </div>
 
-            <InventoryList />
+            <InventoryList inventoryList={inventory} />
         </div>
     );
 };

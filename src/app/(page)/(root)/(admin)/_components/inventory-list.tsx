@@ -1,4 +1,4 @@
-const InventoryList = () => {
+const InventoryList = ({ inventoryList }: any) => {
     return (
         <div className='overflow-hidden rounded-lg border border-gray-200 shadow-md'>
             <table className='w-full border-collapse bg-white text-left text-sm text-gray-500'>
