@@ -15,7 +15,7 @@ import { Settings, User, UserCircle } from 'lucide-react';
 import { SearchInput } from './search-input';
 import { useDispatchLogout } from '@/hooks/use-dispatch-auth';
 
-export const NavbarRoutes = () => {
+export const HeaderContent = () => {
     const pathname = usePathname();
     const isSearchPage =
         pathname === '/owner/foods/menu' || pathname === '/owner/employees';
@@ -27,15 +27,13 @@ export const NavbarRoutes = () => {
     };
     return (
         <>
-            {isSearchPage && (
-                <div className='hidden md:block'>
-                    <SearchInput />
-                </div>
-            )}
+
             <div className='ml-auto flex gap-x-2'>
-                <Button value='outline' onClick={handleLogout}>
-                    {isLogoutLoading ? 'Loading...' : 'Logout'}
-                </Button>
+                {isSearchPage && (
+                    <div className='hidden md:block'>
+                        <SearchInput />
+                    </div>
+                )}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button size='icon' variant='link'>
