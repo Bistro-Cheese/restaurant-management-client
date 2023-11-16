@@ -42,8 +42,8 @@ export const FoodFilterCase = ({
                 searchKey,
                 minPrice,
                 maxPrice,
-                isAscSort: isAscSort,
-                sortCase: isSelected ? null : name,
+                is_asc_sort: isAscSort,
+                sort_case: isSelected ? null : name,
             }
         }, { skipNull: true, skipEmptyString: true });
 

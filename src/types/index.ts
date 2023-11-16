@@ -6,7 +6,7 @@ export type FoodType = {
         id: string;
         name: string;
     };
-    product_image: string;
+    productImage: string;
     price: string;
     status: string;
 };

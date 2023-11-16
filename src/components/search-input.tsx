@@ -16,7 +16,7 @@ import { useGetParams } from "@/hooks/use-get-params";
 export const SearchInput = () => {
 
     const [value, setValue] = useState('')
-    const debouncedValue = useDebounce(value);
+    const debouncedValue = useDebounce(value, 1000);
 
 
     const router = useRouter();
@@ -41,11 +41,11 @@ export const SearchInput = () => {
             url: pathname,
             query: isFoodMenu ? {
                 category: category,
-                searchKey: debouncedValue,
-                sortCase: sortCase,
-                isAscSort: isAscSort,
-                minPrice: minPrice,
-                maxPrice: maxPrice
+                search_key: debouncedValue,
+                sort_case: sortCase,
+                is_asc_sort: isAscSort,
+                min_price: minPrice,
+                max_price: maxPrice
             } : {
                 employee: debouncedValue
             }
