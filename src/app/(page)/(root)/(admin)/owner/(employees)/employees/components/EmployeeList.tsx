@@ -8,336 +8,379 @@ interface EmployeeListProps {
 
 const EmployeeList = ({ employees }: EmployeeListProps) => {
     return (
-        <div className='overflow-hidden rounded-lg border border-gray-200 shadow-md'>
-            <table className='w-full border-collapse bg-white text-left text-sm text-gray-500'>
-                <thead className='bg-gray-50'>
-                    <tr>
-                        <th
-                            scope='col'
-                            className='px-6 py-4 font-medium text-gray-900'
-                        >
-                            Name
-                        </th>
-                        <th
-                            scope='col'
-                            className='px-6 py-4 font-medium text-gray-900'
-                        >
-                            Phone number
-                        </th>
-                        <th
-                            scope='col'
-                            className='px-6 py-4 font-medium text-gray-900'
-                        >
-                            Role
-                        </th>
-                        <th
-                            scope='col'
-                            className='px-6 py-4 font-medium text-gray-900'
-                        >
-                            Status
-                        </th>
-                        <th
-                            scope='col'
-                            className='px-6 py-4 font-medium text-gray-900'
-                        ></th>
-                    </tr>
-                </thead>
-                <tbody className='divide-y divide-gray-100 border-t border-gray-100'>
-                    {Object.keys(employees).map((item, id) => {
-                        return (
-                            <EmployeeCard
-                                key={employees[item].id}
-                                role={employees[item].role}
-                                id={employees[item].id}
-                                last_name={employees[item].last_name}
-                                first_name={employees[item].first_name}
-                                phone_number={employees[item].phone_number}
-                                status={employees[item].status}
-                                email={employees[item].email}
-                            />
-                        );
-                    })}
+        <div className='flex items-center justify-center'>
+            <div className='min-w-full'>
+                <div className='overflow-x-auto rounded-lg border border-gray-200 shadow-md'>
+                    <table className='min-w-full bg-white text-left text-sm text-gray-500'>
+                        <thead className='bg-gray-50'>
+                            <tr>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-4 font-medium text-gray-900'
+                                >
+                                    Name
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-4 font-medium text-gray-900'
+                                >
+                                    Phone number
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-4 font-medium text-gray-900'
+                                >
+                                    Role
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-4 font-medium text-gray-900'
+                                >
+                                    Status
+                                </th>
+                                <th
+                                    scope='col'
+                                    className='px-6 py-4 font-medium text-gray-900'
+                                ></th>
+                            </tr>
+                        </thead>
+                        <tbody className='divide-y divide-gray-100 border-t border-gray-100'>
+                            {Object.keys(employees).map((item, id) => {
+                                return (
+                                    <EmployeeCard
+                                        key={employees[item].id}
+                                        role={employees[item].role}
+                                        id={employees[item].id}
+                                        lastName={employees[item].lastName}
+                                        firstName={employees[item].firstName}
+                                        phoneNumber={
+                                            employees[item].phoneNumber
+                                        }
+                                        status={employees[item].status}
+                                        email={employees[item].email}
+                                    />
+                                );
+                            })}
 
-                    {/* Card cứng để xem đa dạng các status và trạng thái hoạt động */}
-                    <tr className='hover:bg-gray-50'>
-                        <th className='flex items-center gap-3 px-6 py-4 font-normal text-gray-900'>
-                            <div className='relative h-10 w-10'>
-                                <img
-                                    className='h-full w-full rounded-full object-cover object-center'
-                                    src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
-                                    alt=''
-                                />
-                                <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-400 ring ring-white'></span>
-                            </div>
-                            <div className='text-sm'>
-                                <div className='font-medium text-gray-700'>
-                                    Minh Nhat
-                                </div>
-                                <div className='text-gray-400'>
-                                    21522419@gm.uit.edu.vn
-                                </div>
-                            </div>
-                        </th>
-                        <td className='px-6 py-4'>0123456789</td>
-                        <td className='px-6 py-4'>Owner</td>
-                        <td className='px-6 py-4'>
-                            <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
-                                <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
-                                Active
-                            </span>
-                        </td>
-                        <td className='px-6 py-4'>
-                            <div className='flex justify-end gap-4'>
-                                <a x-data="{ tooltip: 'View' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
-                                        <circle cx='12' cy='12' r='3'></circle>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Edite' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
-                                        <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Delete' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <polyline points='3 6 5 6 21 6'></polyline>
-                                        <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                                        <line
-                                            x1='10'
-                                            y1='11'
-                                            x2='10'
-                                            y2='17'
-                                        ></line>
-                                        <line
-                                            x1='14'
-                                            y1='11'
-                                            x2='14'
-                                            y2='17'
-                                        ></line>
-                                    </svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className='hover:bg-gray-50'>
-                        <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
-                            <div className='relative h-10 w-10'>
-                                <img
-                                    className='h-full w-full rounded-full object-cover object-center'
-                                    src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
-                                    alt=''
-                                />
-                                <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-red-400 ring ring-white'></span>
-                            </div>
-                            <div className='text-sm'>
-                                <div className='font-medium text-gray-700'>
-                                    Minh Nhat
-                                </div>
-                                <div className='text-gray-400'>
-                                    21522419@gm.uit.edu.vn
-                                </div>
-                            </div>
-                        </th>
-                        <td className='px-6 py-4'>0123456789</td>
-                        <td className='px-6 py-4'>Manager</td>
-                        <td className='px-6 py-4'>
-                            <span className='inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-600'>
-                                <span className='h-1.5 w-1.5 rounded-full bg-amber-600'></span>
-                                Pending
-                            </span>
-                        </td>
-                        <td className='px-6 py-4'>
-                            <div className='flex justify-end gap-4'>
-                                <a x-data="{ tooltip: 'View' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
-                                        <circle cx='12' cy='12' r='3'></circle>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Edite' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
-                                        <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Delete' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <polyline points='3 6 5 6 21 6'></polyline>
-                                        <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                                        <line
-                                            x1='10'
-                                            y1='11'
-                                            x2='10'
-                                            y2='17'
-                                        ></line>
-                                        <line
-                                            x1='14'
-                                            y1='11'
-                                            x2='14'
-                                            y2='17'
-                                        ></line>
-                                    </svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className='hover:bg-gray-50'>
-                        <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
-                            <div className='relative h-10 w-10'>
-                                <img
-                                    className='h-full w-full rounded-full object-cover object-center'
-                                    src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
-                                    alt=''
-                                />
-                                <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-neutral-400 ring ring-white'></span>
-                            </div>
-                            <div className='text-sm'>
-                                <div className='font-medium text-gray-700'>
-                                    Minh Nhat
-                                </div>
-                                <div className='text-gray-400'>
-                                    21522419@gm.uit.edu.vn
-                                </div>
-                            </div>
-                        </th>
-                        <td className='px-6 py-4'>0123456789</td>
-                        <td className='px-6 py-4'>Staff</td>
-                        <td className='px-6 py-4'>
-                            <span className='inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600'>
-                                <span className='h-1.5 w-1.5 rounded-full bg-red-600'></span>
-                                Disabled
-                            </span>
-                        </td>
-                        <td className='px-6 py-4'>
-                            <div className='flex justify-end gap-4'>
-                                <a x-data="{ tooltip: 'View' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
-                                        <circle cx='12' cy='12' r='3'></circle>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Edite' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
-                                        <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
-                                    </svg>
-                                </a>
-                                <a x-data="{ tooltip: 'Delete' }" href='#'>
-                                    <svg
-                                        xmlns='http://www.w3.org/2000/svg'
-                                        viewBox='0 0 24 24'
-                                        fill='none'
-                                        stroke='currentColor'
-                                        stroke-width='2'
-                                        stroke-linecap='round'
-                                        stroke-linejoin='round'
-                                        className='h-6 w-6'
-                                        x-tooltip='tooltip'
-                                    >
-                                        <polyline points='3 6 5 6 21 6'></polyline>
-                                        <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
-                                        <line
-                                            x1='10'
-                                            y1='11'
-                                            x2='10'
-                                            y2='17'
-                                        ></line>
-                                        <line
-                                            x1='14'
-                                            y1='11'
-                                            x2='14'
-                                            y2='17'
-                                        ></line>
-                                    </svg>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
+                            {/* Card cứng để xem đa dạng các status và trạng thái hoạt động */}
+                            <tr className='hover:bg-gray-50'>
+                                <th className='flex items-center gap-3 px-6 py-4 font-normal text-gray-900'>
+                                    <div className='relative h-10 w-10'>
+                                        <img
+                                            className='h-full w-full rounded-full object-cover object-center'
+                                            src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
+                                            alt=''
+                                        />
+                                        <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-green-400 ring ring-white'></span>
+                                    </div>
+                                    <div className='text-sm'>
+                                        <div className='font-medium text-gray-700'>
+                                            Minh Nhat
+                                        </div>
+                                        <div className='text-gray-400'>
+                                            21522419@gm.uit.edu.vn
+                                        </div>
+                                    </div>
+                                </th>
+                                <td className='px-6 py-4'>0123456789</td>
+                                <td className='px-6 py-4'>Owner</td>
+                                <td className='px-6 py-4'>
+                                    <span className='inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-1 text-xs font-semibold text-green-600'>
+                                        <span className='h-1.5 w-1.5 rounded-full bg-green-600'></span>
+                                        Active
+                                    </span>
+                                </td>
+                                <td className='px-6 py-4'>
+                                    <div className='flex justify-end gap-4'>
+                                        <a
+                                            x-data="{ tooltip: 'View' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
+                                                <circle
+                                                    cx='12'
+                                                    cy='12'
+                                                    r='3'
+                                                ></circle>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Edite' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
+                                                <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Delete' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <polyline points='3 6 5 6 21 6'></polyline>
+                                                <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                                                <line
+                                                    x1='10'
+                                                    y1='11'
+                                                    x2='10'
+                                                    y2='17'
+                                                ></line>
+                                                <line
+                                                    x1='14'
+                                                    y1='11'
+                                                    x2='14'
+                                                    y2='17'
+                                                ></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr className='hover:bg-gray-50'>
+                                <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
+                                    <div className='relative h-10 w-10'>
+                                        <img
+                                            className='h-full w-full rounded-full object-cover object-center'
+                                            src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
+                                            alt=''
+                                        />
+                                        <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-red-400 ring ring-white'></span>
+                                    </div>
+                                    <div className='text-sm'>
+                                        <div className='font-medium text-gray-700'>
+                                            Minh Nhat
+                                        </div>
+                                        <div className='text-gray-400'>
+                                            21522419@gm.uit.edu.vn
+                                        </div>
+                                    </div>
+                                </th>
+                                <td className='px-6 py-4'>0123456789</td>
+                                <td className='px-6 py-4'>Manager</td>
+                                <td className='px-6 py-4'>
+                                    <span className='inline-flex items-center gap-1 rounded-full bg-amber-50 px-2 py-1 text-xs font-semibold text-amber-600'>
+                                        <span className='h-1.5 w-1.5 rounded-full bg-amber-600'></span>
+                                        Pending
+                                    </span>
+                                </td>
+                                <td className='px-6 py-4'>
+                                    <div className='flex justify-end gap-4'>
+                                        <a
+                                            x-data="{ tooltip: 'View' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
+                                                <circle
+                                                    cx='12'
+                                                    cy='12'
+                                                    r='3'
+                                                ></circle>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Edite' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
+                                                <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Delete' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <polyline points='3 6 5 6 21 6'></polyline>
+                                                <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                                                <line
+                                                    x1='10'
+                                                    y1='11'
+                                                    x2='10'
+                                                    y2='17'
+                                                ></line>
+                                                <line
+                                                    x1='14'
+                                                    y1='11'
+                                                    x2='14'
+                                                    y2='17'
+                                                ></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr className='hover:bg-gray-50'>
+                                <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
+                                    <div className='relative h-10 w-10'>
+                                        <img
+                                            className='h-full w-full rounded-full object-cover object-center'
+                                            src='https://files.cults3d.com/uploaders/23851302/illustration-file/dfdaaa0a-e194-4dad-955e-6877ee68ceca/%D0%A7%D0%B8%D0%B1%D0%B8-%D0%91%D0%B5%D1%82%D0%BC%D0%B5%D0%BD.jpg'
+                                            alt=''
+                                        />
+                                        <span className='absolute bottom-0 right-0 h-2 w-2 rounded-full bg-neutral-400 ring ring-white'></span>
+                                    </div>
+                                    <div className='text-sm'>
+                                        <div className='font-medium text-gray-700'>
+                                            Minh Nhat
+                                        </div>
+                                        <div className='text-gray-400'>
+                                            21522419@gm.uit.edu.vn
+                                        </div>
+                                    </div>
+                                </th>
+                                <td className='px-6 py-4'>0123456789</td>
+                                <td className='px-6 py-4'>Staff</td>
+                                <td className='px-6 py-4'>
+                                    <span className='inline-flex items-center gap-1 rounded-full bg-red-50 px-2 py-1 text-xs font-semibold text-red-600'>
+                                        <span className='h-1.5 w-1.5 rounded-full bg-red-600'></span>
+                                        Disabled
+                                    </span>
+                                </td>
+                                <td className='px-6 py-4'>
+                                    <div className='flex justify-end gap-4'>
+                                        <a
+                                            x-data="{ tooltip: 'View' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
+                                                <circle
+                                                    cx='12'
+                                                    cy='12'
+                                                    r='3'
+                                                ></circle>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Edite' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <path d='M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34'></path>
+                                                <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
+                                            </svg>
+                                        </a>
+                                        <a
+                                            x-data="{ tooltip: 'Delete' }"
+                                            href='#'
+                                        >
+                                            <svg
+                                                xmlns='http://www.w3.org/2000/svg'
+                                                viewBox='0 0 24 24'
+                                                fill='none'
+                                                stroke='currentColor'
+                                                stroke-width='2'
+                                                stroke-linecap='round'
+                                                stroke-linejoin='round'
+                                                className='h-6 w-6'
+                                                x-tooltip='tooltip'
+                                            >
+                                                <polyline points='3 6 5 6 21 6'></polyline>
+                                                <path d='M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2'></path>
+                                                <line
+                                                    x1='10'
+                                                    y1='11'
+                                                    x2='10'
+                                                    y2='17'
+                                                ></line>
+                                                <line
+                                                    x1='14'
+                                                    y1='11'
+                                                    x2='14'
+                                                    y2='17'
+                                                ></line>
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
 
-                    {/* Original Card (do not delete)*/}
-                    {/* <tr className='hover:bg-gray-50'>
+                            {/* Original Card (do not delete)*/}
+                            {/* <tr className='hover:bg-gray-50'>
                         <th className='flex gap-3 px-6 py-4 font-normal text-gray-900'>
                             <div className='relative h-10 w-10'>
                                 <img
@@ -415,8 +458,10 @@ const EmployeeList = ({ employees }: EmployeeListProps) => {
                             </div>
                         </td>
                     </tr> */}
-                </tbody>
-            </table>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     );
 };

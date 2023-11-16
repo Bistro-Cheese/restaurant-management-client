@@ -1,55 +1,48 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import EmployeeList from './components/EmployeeList';
 import { Heading } from '@/components/heading';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-
-const ListUsers = [
-    {
-        id: '1',
-        first_name: 'Minh Nhat',
-        last_name: 'Nguyen',
-        email: '21522419@gm.uit.edu.vn',
-        phone_number: '0123456789',
-        role: 'Manager',
-        status: 'Active'
-    },
-    {
-        id: '2',
-        first_name: 'Minh Nhat',
-        last_name: 'Nguyen',
-        email: '21522419@gm.uit.edu.vn',
-        phone_number: '0123456789',
-        role: 'Manager',
-        status: 'Inactive'
-    },
-    {
-        id: '3',
-        first_name: 'Minh Nhat',
-        last_name: 'Nguyen',
-        email: '21522419@gm.uit.edu.vn',
-        phone_number: '0123456789',
-        role: 'Staff',
-        status: 'Active'
-    }
-];
+import EmployeeList from './components/EmployeeList';
+import { useGetUsersQuery } from '@/redux/services/user-api';
 
 const Employees = () => {
-    return (
-        <div className='px-6 py-4'>
-            <div className='mb-4 flex justify-between'>
-                <Heading title='List of Employees' description='' />
-                <Link
-                    href='/owner/create-employee'
-                    className='hidden justify-end md:block'
-                >
-                    <Button>ADD</Button>
-                </Link>
-            </div>
+    const {
+        data: users,
+        isLoading,
+        isSuccess
+    } = useGetUsersQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    });
 
-            <EmployeeList employees={ListUsers} />
-        </div>
-    );
+    console.log('USERDATA:::', users);
+
+    if (isLoading) {
+        return <div>Loading All Employees...</div>;
+    }
+
+    if (isSuccess) {
+        const { entities } = users;
+        console.log('entities:::', entities);
+        return (
+            <div className='max-h-full overflow-hidden px-6 py-4'>
+                <div className='mb-4 flex justify-between'>
+                    <Heading title='List of Employees' description='' />
+                    <Link
+                        href='/owner/employees/create'
+                        className='hidden justify-end md:block'
+                    >
+                        <Button>ADD</Button>
+                    </Link>
+                </div>
+
+                <EmployeeList employees={entities} />
+            </div>
+        );
+    }
 };
 
 export default Employees;

@@ -1,15 +1,14 @@
+import { Sidebar } from '../_components/sidebar';
 import { Header } from '@/components/header';
-import { Sidebar } from './(admin)/_components/sidebar';
 
 const RootLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className='h-full'>
-
-            <div className='h-[80px] z-50 w-full fixed'>
+            <div className='fixed z-50 h-[80px] w-full'>
                 <Header />
             </div>
 
-            <div className='fixed z-50 hidden h-full  w-56 flex-col md:flex pt-[80px]'>
+            <div className='fixed z-50 hidden h-full  w-56 flex-col pt-[80px] md:flex'>
                 <Sidebar />
             </div>
 
