@@ -40,15 +40,6 @@ const formSchema = z.object({
 
 type FoodFormValues = z.infer<typeof formSchema>
 
-type ExtractedFood = {
-    category: {
-        id: string;
-    };
-    description: string;
-    name: string;
-    product_image: string;
-    status: string;
-};
 
 interface FoodFormProps {
     foodId: string | null;
@@ -101,7 +92,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
     const defaultValues = isCreate ? {
         name: food?.name,
         description: food?.description,
-        product_image: "https://thucphamsieuthi.vn/wp-content/uploads/2021/08/banh-pizza-hai-san-dong-lanh.jpg",
+        product_image: food?.productImage,
         category: JSON.stringify(food?.category.id),
         price: parseFloat(String(food?.price)),
         status: JSON.stringify(food?.status)
@@ -113,6 +104,8 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
         price: 0,
         status: '',
     }
+
+    console.log("defaultValues Image:::", defaultValues.product_image)
 
     const form = useForm<FoodFormValues>({
         resolver: zodResolver(formSchema),
@@ -231,7 +224,11 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                             render={({ field }) => (
                                 <FormItem>
                                     <FormLabel>Category</FormLabel>
-                                    <Select disabled={loading} onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                    <Select
+                                        disabled={loading}
+                                        onValueChange={field.onChange}
+                                        value={field.value}
+                                        defaultValue={field.value}>
                                         <FormControl>
                                             <SelectTrigger className="w-[180px]">
                                                 <SelectValue defaultValue={field.value} placeholder="Select a category" />

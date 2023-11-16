@@ -35,6 +35,12 @@ export const foodsApi = apiSlice.injectEndpoints({
                     : [{ type: 'Food', id: 'LIST' }]
             // highlight-end
         }),
+        searchFoods: builder.query<EntityState<FoodType>, string>({
+            query: (pathUrl) => `/foods/search${pathUrl}`,
+            transformResponse(response: { message: string; data: any }) {
+                return foodsAdapter.setAll(initialState, response.data.data);
+            },
+        }),
         addNewFood: builder.mutation({
             query: (initialFoodData) => ({
                 url: '/foods',
@@ -71,6 +77,7 @@ export const foodsApi = apiSlice.injectEndpoints({
 
 export const {
     useGetFoodsQuery,
+    useSearchFoodsQuery,
     useAddNewFoodMutation,
     useUpdateFoodMutation,
     useDeleteFoodMutation

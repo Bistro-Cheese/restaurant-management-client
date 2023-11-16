@@ -63,11 +63,11 @@ export const FoodsFilter = () => {
             url: pathname,
             query: {
                 category: category,
-                searchKey: searchKey,
-                sortCase: sortCase,
-                minPrice: minPrice,
-                maxPrice: maxPrice,
-                isAscSort: value === "lowtohigh" ? true : false
+                search_key: searchKey,
+                sort_case: sortCase,
+                min_price: minPrice,
+                max_price: maxPrice,
+                is_asc_sort: value === "lowtohigh" ? true : false
             }
         }, { skipNull: true, skipEmptyString: true });
 
@@ -103,16 +103,16 @@ export const FoodsFilter = () => {
             url: pathname,
             query: {
                 category: category,
-                searchKey: searchKey,
-                sortCase: sortCase,
-                minPrice: debouncedMinValue,
-                maxPrice: debouncedMaxValue,
-                isAscSort: isAscSort
+                search_key: searchKey,
+                sort_case: sortCase,
+                min_price: debouncedMinValue,
+                max_price: debouncedMaxValue,
+                is_asc_sort: isAscSort
             }
         }, { skipNull: true, skipEmptyString: true });
 
         router.push(url);
-    }, [debouncedMinValue, debouncedMaxValue])
+    }, [debouncedMinValue, debouncedMaxValue, pathname, category, searchKey, sortCase, isAscSort, router])
 
 
 
