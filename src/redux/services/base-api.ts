@@ -42,7 +42,7 @@ const baseQueryWithReauth: BaseQueryFn<
     // wait until the mutex is available without locking it
     await mutex.waitForUnlock();
     let result = await baseQuery(args, api, extraOptions);
-    if (result?.error?.status === 401) {
+    if (result?.error?.status === 403) {
         api.dispatch(tokenUpdated(null));
         console.log('sending refresh token');
         // try to get a new token

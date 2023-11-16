@@ -40,11 +40,11 @@ export const CategoryItem = ({
         const url = qs.stringifyUrl({
             url: pathname,
             query: {
-                searchKey: searchKey,
-                sortCase: sortCase,
-                isAscSort: isAscSort,
-                minPrice: minPrice,
-                maxPrice: maxPrice,
+                search_key: searchKey,
+                sort_case: sortCase,
+                is_asc_sort: isAscSort,
+                min_price: minPrice,
+                max_price: maxPrice,
                 category: isSelected ? null : value,
 
             }
