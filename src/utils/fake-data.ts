@@ -17,6 +17,28 @@ export const categories = [
     }
 ];
 
+export const userRoles = [
+    {
+        id: '1',
+        name: 'Manager'
+    },
+    {
+        id: '2',
+        name: 'Staff'
+    }
+];
+
+export const userStatus = [
+    {
+        id: '0',
+        name: 'Active'
+    },
+    {
+        id: '1',
+        name: 'Inactive'
+    }
+];
+
 export const foodStatus = [
     {
         id: '1',

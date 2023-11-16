@@ -6,18 +6,25 @@ export const userKey = 'user';
 export type UserStatus = 'unauthenticated' | 'authenticated';
 
 export type UserInfo = {
-    firstName?: string | null;
-    lastName?: string | null;
-    username?: string | null;
-    dob?: string | null;
-    phoneNumber?: string | null;
-    role?: string | null;
+    id: string;
+    username: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: string;
+    password: string;
+    phoneNumber: string;
+    role: string;
+    status?: string;
     address?: {
-        addressLine?: string | null;
-        city?: string | null;
-        region?: string | null;
+        addressLine?: string;
+        city?: string;
+        region?: string;
     };
-    status?: string | null;
+    email: string;
+    experiencedYear?: string | undefined;
+    certificationManagement?: string | undefined;
+    foreignLanguage?: string | undefined;
+    academicLevel?: string | undefined;
 };
 
 export type IUserState = {
@@ -28,18 +35,25 @@ export type IUserState = {
 const initialState: IUserState = {
     status: 'unauthenticated',
     userInfo: {
+        id: '',
+        username: '',
         firstName: '',
         lastName: '',
-        username: '',
-        dob: '',
+        dateOfBirth: '',
+        password: '',
         phoneNumber: '',
         role: '',
+        status: '',
         address: {
             addressLine: '',
             city: '',
             region: ''
         },
-        status: ''
+        email: '',
+        experiencedYear: '',
+        certificationManagement: '',
+        foreignLanguage: '',
+        academicLevel: ''
     }
 };
 
