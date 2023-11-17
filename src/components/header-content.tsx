@@ -11,14 +11,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from './ui/dropdown-menu';
-import { Settings, User, UserCircle } from 'lucide-react';
+import { Settings, User, UserCircle, LogOutIcon } from 'lucide-react';
 import { SearchInput } from './search-input';
 import { useDispatchLogout } from '@/hooks/use-dispatch-auth';
 
 export const HeaderContent = () => {
     const pathname = usePathname();
     const isSearchPage =
-        pathname === '/owner/foods/menu' || pathname === '/owner/employees';
+        pathname.includes('foods') ||
+        pathname.includes('employees') ||
+        pathname.includes('orders');
 
     const { isLogoutLoading, dispatchLogout } = useDispatchLogout();
 
@@ -27,7 +29,6 @@ export const HeaderContent = () => {
     };
     return (
         <>
-
             <div className='ml-auto flex gap-x-2'>
                 {isSearchPage && (
                     <div className='hidden md:block'>
@@ -54,6 +55,12 @@ export const HeaderContent = () => {
                             <DropdownMenuItem>
                                 <Settings className='mr-2 h-4 w-4' />
                                 <span>Settings</span>
+                            </DropdownMenuItem>
+
+                            {/* settings */}
+                            <DropdownMenuItem onClick={handleLogout}>
+                                <LogOutIcon className='mr-2 h-4 w-4' />
+                                <span>Logout</span>
                             </DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
