@@ -1,72 +1,77 @@
-'use client'
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import qs from "query-string";
+import qs from 'query-string';
 
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 
+import { useRouter, usePathname } from 'next/navigation';
 
-import { useRouter, usePathname } from "next/navigation";
-
-import { useDebounce } from "@/hooks/use-debounced";
-import { useGetParams } from "@/hooks/use-get-params";
+import { useDebounce } from '@/hooks/use-debounced';
+import { useGetParams } from '@/hooks/use-get-params';
 
 export const SearchInput = () => {
-
-    const [value, setValue] = useState('')
+    const [value, setValue] = useState('');
     const debouncedValue = useDebounce(value, 1000);
-
 
     const router = useRouter();
     const pathname = usePathname();
 
-    const isFoodMenu = pathname.includes("/foods/menu")
+    const isFoodMenu = pathname.includes('/foods/menu');
 
-    const {
-        category,
-        sortCase,
-        isAscSort,
-        minPrice,
-        maxPrice
-    } = useGetParams()
+    const { category, sortCase, isAscSort, minPrice, maxPrice } =
+        useGetParams();
 
     // useEffect(() => {
     //     setValue("")
     // }, [pathname])
 
     useEffect(() => {
-        const url = qs.stringifyUrl({
-            url: pathname,
-            query: isFoodMenu ? {
-                category: category,
-                search_key: debouncedValue,
-                sort_case: sortCase,
-                is_asc_sort: isAscSort,
-                min_price: minPrice,
-                max_price: maxPrice
-            } : {
-                employee: debouncedValue
-            }
-        }, { skipEmptyString: true, skipNull: true });
+        const url = qs.stringifyUrl(
+            {
+                url: pathname,
+                query: isFoodMenu
+                    ? {
+                          category: category,
+                          search_key: debouncedValue,
+                          sort_case: sortCase,
+                          is_asc_sort: isAscSort,
+                          min_price: minPrice,
+                          max_price: maxPrice
+                      }
+                    : {
+                          employee: debouncedValue
+                      }
+            },
+            { skipEmptyString: true, skipNull: true }
+        );
 
         router.push(url);
-    }, [debouncedValue, pathname, isFoodMenu, router, category, sortCase, isAscSort, minPrice, maxPrice])
+    }, [
+        debouncedValue,
+        pathname,
+        isFoodMenu,
+        router,
+        category,
+        sortCase,
+        isAscSort,
+        minPrice,
+        maxPrice
+    ]);
 
     return (
-        <div className="relative">
-            <Search
-                className="h-4 w-4 absolute top-3 left-3 text-slate-600"
-            />
+        <div className='relative'>
+            <Search className='absolute left-3 top-3 h-4 w-4 text-slate-600' />
             <Input
                 onChange={(e) => {
-                    setValue(e.target.value)
+                    setValue(e.target.value);
                 }}
                 value={value}
-                className="w-full md:w-[300px] pl-9 rounded-full bg-white focus-visible:ring-slate-200"
-                placeholder="Search for a course"
+                className='w-full rounded-full bg-white pl-9 focus-visible:ring-slate-200 md:w-[300px]'
+                placeholder='Search...'
             />
         </div>
-    )
-}
+    );
+};
