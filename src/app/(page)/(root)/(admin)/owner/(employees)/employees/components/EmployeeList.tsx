@@ -63,7 +63,7 @@ const EmployeeList = ({ employees }: EmployeeListProps) => {
                             })}
 
                             {/* Card cứng để xem đa dạng các status và trạng thái hoạt động */}
-                            <tr className='hover:bg-gray-50'>
+                            {/* <tr className='hover:bg-gray-50'>
                                 <th className='flex items-center gap-3 px-6 py-4 font-normal text-gray-900'>
                                     <div className='relative h-10 w-10'>
                                         <img
@@ -377,7 +377,7 @@ const EmployeeList = ({ employees }: EmployeeListProps) => {
                                         </a>
                                     </div>
                                 </td>
-                            </tr>
+                            </tr> */}
 
                             {/* Original Card (do not delete)*/}
                             {/* <tr className='hover:bg-gray-50'>
