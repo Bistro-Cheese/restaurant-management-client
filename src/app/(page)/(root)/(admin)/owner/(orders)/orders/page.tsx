@@ -69,25 +69,21 @@ const Orders = () => {
                 <div className='flex flex-row gap-7'>
                     <button className='group flex cursor-pointer items-center overflow-hidden rounded-md border border-input px-4 ring-offset-background hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'>
                         <CalendarDays className='h-5 w-5 text-foreground' />
-                        <span className='ml-2 mr-6 flex flex-grow'>
-                            Date range
-                        </span>
+                        <span className='ml-2 mr-6'>Date range</span>
 
                         <ChevronDown className='h-5 w-5 text-foreground transition duration-100 group-focus:rotate-180' />
                     </button>
 
                     <button className=' group flex cursor-pointer items-center overflow-hidden rounded-md border border-input px-4 ring-offset-background hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'>
                         <Tag className='h-5 w-5 text-foreground' />
-                        <span className='ml-2 mr-6 flex flex-grow'>Status</span>
+                        <span className='ml-2 mr-6'>Status</span>
 
                         <ChevronDown className='h-5 w-5 text-foreground transition duration-100 group-focus:rotate-180' />
                     </button>
 
                     <button className='group flex cursor-pointer items-center overflow-hidden rounded-md border border-input px-4 ring-offset-background hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2'>
                         <Filter className='h-5 w-5 text-foreground' />
-                        <span className='ml-2 mr-6 flex flex-grow'>
-                            More filters
-                        </span>
+                        <span className='ml-2 mr-6'>More filters</span>
 
                         <ChevronDown className='h-5 w-5 text-foreground transition duration-100 group-focus:rotate-180' />
                     </button>
