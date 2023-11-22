@@ -1,56 +1,69 @@
-"use client"
+'use client';
 
-import { FoodList } from "@/app/(page)/(root)/(admin)/_components/food-list"
-import { FoodsFilter } from "@/components/food/foods-filter"
-import { useGetAllFoods } from "@/hooks/food/use-get-foods"
-import { useGetSearchFoods } from "@/hooks/food/use-get-search-foods"
+import { FoodList } from '@/app/(page)/(root)/(admin)/_components/food-list';
+import { FoodsFilter } from '@/components/food/foods-filter';
+import { Button } from '@/components/ui/button';
+import { useGetAllFoods } from '@/hooks/food/use-get-foods';
+import { useGetSearchFoods } from '@/hooks/food/use-get-search-foods';
+import Link from 'next/link';
 
 const FoodMenu = () => {
-
-    const {
-        foods,
-        isFoodsLoading,
-        isFoodsSuccess } = useGetAllFoods()
+    const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
 
     const {
         searchParams,
         searchFoods,
         isSearchFoodsLoading,
-        isSearchFoodsSuccess } = useGetSearchFoods();
+        isSearchFoodsSuccess
+    } = useGetSearchFoods();
 
     if (isFoodsLoading) {
-        return <div>Loading All Foods...</div>
+        return <div>Loading All Foods...</div>;
     }
 
     if (searchFoods && searchParams.size > 0) {
-        const { entities } = searchFoods
+        const { entities } = searchFoods;
         return (
             <div>
-                <div className="p-6">
-                    <div className="flex flex-col p-6 gap-y-0 space-y-2">
+                <div className='p-6'>
+                    <div className='flex p-6'>
                         <FoodsFilter />
+                        <Link
+                            href='/owner/foods/create'
+                            className='ml-4 hidden justify-end md:block'
+                        >
+                            <Button className='bg-[rgba(249,192,20,1)] '>
+                                Add Food
+                            </Button>
+                        </Link>
                     </div>
                     <FoodList items={entities} />
                 </div>
             </div>
-        )
+        );
     }
 
     if (isFoodsSuccess) {
-        console.log("foods:::", foods)
+        console.log('foods:::', foods);
         return (
             <div>
-                <div className="p-6">
-                    <div className="flex flex-col p-6 gap-y-0 space-y-2">
+                <div className='p-6'>
+                    <div className='flex p-6'>
                         <FoodsFilter />
+                        <Link
+                            href='/owner/foods/create'
+                            className='ml-4 hidden justify-end md:block'
+                        >
+                            <Button className='bg-[rgba(249,192,20,1)] '>
+                                Add Food
+                            </Button>
+                        </Link>
                     </div>
                     <FoodList items={foods?.entities} />
                 </div>
             </div>
-        )
+        );
     }
+};
 
-
-}
-
-export default FoodMenu
+export default FoodMenu;
