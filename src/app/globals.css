@@ -36,6 +36,10 @@
         --ring: 222.2 84% 4.9%;
 
         --radius: 0.5rem;
+
+        --size-200: 200% 200%;
+        --pos-0: 0% 0%;
+        --pos-100: 100% 100%;
     }
 
     .dark {
@@ -71,9 +75,9 @@
 
 @layer base {
     * {
-        @apply font-default border-border;
+        @apply border-border font-default;
     }
     body {
-        @apply bg-background text-foreground;
+        @apply bg-gradient-background text-foreground;
     }
 }

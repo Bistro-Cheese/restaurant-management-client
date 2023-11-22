@@ -73,6 +73,27 @@ module.exports = {
             fontFamily: {
                 default: ['Nunito', 'sans-serif'],
                 primary: ['"Playfair Display"', 'serif']
+            },
+            backgroundSize: {
+                'size-200': 'var(--size-200)'
+            },
+            backgroundPosition: {
+                'pos-0': 'var(--pos-0)',
+                'pos-100': 'var(--pos-100)'
+            },
+            backgroundImage: {
+                'gradient-background':
+                    'linear-gradient(180deg, rgba(245,244,227,1) 20%, rgba(239,235,119,1) 75%)',
+                'gradient-primary':
+                    'linear-gradient(135deg, rgba(255,220,46,1) 60%, rgba(249,192,20,1) 85%, rgba(246,175,4,1) 100%)',
+                'gradient-destructive':
+                    'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)'
+            },
+            dropShadow: {
+                primary: [
+                    '0 25px 25px rgba(255, 255, 255, 0.45)',
+                    '0 45px 45px rgba(255, 255, 255, 0.25)'
+                ]
             }
         }
     },

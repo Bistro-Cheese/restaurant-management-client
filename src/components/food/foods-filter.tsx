@@ -1,149 +1,160 @@
-import { useGetParams } from "@/hooks/use-get-params"
-import { usePathname, useRouter } from "next/navigation"
+import { useGetParams } from '@/hooks/use-get-params';
+import { usePathname, useRouter } from 'next/navigation';
 
-import { Form, FormControl, FormField, FormItem } from "../ui/form"
-import { Categories } from "../category/categories"
-import { FoodFilterCase } from "./food-filter-case"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select"
-import { Input } from "../ui/input"
+import { Form, FormControl, FormField, FormItem } from '../ui/form';
+import { Categories } from '../category/categories';
+import { FoodFilterCase } from './food-filter-case';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue
+} from '../ui/select';
+import { Input } from '../ui/input';
 
+import { filterByFields } from '@/utils/constants';
+import { categories } from '@/utils/fake-data';
+import { cn } from '@/lib/utils';
 
-import { filterByFields } from "@/utils/constants"
-import { categories } from "@/utils/fake-data"
-import { cn } from "@/lib/utils"
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-
-import qs from "query-string"
-import { useEffect, useState } from "react"
-import { useDebounce } from "@/hooks/use-debounced"
-import Link from "next/link"
-import { Button } from "../ui/button"
-
+import qs from 'query-string';
+import { useEffect, useState } from 'react';
+import { useDebounce } from '@/hooks/use-debounced';
+import Link from 'next/link';
+import { Button } from '../ui/button';
 
 const formSchema = z.object({
-    isAscSort: z.string(),
-})
+    isAscSort: z.string()
+});
 
 export const FoodsFilter = () => {
-
-    const [minValue, setMinValue] = useState<string>("")
-    const [maxValue, setMaxValue] = useState<string>("")
+    const [minValue, setMinValue] = useState<string>('');
+    const [maxValue, setMaxValue] = useState<string>('');
     const debouncedMinValue = useDebounce(minValue, 500);
     const debouncedMaxValue = useDebounce(maxValue, 500);
 
     const pathname = usePathname();
     const router = useRouter();
 
-
-
-    const {
-        category,
-        searchKey,
-        sortCase,
-        isAscSort,
-        minPrice,
-        maxPrice,
-    } = useGetParams()
+    const { category, searchKey, sortCase, isAscSort, minPrice, maxPrice } =
+        useGetParams();
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            isAscSort: '',
+            isAscSort: ''
         }
-    })
-
-
-
+    });
 
     const handleSortValueChange = (value: string) => {
-        const url = qs.stringifyUrl({
-            url: pathname,
-            query: {
-                category: category,
-                search_key: searchKey,
-                sort_case: sortCase,
-                min_price: minPrice,
-                max_price: maxPrice,
-                is_asc_sort: value === "lowtohigh" ? true : false
-            }
-        }, { skipNull: true, skipEmptyString: true });
+        const url = qs.stringifyUrl(
+            {
+                url: pathname,
+                query: {
+                    category: category,
+                    search_key: searchKey,
+                    sort_case: sortCase,
+                    min_price: minPrice,
+                    max_price: maxPrice,
+                    is_asc_sort: value === 'lowtohigh' ? true : false
+                }
+            },
+            { skipNull: true, skipEmptyString: true }
+        );
 
         router.push(url);
-    }
+    };
 
     const handleMinValueChange = (value: string) => {
         let val = parseInt(value, 10);
         if (isNaN(val)) {
-            setMinValue("");
+            setMinValue('');
         } else {
             // is A Number
             val = val >= 0 ? val : 0;
-            setMinValue(val.toString())
+            setMinValue(val.toString());
         }
-    }
+    };
 
     const handleMaxValueChange = (value: string) => {
         let val = parseInt(value, 10);
         if (isNaN(val)) {
-            setMaxValue("");
+            setMaxValue('');
         } else {
             // is A Number
             val = val >= 0 ? val : 0;
-            setMaxValue(val.toString())
+            setMaxValue(val.toString());
         }
-    }
-
-
+    };
 
     useEffect(() => {
-        const url = qs.stringifyUrl({
-            url: pathname,
-            query: {
-                category: category,
-                search_key: searchKey,
-                sort_case: sortCase,
-                min_price: debouncedMinValue,
-                max_price: debouncedMaxValue,
-                is_asc_sort: isAscSort
-            }
-        }, { skipNull: true, skipEmptyString: true });
+        const url = qs.stringifyUrl(
+            {
+                url: pathname,
+                query: {
+                    category: category,
+                    search_key: searchKey,
+                    sort_case: sortCase,
+                    min_price: debouncedMinValue,
+                    max_price: debouncedMaxValue,
+                    is_asc_sort: isAscSort
+                }
+            },
+            { skipNull: true, skipEmptyString: true }
+        );
 
         router.push(url);
-    }, [debouncedMinValue, debouncedMaxValue, pathname, category, searchKey, sortCase, isAscSort, router])
-
-
+    }, [
+        debouncedMinValue,
+        debouncedMaxValue,
+        pathname,
+        category,
+        searchKey,
+        sortCase,
+        isAscSort,
+        router
+    ]);
 
     return (
-        <div className="flex flex-col gap-y-3 xl:flex-row xl:justify-between w-full xl:items-center">
+        <div className='flex grow flex-col gap-y-3 xl:flex-row xl:items-center xl:justify-between'>
             <Categories items={categories} />
 
-            <div className="flex items-start justify-start gap-x-2">
+            <div className='flex items-start justify-start gap-x-2'>
                 {filterByFields.map((item) => (
                     <FoodFilterCase key={item.name} name={item.name} />
                 ))}
                 <Form {...form}>
-                    <form className="flex">
+                    <form className='flex'>
                         <FormField
                             control={form.control}
-                            name="isAscSort"
+                            name='isAscSort'
                             render={({ field }) => (
                                 <FormItem>
-                                    <Select onValueChange={(value) => handleSortValueChange(value)} defaultValue={field.value}>
+                                    <Select
+                                        onValueChange={(value) =>
+                                            handleSortValueChange(value)
+                                        }
+                                        defaultValue={field.value}
+                                    >
                                         <FormControl>
                                             <SelectTrigger>
-                                                <SelectValue placeholder="Price" />
+                                                <SelectValue placeholder='Price' />
                                             </SelectTrigger>
                                         </FormControl>
                                         <SelectContent>
-                                            <SelectItem value="lowtohigh">Low - High</SelectItem>
-                                            <SelectItem value="hightolow">High - Low</SelectItem>
+                                            <SelectItem value='lowtohigh'>
+                                                Low - High
+                                            </SelectItem>
+                                            <SelectItem value='hightolow'>
+                                                High - Low
+                                            </SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </FormItem>
-
                             )}
                         />
                         {/* <FormField
@@ -188,15 +199,36 @@ export const FoodsFilter = () => {
                         /> */}
                     </form>
                 </Form>
-                <Input placeholder="min" value={minValue} type="number" min="0" inputMode="numeric" pattern="[0-9]" className={cn("w-20")} onChange={(e) => handleMinValueChange(e.target.value.replace(/[^\w\s]/gi, ""))} />
-                <div className="flex item-center justify-between"> - </div>
-                <Input placeholder="max" value={maxValue} type="number" inputMode="numeric" pattern="[0-9]" min="0" className={cn("w-20")} onChange={(e) => handleMaxValueChange(e.target.value.replace(/[^\w\s]/gi, ""))} />
-                <Link href="/owner/foods/create" className="hidden md:block justify-end">
-                    <Button className="bg-yellow-600">
-                        Add Food
-                    </Button>
-                </Link>
+                <Input
+                    placeholder='min'
+                    value={minValue}
+                    type='number'
+                    min='0'
+                    inputMode='numeric'
+                    pattern='[0-9]'
+                    className={cn('w-20')}
+                    onChange={(e) =>
+                        handleMinValueChange(
+                            e.target.value.replace(/[^\w\s]/gi, '')
+                        )
+                    }
+                />
+                <div className='item-center flex justify-between'> - </div>
+                <Input
+                    placeholder='max'
+                    value={maxValue}
+                    type='number'
+                    inputMode='numeric'
+                    pattern='[0-9]'
+                    min='0'
+                    className={cn('w-20')}
+                    onChange={(e) =>
+                        handleMaxValueChange(
+                            e.target.value.replace(/[^\w\s]/gi, '')
+                        )
+                    }
+                />
             </div>
         </div>
-    )
-}
+    );
+};
