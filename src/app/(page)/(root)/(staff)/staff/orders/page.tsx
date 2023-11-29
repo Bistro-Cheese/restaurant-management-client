@@ -307,13 +307,6 @@ interface OrderList {
 const OrderPage = () => {
     const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
 
-    const {
-        searchParams,
-        searchFoods,
-        isSearchFoodsLoading,
-        isSearchFoodsSuccess
-    } = useGetSearchFoods();
-
     if (isFoodsLoading) {
         return <div>Loading All Foods...</div>;
     }

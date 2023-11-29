@@ -29,7 +29,6 @@ const formSchema = z.object({
 });
 
 const SignInForm = (): JSX.Element => {
-
     const router = useRouter();
 
     const { isLoginLoading, dispatchLogin, loginError } = useDispatchLogin();
@@ -48,7 +47,6 @@ const SignInForm = (): JSX.Element => {
         values: z.infer<typeof formSchema>
     ): Promise<void> => {
         dispatchLogin(values.username, values.password);
-        router.push('/auth');
     };
 
     return (

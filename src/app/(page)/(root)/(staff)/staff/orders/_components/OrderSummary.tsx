@@ -13,9 +13,9 @@ interface OrderCardProps {
 
 const OrderSummary = ({ orders }: OrderCardProps) => {
     return (
-        <div className='fixed right-0 float-right box-border flex h-[calc(100vh-80px)] w-[25%] flex-col bg-white px-3 py-6 drop-shadow-2xl'>
+        <div className='xmdl:flex xmdl:w-2/6 xmdl:flex-col fixed right-0 float-right box-border hidden h-[calc(100vh-80px)] bg-white px-3 py-6 drop-shadow-2xl xl:w-1/4'>
             <div>
-                <h1 className='text-center font-primary text-[32px] font-semibold'>
+                <h1 className='text-center text-[32px] font-black'>
                     Order Summary
                 </h1>
 

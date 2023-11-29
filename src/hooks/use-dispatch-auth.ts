@@ -23,6 +23,7 @@ export const useDispatchLogin = () => {
                         access_token: userData?.data?.access_token
                     })
                 );
+                router.push('/auth');
                 console.log(userData?.data);
                 // router.push('/owner/foods/menu');
             }

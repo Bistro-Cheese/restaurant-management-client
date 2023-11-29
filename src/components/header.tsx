@@ -9,7 +9,7 @@ export const Header = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();
 
     return (
-        <div className='flex h-full items-center bg-white/30 p-4 shadow-sm backdrop-blur-md'>
+        <div className='flex h-full items-center bg-white/70 p-4 shadow-sm backdrop-blur-xl'>
             <div className='p-6'>
                 <Logo />
             </div>
