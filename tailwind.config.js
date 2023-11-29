@@ -21,7 +21,7 @@ module.exports = {
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
                 background: 'hsl(var(--background))',
-                foreground: 'hsl(var(--foreground))',
+                foreground: 'rgb(var(--foreground))',
                 primary: {
                     DEFAULT: 'hsl(var(--primary))',
                     foreground: 'hsl(var(--primary-foreground))'
@@ -36,7 +36,7 @@ module.exports = {
                 },
                 muted: {
                     DEFAULT: 'hsl(var(--muted))',
-                    foreground: 'hsl(var(--muted-foreground))'
+                    foreground: 'rgb(var(--muted-foreground))'
                 },
                 accent: {
                     DEFAULT: 'hsl(var(--accent))',
@@ -49,6 +49,46 @@ module.exports = {
                 card: {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))'
+                },
+                mediumSilver: '#c7c7c7',
+                lightSilver: '#ededed',
+                mediumBlack: '#2e3133',
+                darkGold: '#dbb778',
+                lightGold: '#f0cf95',
+                gold: {
+                    300: '#e2c479',
+                    400: '#debd68',
+                    500: '#dbb658',
+                    600: '#c5a34f',
+                    700: '#af9146'
+                },
+                'harvest-gold': {
+                    DEFAULT: '#DBB778',
+                    50: '#F8F1E5',
+                    100: '#F5EBD9',
+                    200: '#EEDEC0',
+                    300: '#E8D1A8',
+                    400: '#E1C490',
+                    500: '#DBB778',
+                    600: '#D8B16C',
+                    700: '#D5AA60',
+                    800: '#D1A454',
+                    900: '#CE9D48',
+                    950: '#CD9A42'
+                },
+                navy: {
+                    DEFAULT: '#111A2B',
+                    50: '#2A4069',
+                    100: '#283D65',
+                    200: '#25395E',
+                    300: '#223557',
+                    400: '#1F3050',
+                    500: '#1D2C48',
+                    600: '#1A2741',
+                    700: '#17233A',
+                    800: '#141E32',
+                    900: '#111A2B',
+                    950: '#0D1422'
                 }
             },
             borderRadius: {
@@ -71,7 +111,7 @@ module.exports = {
                 'accordion-up': 'accordion-up 0.2s ease-out'
             },
             fontFamily: {
-                default: ['Nunito', 'sans-serif'],
+                default: ['"Nunito Sans"', 'sans-serif'],
                 primary: ['"Playfair Display"', 'serif']
             },
             backgroundSize: {
@@ -83,17 +123,31 @@ module.exports = {
             },
             backgroundImage: {
                 'gradient-background':
-                    'linear-gradient(180deg, rgba(245,244,227,1) 20%, rgba(239,235,119,1) 75%)',
+                    'linear-gradient(150deg, #ffcc80 40%, #f57c00 90%)',
                 'gradient-primary':
-                    'linear-gradient(135deg, rgba(255,220,46,1) 60%, rgba(249,192,20,1) 85%, rgba(246,175,4,1) 100%)',
+                    'linear-gradient(140deg, rgba(225,196,144,1) 60%, rgba(219,183,120,1) 80%, rgba(216,177,108,1) 96%)',
                 'gradient-destructive':
-                    'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)'
+                    'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)',
+                'gradient-active':
+                    'linear-gradient(135deg, rgba(50,252,167,1) 60%, rgba(27,220,138,1) 85%, rgba(5,190,112,1) 100%)'
             },
             dropShadow: {
                 primary: [
-                    '0 25px 25px rgba(255, 255, 255, 0.45)',
-                    '0 45px 45px rgba(255, 255, 255, 0.25)'
+                    '0 15px 25px rgba(219,182,88, 0.45)',
+                    '0 25px 35px rgba(226,196,121, 0.30)'
                 ]
+            },
+            screens: {
+                xs: '320px',
+                sm: '425px',
+                sml: '500px',
+                md: '667px',
+                mdl: '769px',
+                xmdl: '890px',
+                lg: '960px',
+                lgl: '1024px',
+                xl: '1280px',
+                xxl: '1680px'
             }
         }
     },

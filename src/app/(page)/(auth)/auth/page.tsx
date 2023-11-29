@@ -1,10 +1,8 @@
 'use client';
 
-import { useGetProfile } from "@/hooks/use-dispatch-user";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-
-
+import { useGetProfile } from '@/hooks/use-dispatch-user';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 const AuthScreen = () => {
     const { data, isLoading } = useGetProfile();
@@ -13,9 +11,12 @@ const AuthScreen = () => {
 
     useEffect(() => {
         if (data && !isLoading) {
-            console.log("ROLE:::", data?.data?.role);
-            if (data?.data?.role === 'staff') router.push(`/${data.data.role}/tables`);
-            router.push(`/${data.data.role}`);
+            console.log('ROLE:::', data?.data?.role);
+            if (data?.data?.role === 'staff') {
+                router.push(`/${data.data.role}/tables`);
+            } else {
+                router.push(`/${data.data.role}`);
+            }
         }
     }, [data, isLoading, router]);
 

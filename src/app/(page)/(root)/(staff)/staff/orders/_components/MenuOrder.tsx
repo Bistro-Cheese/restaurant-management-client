@@ -8,10 +8,10 @@ interface MenuOrderProps {
 
 const MenuOrder = ({ foods, orders }: MenuOrderProps) => {
     return (
-        <div className='float-left w-[75%] px-12 py-4'>
-            <FoodsFilter />
+        <div className='xmdl:w-4/6 float-left w-full px-12 py-4 xl:w-3/4'>
+            {/* <FoodsFilter /> */}
 
-            <ul className='mt-4 grid grid-flow-row gap-10 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+            <ul className='xxl:grid-cols-4 mt-4 grid grid-flow-row gap-10 md:grid-cols-2 xl:grid-cols-3'>
                 {Object.keys(foods).map((item, id) => {
                     return (
                         <li key={foods[item].id}>
@@ -19,8 +19,8 @@ const MenuOrder = ({ foods, orders }: MenuOrderProps) => {
                                 key={foods[item].id}
                                 id={foods[item].id}
                                 name={foods[item].name}
-                                category={foods[item].category.name}
-                                productImage={foods[item].productImage}
+                                category={foods[item].category}
+                                image={foods[item].image}
                                 price={foods[item].price}
                             />
                         </li>
