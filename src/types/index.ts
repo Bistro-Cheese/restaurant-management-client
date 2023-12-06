@@ -1,29 +1,6 @@
-export type FoodType = {
-    id: string;
-    name: string;
-    description: string;
-    category: {
-        id: string;
-        name: string;
-    };
-    productImage: string;
-    price: string;
-    status: string;
-};
-
-export type IngredientType = {
-    id: number,
-    name: string,
-    ingredientType: number
-}
-
-export type InventoryType = {
-    id: string,
-    ingredient: IngredientType
-    quantity: number
-}
-
-export type Category = {
-    id: string;
-    name: string;
-};
+export type { default as OrderLineType } from './OrderLineType';
+export type { default as FoodType } from './FoodType';
+export type {
+    default as InventoryType,
+    Ingredient as IngredientType
+} from './InventoryType';

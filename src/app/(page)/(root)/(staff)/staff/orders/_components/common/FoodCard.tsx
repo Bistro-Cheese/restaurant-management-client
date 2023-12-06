@@ -5,60 +5,73 @@ import Image from 'next/image';
 import { TiMinus } from 'react-icons/ti';
 import { TiPlus } from 'react-icons/ti';
 import { TbShoppingCartPlus } from 'react-icons/tb';
+import React, { FC } from 'react';
+import { useDispatch } from 'react-redux';
+import { addToOrder } from '@/redux/features/order-line-slice';
+import { FoodType } from '@/types';
 
-type FoodCardProps = {
-    id: EntityId;
-    name: string;
-    category: string;
-    image: string;
-    price: number;
-};
+interface FoodCardProps {
+    food: FoodType;
+}
 
-const FoodCard = ({ id, name, category, image, price }: FoodCardProps) => {
-    const priceString = price
+const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
+    const dispatch = useDispatch();
+
+    const handleAddToOrder = (food: FoodType) => {
+        dispatch(addToOrder(food));
+        console.log('food added to order:::', food);
+    };
+
+    const priceString = food.price
         .toString()
         .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 
     return (
-        <div className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl duration-200 ease-linear md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'>
+        <div className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl transition-all duration-200 ease-linear md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'>
             {/* Image */}
-            <div className='relative h-full w-32 md:h-56 md:w-full lg:h-60 xl:h-64 2xl:h-80'>
-                <Image
-                    src={image}
-                    className='rounded-3xl object-cover object-center md:rounded-t-3xl md:rounded-bl-none'
-                    fill={true}
-                    alt={image}
-                />
-            </div>
+            {food.image && (
+                <div className='relative h-full w-32 md:h-56 md:w-full lg:h-60 xl:h-64 2xl:h-80'>
+                    <Image
+                        src={food.image}
+                        className='rounded-3xl object-cover object-center md:rounded-t-3xl md:rounded-bl-none md:rounded-br-none'
+                        fill={true}
+                        alt={food.description}
+                    />
+                </div>
+            )}
 
             {/* Description */}
             <div className='flex grow flex-col p-3'>
-                <div className='w-44 grow sm:min-w-full'>
-                    <span className='line-clamp-2 grow font-primary text-xl font-semibold sml:line-clamp-none'>
-                        {name}
+                <div className='w-36 grow sm:min-w-full'>
+                    <span className='line-clamp-2 grow font-primary text-base font-semibold leading-relaxed sml:line-clamp-none md:text-lg lg:text-xl'>
+                        {food.name}
                     </span>
                 </div>
 
-                <div className='flex justify-between md:flex-col'>
-                    <div className='mt-1 flex flex-col justify-between md:flex-row'>
-                        <span className='font-primary text-base text-muted-foreground'>
-                            {category}
-                        </span>
-                        <span className='overflow-hidden bg-gradient-primary bg-clip-text text-xl font-extrabold text-transparent'>
+                <div className='flex items-end md:mt-1 md:flex-col md:items-stretch'>
+                    <div className='flex grow flex-col-reverse justify-between md:grow-0 md:flex-row'>
+                        <span className='line-clamp-1 overflow-hidden bg-harvest-gold-600 bg-clip-text text-lg font-black text-transparent md:text-xl'>
                             {priceString}{' '}
-                            <span className='truncate text-sm font-bold'>
+                            <span className='text-xs font-extrabold md:text-sm'>
                                 VND
                             </span>
                         </span>
+
+                        <span className='font-primary text-sm text-muted-foreground md:text-base'>
+                            {food.category.name}
+                        </span>
                     </div>
 
-                    <div className='mt-3 flex items-center justify-between'>
-                        <span className='group grow duration-100 ease-linear active:scale-95 active:opacity-70'>
-                            <button className='inline-flex w-full items-center justify-center gap-4 rounded-xl bg-gradient-primary bg-size-200 bg-pos-100 px-4 py-2 font-primary duration-300 ease-linear group-hover:bg-pos-0'>
-                                <TbShoppingCartPlus className='h-5 w-5 text-white duration-100 ease-linear md:h-7 md:w-7' />
+                    <div className='flex items-center justify-between md:mt-1'>
+                        <span className='group grow transition-all duration-100 ease-linear active:scale-95 active:opacity-70'>
+                            <button
+                                onClick={() => handleAddToOrder(food)}
+                                className='inline-flex w-full items-center justify-center gap-4 rounded-xl bg-gradient-primary bg-size-200 bg-pos-100 px-4 py-2 font-primary transition-all duration-300 ease-linear group-hover:bg-pos-0'
+                            >
+                                <TbShoppingCartPlus className='text-base text-white duration-100 ease-linear md:text-2xl' />
 
-                                <span className='hidden font-primary font-semibold text-white duration-100 ease-linear md:inline-block'>
-                                    Add to order
+                                <span className='hidden font-primary text-sm font-semibold uppercase text-white duration-100 ease-linear md:inline-block lg:text-base'>
+                                    ADD TO ORDER
                                 </span>
                             </button>
                         </span>

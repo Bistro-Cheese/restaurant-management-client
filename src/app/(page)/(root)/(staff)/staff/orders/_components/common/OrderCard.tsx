@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Plus, Trash2 } from 'lucide-react';
+import { Plus, Trash2, Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { TiMinus } from 'react-icons/ti';
 import { TiPlus } from 'react-icons/ti';
@@ -7,93 +7,123 @@ import { HiOutlineTrash } from 'react-icons/hi2';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { TbTrash } from 'react-icons/tb';
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { IoClose } from 'react-icons/io5';
+import { TbShoppingCartX } from 'react-icons/tb';
+import { useDispatch } from 'react-redux';
+import {
+    decreaseQuantity,
+    increaseQuantity,
+    removeOrderLine
+} from '@/redux/features/order-line-slice';
+import { OrderLineType } from '@/types';
 
-type Category = {
-    id: string;
-    name: string;
-};
+interface OrderCardProps {
+    orderLine: OrderLineType;
+}
 
-type OrderCardProps = {
-    id: EntityId;
-    name: string;
-    category: Category;
-    productImage: string;
-    price: number;
-};
-
-const OrderCard: FC<OrderCardProps> = ({
-    id,
-    name,
-    category,
-    productImage,
-    price
-}): JSX.Element => {
-    const priceString = price
+const OrderCard: React.FC<OrderCardProps> = ({ orderLine }) => {
+    const priceString = orderLine.price
         .toString()
         .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
 
+    const dispatch = useDispatch();
+    const [quantity, setQuantity] = useState<number | string>(1);
+
+    const handleTypeQuantity = (event: any) => {
+        const inputValue = parseInt(event.target.value, 10);
+
+        if (!isNaN(inputValue)) {
+            setQuantity(inputValue);
+        } else {
+            setQuantity('');
+        }
+    };
+
+    const handleOnBlur = () => {
+        if (quantity === '') {
+            setQuantity(1);
+        }
+    };
+
+    const handleIncreaseQuantity = (productId: EntityId) => {
+        dispatch(increaseQuantity({ id: productId }));
+    };
+
+    const handleDecreaseQuantity = (productId: EntityId) => {
+        dispatch(decreaseQuantity({ id: productId }));
+    };
+
+    const handleRemoveOrderLine = (productId: EntityId) => {
+        dispatch(removeOrderLine({ id: productId }));
+    };
+
     return (
-        <div className='flex items-center rounded-lg'>
+        <div className='group/card flex rounded-lg px-4 py-2 transition-all duration-100 ease-linear hover:bg-lightSilver'>
             {/* Image */}
             <div className='relative h-20 w-20'>
                 <Image
-                    src={productImage}
+                    src={orderLine.image}
                     className='rounded-lg object-cover object-center'
                     fill={true}
-                    alt={productImage}
+                    alt={orderLine.description}
                 />
             </div>
 
-            <div className='flex grow flex-col overflow-hidden px-4 py-2'>
-                <div className='flex grow'>
-                    {/* <h1 className='line-clamp-2 w-40 grow text-ellipsis font-primary text-base font-semibold leading-6'>
-                        {name}
-                    </h1> */}
-
-                    <div className='group relative w-40 grow'>
-                        <div className='line-clamp-2 font-primary text-base font-semibold leading-6'>
-                            {name}
-                        </div>
+            <div className='ml-3 flex grow flex-col rounded-lg'>
+                <div className='relative flex h-full'>
+                    <div className='group relative w-20 grow'>
+                        <span className='line-clamp-2 font-primary text-sm font-semibold leading-normal lg:text-base'>
+                            {orderLine.name}
+                        </span>
                     </div>
 
-                    <button
-                        onClick={() => {}}
-                        className='bg-mediumSilver hover:bg-lightSilver group ml-2 inline-flex h-7 w-7 items-center justify-center rounded-lg duration-100 ease-linear active:scale-95 active:opacity-70 2xl:h-8 2xl:w-8'
-                    >
-                        <TbTrash className='h-4 w-4 text-white duration-100 ease-linear 2xl:h-5 2xl:w-5' />
-                    </button>
+                    <span className='group translate-x-4 opacity-0 transition-all duration-200 ease-linear group-hover/card:translate-x-0 group-hover/card:opacity-100 '>
+                        <button
+                            onClick={() => handleRemoveOrderLine(orderLine.id)}
+                            className='inline-flex items-center justify-center self-start rounded-lg p-1 transition-all duration-100 ease-linear hover:bg-red-200 active:scale-95 active:opacity-70'
+                        >
+                            <Trash2Icon className='h-5 w-5 text-red-400 transition-all duration-100 ease-linear 2xl:h-6 2xl:w-6' />
+                        </button>
+                    </span>
                 </div>
 
                 <div className='flex items-end justify-between'>
-                    <ul className='flex items-center justify-between gap-3'>
+                    <ul className='flex items-center justify-between gap-1 lg:gap-2'>
                         <li className='inline-flex '>
                             <button
-                                onClick={() => {}}
-                                className='group cursor-pointer rounded-md bg-white p-1 drop-shadow-md duration-100 ease-linear hover:bg-gray-200 active:scale-95 active:opacity-70'
+                                onClick={() =>
+                                    handleDecreaseQuantity(orderLine.id)
+                                }
+                                className='group cursor-pointer rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 shadow-md duration-150 ease-linear hover:bg-pos-0 hover:shadow-harvest-gold-500 active:scale-95 active:opacity-70'
                             >
-                                <TiMinus className='text-lg text-gold-500 duration-100 ease-linear' />
+                                <TiMinus className='text-sm text-white duration-100 ease-linear lg:text-base' />
                             </button>
                         </li>
 
                         <li className='text-base'>
                             <input
-                                defaultValue={1}
-                                className='w-7 rounded-md bg-transparent bg-white p-1 text-center drop-shadow-md'
+                                contentEditable={true}
+                                value={orderLine.quantity}
+                                className='w-7 rounded-md bg-transparent bg-white p-1 text-center text-sm shadow-md lg:text-base'
+                                onChange={(event) => handleTypeQuantity(event)}
+                                onBlur={handleOnBlur}
                             />
                         </li>
 
                         <li className='inline-flex'>
                             <button
-                                onClick={() => {}}
-                                className='group cursor-pointer rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 drop-shadow-md duration-150 ease-linear hover:bg-pos-0 active:scale-95 active:opacity-70'
+                                onClick={() =>
+                                    handleIncreaseQuantity(orderLine.id)
+                                }
+                                className='group cursor-pointer rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 shadow-md duration-150 ease-linear hover:bg-pos-0 hover:shadow-harvest-gold-500 active:scale-95 active:opacity-70'
                             >
-                                <TiPlus className='text-lg text-white duration-100 ease-linear' />
+                                <TiPlus className='text-sm text-white duration-100 ease-linear lg:text-base' />
                             </button>
                         </li>
                     </ul>
 
-                    <span className='inline-block overflow-hidden text-ellipsis text-lg font-bold'>
+                    <span className='line-clamp-1 inline-block text-base font-bold lg:text-lg'>
                         {priceString}{' '}
                     </span>
                 </div>

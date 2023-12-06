@@ -7,23 +7,22 @@ import OrderList from './OrderList';
 import OrderTotal from './OrderTotal';
 import { Separator } from '@/components/ui/separator';
 
-interface OrderCardProps {
-    orders: any;
-}
-
-const OrderSummary = ({ orders }: OrderCardProps) => {
+const OrderSummary = () => {
     return (
-        <div className='xmdl:flex xmdl:w-2/6 xmdl:flex-col fixed right-0 float-right box-border hidden h-[calc(100vh-80px)] bg-white px-3 py-6 drop-shadow-2xl xl:w-1/4'>
-            <div>
-                <h1 className='text-center text-[32px] font-black'>
-                    Order Summary
-                </h1>
+        <div className='fixed right-0 float-right box-border hidden h-[calc(100vh-80px)] bg-white px-3 py-6 drop-shadow-2xl xmdl:flex xmdl:w-2/6 xmdl:flex-col xl:w-1/4'>
+            <div className='inline-flex items-center justify-center'>
+                <span className='text-3xl font-black'>Order Summary</span>
+            </div>
 
-                <OrderList orders={orders} />
+            <div className='mt-4'>
+                <OrderList />
             </div>
 
             <div className='mt-4'>
                 <Separator />
+            </div>
+
+            <div className='mt-4'>
                 <OrderTotal />
             </div>
         </div>

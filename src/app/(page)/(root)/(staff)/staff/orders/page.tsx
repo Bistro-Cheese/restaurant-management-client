@@ -6,6 +6,8 @@ import OrderSummary from './_components/OrderSummary';
 import { Menu } from 'lucide-react';
 import { useGetAllFoods } from '@/hooks/food/use-get-foods';
 import { useGetSearchFoods } from '@/hooks/food/use-get-search-foods';
+import { Provider } from 'react-redux';
+import { store } from '@/redux/store';
 
 const OrderData = [
     {
@@ -300,10 +302,6 @@ const FoodData = [
     }
 ];
 
-interface OrderList {
-    orders: any;
-}
-
 const OrderPage = () => {
     const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
 
@@ -314,10 +312,10 @@ const OrderPage = () => {
     if (isFoodsSuccess) {
         console.log('foods:::', foods);
         return (
-            <div className='w-full'>
-                <MenuOrder foods={foods?.entities} orders={[]} />
-                <OrderSummary orders={OrderData} />
-            </div>
+            <>
+                <MenuOrder foods={foods?.entities} />
+                <OrderSummary />
+            </>
         );
     }
 };

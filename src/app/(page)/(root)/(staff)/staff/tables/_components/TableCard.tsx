@@ -1,3 +1,18 @@
+'use client';
+
+import { cn } from '@/lib/utils';
+import { EntityId } from '@reduxjs/toolkit';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import React, { FC } from 'react';
+
+type TableCardProps = {
+    id: EntityId;
+    numberOfSeat: number;
+    tableNumber: number;
+    status: number;
+};
+
 const tableStatus = {
     free: {
         name: 'Free',
@@ -16,35 +31,64 @@ const tableStatus = {
     }
 };
 
-function TableCard({ table, status }: { table: number; status: number }) {
-    return (
-        <div
-            className={`flex h-40 rounded bg-[${getTableStatus(status)
-                ?.outlineColor}] pl-2`}
-        >
-            <div
-                className={`flex w-full flex-col justify-between bg-[${getTableStatus(
-                    status
-                )?.bgColor}] py-2 pl-2`}
-            >
-                {/* Table Number */}
-                <h2 className='text-xl font-bold'>{table}</h2>
+const TableCard: FC<TableCardProps> = ({
+    id,
+    numberOfSeat,
+    tableNumber,
+    status
+}): React.JSX.Element => {
+    const router = useRouter();
 
-                <span>{getTableStatus(status)?.name}</span>
-            </div>
-        </div>
-    );
-}
+    let statusName: string = '';
+    let statusCardClassName: string = '';
+    let statusTextClassName: string = '';
 
-function getTableStatus(status: number) {
     switch (status) {
         case 0:
-            return tableStatus.free;
+            statusName = 'Empty';
+            statusCardClassName = 'bg-lightSilver outline outline-mediumSilver';
+            statusTextClassName = 'text-slate-600';
+            break;
+
         case 1:
-            return tableStatus.pending;
+            statusName = 'Pending';
+            statusCardClassName =
+                'bg-harvest-gold-50 outline outline-harvest-gold';
+            statusTextClassName = 'text-harvest-gold-700';
+            break;
+
         case 2:
-            return tableStatus.complete;
+            statusName = 'Completed';
+            statusCardClassName = 'bg-green-100 outline outline-green-400';
+            statusTextClassName = 'text-green-600';
+            break;
+
+        default:
+            break;
     }
-}
+
+    return (
+        <Link
+            href={status === 0 ? '/staff/orders' : '#'}
+            className={cn(
+                'flex h-[7rem] flex-col justify-between rounded-lg px-4 py-2',
+                statusCardClassName
+            )}
+        >
+            <span className='text-xl font-bold'>{tableNumber}</span>
+
+            <div className=''>
+                <span
+                    className={cn(
+                        'font-primary text-lg font-bold',
+                        statusTextClassName
+                    )}
+                >
+                    {statusName}
+                </span>
+            </div>
+        </Link>
+    );
+};
 
 export default TableCard;

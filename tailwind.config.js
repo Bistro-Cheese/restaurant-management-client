@@ -56,6 +56,7 @@ module.exports = {
                 darkGold: '#dbb778',
                 lightGold: '#f0cf95',
                 gold: {
+                    DEFAULT: '#dbb658',
                     300: '#e2c479',
                     400: '#debd68',
                     500: '#dbb658',
@@ -70,13 +71,13 @@ module.exports = {
                     300: '#E8D1A8',
                     400: '#E1C490',
                     500: '#DBB778',
-                    600: '#D8B16C',
-                    700: '#D5AA60',
-                    800: '#D1A454',
-                    900: '#CE9D48',
-                    950: '#CD9A42'
+                    600: '#D7AE68',
+                    700: '#D2A658',
+                    800: '#CE9D48',
+                    900: '#CA9538',
+                    950: '#C38F34'
                 },
-                navy: {
+                'dark-navy': {
                     DEFAULT: '#111A2B',
                     50: '#2A4069',
                     100: '#283D65',
@@ -125,7 +126,7 @@ module.exports = {
                 'gradient-background':
                     'linear-gradient(150deg, #ffcc80 40%, #f57c00 90%)',
                 'gradient-primary':
-                    'linear-gradient(140deg, rgba(225,196,144,1) 60%, rgba(219,183,120,1) 80%, rgba(216,177,108,1) 96%)',
+                    'linear-gradient(140deg, rgba(225,196,144,1) 60%, rgba(219,183,120,1) 80%, rgba(215,174,104,1) 96%)',
                 'gradient-destructive':
                     'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)',
                 'gradient-active':
@@ -133,8 +134,8 @@ module.exports = {
             },
             dropShadow: {
                 primary: [
-                    '0 15px 25px rgba(219,182,88, 0.45)',
-                    '0 25px 35px rgba(226,196,121, 0.30)'
+                    '0 10px 10px rgba(219, 183, 120, 0.5)',
+                    '0 20px 20px rgba(219, 183, 120, 0.5)'
                 ]
             },
             screens: {
