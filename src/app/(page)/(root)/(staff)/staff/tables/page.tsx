@@ -1,8 +1,36 @@
 import TableCard from './_components/TableCard';
+import TableList from './_components/TableList';
 
-function TablePage() {
+type TableDataType = {
+    id: string;
+    numberOfSeat: number;
+    tableNumber: number;
+    status: 0 | 1 | 2;
+};
+
+// Mảng TableData cứng với 16 object, trong đó giá trị của key status là 0, 1 hoặc 2
+const TableData: TableDataType[] = [
+    { id: '1', numberOfSeat: 4, tableNumber: 1, status: 0 },
+    { id: '2', numberOfSeat: 4, tableNumber: 2, status: 1 },
+    { id: '3', numberOfSeat: 4, tableNumber: 3, status: 2 },
+    { id: '4', numberOfSeat: 4, tableNumber: 4, status: 0 },
+    { id: '5', numberOfSeat: 4, tableNumber: 5, status: 1 },
+    { id: '6', numberOfSeat: 4, tableNumber: 6, status: 2 },
+    { id: '7', numberOfSeat: 4, tableNumber: 7, status: 0 },
+    { id: '8', numberOfSeat: 4, tableNumber: 8, status: 1 },
+    { id: '9', numberOfSeat: 4, tableNumber: 9, status: 2 },
+    { id: '10', numberOfSeat: 4, tableNumber: 10, status: 0 },
+    { id: '11', numberOfSeat: 4, tableNumber: 11, status: 1 },
+    { id: '12', numberOfSeat: 4, tableNumber: 12, status: 2 },
+    { id: '13', numberOfSeat: 4, tableNumber: 13, status: 0 },
+    { id: '14', numberOfSeat: 4, tableNumber: 14, status: 1 },
+    { id: '15', numberOfSeat: 4, tableNumber: 15, status: 2 },
+    { id: '16', numberOfSeat: 4, tableNumber: 16, status: 0 }
+];
+
+const TablePage = () => {
     return (
-        <div className='mx-20 mt-10'>
+        <div className='px-10 py-5'>
             {/* Overview */}
             <div className='flex justify-center'>
                 <div className='inline-flex items-center rounded px-8 py-2 shadow-xl'>
@@ -30,19 +58,8 @@ function TablePage() {
                 </div>
             </div>
 
-            {/* Details */}
-            <ul className='my-10 grid grid-cols-5 gap-8'>
-                <li className=''>
-                    <TableCard table={1} status={0} />
-                </li>
-                <li className=''>
-                    <TableCard table={2} status={1} />
-                </li>
-                <li className=''>
-                    <TableCard table={3} status={2} />
-                </li>
-            </ul>
+            <TableList tables={TableData} />
         </div>
     );
-}
+};
 export default TablePage;

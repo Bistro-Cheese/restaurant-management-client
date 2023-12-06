@@ -1,6 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { FC } from 'react';
 
 type EmployeeCardProps = {
     id: EntityId;
@@ -12,7 +13,7 @@ type EmployeeCardProps = {
     status: number;
 };
 
-const EmployeeCard = ({
+const EmployeeCard: FC<EmployeeCardProps> = ({
     id,
     lastName,
     firstName,
@@ -20,7 +21,7 @@ const EmployeeCard = ({
     role,
     status,
     email
-}: EmployeeCardProps) => {
+}): JSX.Element => {
     const router = useRouter();
 
     const handleClickEdit = (id: EntityId) => {

@@ -56,6 +56,22 @@ export const foodStatus = [
         status: 'DRAFT'
     }
 ];
+
+export const tableStatus = [
+    {
+        id: '0',
+        name: 'Empty'
+    },
+    {
+        id: '1',
+        name: 'Pending'
+    },
+    {
+        id: '2',
+        name: 'Complete'
+    }
+];
+
 export const foodList = [
     {
         id: '1',
