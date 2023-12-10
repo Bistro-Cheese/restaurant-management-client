@@ -15,14 +15,13 @@ import storage from 'redux-persist/lib/storage';
 import { reducers } from './features';
 import { userKey } from './features/user-slice';
 import { authKey } from './features/auth-slice';
+import { orderLineKey } from './features/order-line-slice';
 import { apiSlice } from './services/base-api';
-
-import { orderLinesReducer } from './features/order-line-slice';
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: [authKey, userKey]
+    whitelist: [authKey, userKey, orderLineKey]
 };
 
 const combinedReducer = combineReducers({
@@ -37,7 +36,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({
     reducer: {
         [apiSlice.reducerPath]: apiSlice.reducer,
-        orderLinesReducer,
         reducer: persistedReducer
     },
     //   Adding the api middleware enables caching, invalidation, polling,

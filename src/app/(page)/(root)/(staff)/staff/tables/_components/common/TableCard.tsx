@@ -5,62 +5,31 @@ import { EntityId } from '@reduxjs/toolkit';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { FC } from 'react';
+import { TableType } from '@/types';
 
-type TableCardProps = {
-    id: EntityId;
-    numberOfSeat: number;
-    tableNumber: number;
-    status: number;
-};
+interface TableCardProps {
+    table: TableType;
+}
 
-const tableStatus = {
-    free: {
-        name: 'Free',
-        outlineColor: '#9CA3AF',
-        bgColor: '#f8f6f6'
-    },
-    pending: {
-        name: 'Pending',
-        outlineColor: '#F59E0B',
-        bgColor: '#FFFBEB'
-    },
-    complete: {
-        name: 'Complete',
-        outlineColor: '#059669',
-        bgColor: '#ECFDF5'
-    }
-};
-
-const TableCard: FC<TableCardProps> = ({
-    id,
-    numberOfSeat,
-    tableNumber,
-    status
-}): React.JSX.Element => {
+const TableCard: FC<TableCardProps> = ({ table }) => {
     const router = useRouter();
 
-    let statusName: string = '';
+    let status: string = '';
     let statusCardClassName: string = '';
     let statusTextClassName: string = '';
 
-    switch (status) {
-        case 0:
-            statusName = 'Empty';
+    switch (table.tableStatus) {
+        case 'EMPTY':
+            status = 'Free';
             statusCardClassName = 'bg-lightSilver outline outline-mediumSilver';
             statusTextClassName = 'text-slate-600';
             break;
 
-        case 1:
-            statusName = 'Pending';
+        case 'OCCUPIED':
+            status = 'Pending';
             statusCardClassName =
                 'bg-harvest-gold-50 outline outline-harvest-gold';
             statusTextClassName = 'text-harvest-gold-700';
-            break;
-
-        case 2:
-            statusName = 'Completed';
-            statusCardClassName = 'bg-green-100 outline outline-green-400';
-            statusTextClassName = 'text-green-600';
             break;
 
         default:
@@ -69,13 +38,13 @@ const TableCard: FC<TableCardProps> = ({
 
     return (
         <Link
-            href={status === 0 ? '/staff/orders' : '#'}
+            href={`/staff/tables/${table.id}`}
             className={cn(
                 'flex h-[7rem] flex-col justify-between rounded-lg px-4 py-2',
                 statusCardClassName
             )}
         >
-            <span className='text-xl font-bold'>{tableNumber}</span>
+            <span className='text-xl font-bold'>{table.tableNumber}</span>
 
             <div className=''>
                 <span
@@ -84,7 +53,7 @@ const TableCard: FC<TableCardProps> = ({
                         statusTextClassName
                     )}
                 >
-                    {statusName}
+                    {status}
                 </span>
             </div>
         </Link>

@@ -1,14 +1,10 @@
-import { Button } from '@/components/ui/button';
-import { EntityId } from '@reduxjs/toolkit';
-import { Plus } from 'lucide-react';
 import Image from 'next/image';
-import { TiMinus } from 'react-icons/ti';
-import { TiPlus } from 'react-icons/ti';
 import { TbShoppingCartPlus } from 'react-icons/tb';
-import React, { FC } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import { addToOrder } from '@/redux/features/order-line-slice';
 import { FoodType } from '@/types';
+import { convertPriceToString } from '@/utils/convert-price-to-string';
 
 interface FoodCardProps {
     food: FoodType;
@@ -22,16 +18,18 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
         console.log('food added to order:::', food);
     };
 
-    const priceString = food.price
-        .toString()
-        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
+    const priceString = convertPriceToString(food.price);
 
     return (
-        <div className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl transition-all duration-200 ease-linear md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'>
+        <div
+            key={food.id}
+            className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl transition-all duration-200 ease-linear md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'
+        >
             {/* Image */}
             {food.image && (
                 <div className='relative h-full w-32 md:h-56 md:w-full lg:h-60 xl:h-64 2xl:h-80'>
                     <Image
+                        loader={() => food.image}
                         src={food.image}
                         className='rounded-3xl object-cover object-center md:rounded-t-3xl md:rounded-bl-none md:rounded-br-none'
                         fill={true}

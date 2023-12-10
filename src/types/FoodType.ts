@@ -6,12 +6,12 @@ export type Category = {
 };
 
 type Food = {
-    id: EntityId;
+    id: string;
     name: string;
     description: string;
     category: Category;
     image: string;
-    price: string;
+    price: number;
     status: string;
 };
 
