@@ -36,7 +36,7 @@ export const orderLinesApi = apiSlice.injectEndpoints({
                     : [{ type: 'Order', id: 'LIST' }]
             // highlight-end
         }),
-        addNewOrder: builder.mutation({
+        createNewOrder: builder.mutation({
             query: (initialOrderData) => ({
                 url: '/orders',
                 method: 'POST',
@@ -78,7 +78,7 @@ export const orderLinesApi = apiSlice.injectEndpoints({
 
 export const {
     useGetOrderLinesQuery,
-    useAddNewOrderMutation,
+    useCreateNewOrderMutation,
     useUpdateOrderMutation,
     useDeleteOrderMutation,
     useGetOrderLineQuery

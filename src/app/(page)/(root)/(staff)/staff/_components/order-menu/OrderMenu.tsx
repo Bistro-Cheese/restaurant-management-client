@@ -1,11 +1,11 @@
 import { FoodsFilter } from '@/components/food/foods-filter';
 import FoodCard from './common/FoodCard';
 
-interface MenuOrderProps {
+interface OrderMenuProps {
     foods: any;
 }
 
-const MenuOrder = ({ foods }: MenuOrderProps) => {
+const OrderMenu = ({ foods }: OrderMenuProps) => {
     return (
         <div className='float-left w-full px-12 py-4 xmdl:w-4/6 xl:w-3/4'>
             {/* <FoodsFilter /> */}
@@ -23,4 +23,4 @@ const MenuOrder = ({ foods }: MenuOrderProps) => {
     );
 };
 
-export default MenuOrder;
+export default OrderMenu;

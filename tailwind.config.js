@@ -134,8 +134,8 @@ module.exports = {
             },
             dropShadow: {
                 primary: [
-                    '0 10px 10px rgba(219, 183, 120, 0.5)',
-                    '0 20px 20px rgba(219, 183, 120, 0.5)'
+                    '0 10px 10px rgba(219, 183, 120, 0.3)',
+                    '0 20px 20px rgba(219, 183, 120, 0.3)'
                 ]
             },
             screens: {

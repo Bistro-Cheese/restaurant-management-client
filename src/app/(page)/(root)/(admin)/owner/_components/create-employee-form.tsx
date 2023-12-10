@@ -30,10 +30,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/heading';
 import { AlertModal } from '@/components/modal/alert-modal';
-import {
-    userRoles,
-    userStatus
-} from '@/utils/fake-data';
+import { userRoles, userStatus } from '@/utils/fake-data';
 import { useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
 import {
@@ -86,7 +83,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
     console.log('USER FORM EDIT:::', user);
 
     const [
-        addUserFood,
+        addNewUser,
         {
             isLoading: isCreatingLoading,
             isSuccess: isCreatedSuccess,
@@ -124,41 +121,41 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
     const defaultValues = isCreate
         ? {
-            username: user?.username,
-            first_name: user?.firstName,
-            last_name: user?.lastName,
-            date_of_birth: user?.dateOfBirth,
-            password: user?.password,
-            phone_number: user?.phoneNumber,
-            role: JSON.stringify(user?.role),
-            status: JSON.stringify(user?.status),
-            address_line: user?.address?.addressLine,
-            city: user?.address?.city,
-            region: user?.address?.region,
-            email: user?.email,
-            experienced_year: user?.experiencedYear,
-            certification_management: user?.certificationManagement,
-            foreign_language: user?.foreignLanguage,
-            academic_level: user?.academicLevel
-        }
+              username: user?.username,
+              first_name: user?.firstName,
+              last_name: user?.lastName,
+              date_of_birth: user?.dateOfBirth,
+              password: user?.password,
+              phone_number: user?.phoneNumber,
+              role: JSON.stringify(user?.role),
+              status: JSON.stringify(user?.status),
+              address_line: user?.address?.addressLine,
+              city: user?.address?.city,
+              region: user?.address?.region,
+              email: user?.email,
+              experienced_year: user?.experiencedYear,
+              certification_management: user?.certificationManagement,
+              foreign_language: user?.foreignLanguage,
+              academic_level: user?.academicLevel
+          }
         : {
-            username: '',
-            firstName: '',
-            lastName: '',
-            dateOfBirth: '',
-            password: '',
-            phoneNumber: '',
-            role: '',
-            status: '',
-            addressLine: '',
-            city: '',
-            region: '',
-            email: '',
-            experienced_year: '',
-            certification_management: '',
-            foreign_language: '',
-            academic_level: ''
-        };
+              username: '',
+              firstName: '',
+              lastName: '',
+              dateOfBirth: '',
+              password: '',
+              phoneNumber: '',
+              role: '',
+              status: '',
+              addressLine: '',
+              city: '',
+              region: '',
+              email: '',
+              experienced_year: '',
+              certification_management: '',
+              foreign_language: '',
+              academic_level: ''
+          };
 
     const form = useForm<UserFormValues>({
         resolver: zodResolver(formSchema),
@@ -190,10 +187,10 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
             isCreate
                 ? await updateUser({
-                    user_id: userId,
-                    data: { ...removedKeysData }
-                })
-                : await addUserFood({ ...removedKeysData });
+                      user_id: userId,
+                      data: { ...removedKeysData }
+                  })
+                : await addNewUser({ ...removedKeysData });
         } else {
             console.log('create user:::', data);
         }

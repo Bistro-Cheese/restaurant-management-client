@@ -1,68 +1,56 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { Plus, Trash2, Trash2Icon } from 'lucide-react';
+import { Trash2Icon } from 'lucide-react';
 import Image from 'next/image';
 import { TiMinus } from 'react-icons/ti';
 import { TiPlus } from 'react-icons/ti';
-import { HiOutlineTrash } from 'react-icons/hi2';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { TbTrash } from 'react-icons/tb';
-import { FC, useState } from 'react';
-import { IoClose } from 'react-icons/io5';
-import { TbShoppingCartX } from 'react-icons/tb';
 import { useDispatch } from 'react-redux';
 import {
     decreaseQuantity,
     increaseQuantity,
-    removeOrderLine
+    removeOrderLine,
+    setQuantity
 } from '@/redux/features/order-line-slice';
 import { OrderLineType } from '@/types';
+import { convertPriceToString } from '@/utils/convert-price-to-string';
 
-interface OrderCardProps {
+interface OrderLineCardProps {
     orderLine: OrderLineType;
 }
 
-const OrderCard: React.FC<OrderCardProps> = ({ orderLine }) => {
-    const priceString = orderLine.price
-        .toString()
-        .replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.');
+const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
+    const priceString = convertPriceToString(orderLine.price);
 
     const dispatch = useDispatch();
-    const [quantity, setQuantity] = useState<number | string>(1);
 
-    const handleTypeQuantity = (event: any) => {
+    const handleOnBlur = () => {};
+
+    const handleIncreaseQuantity = (orderLineId: EntityId) => {
+        dispatch(increaseQuantity({ id: orderLineId }));
+    };
+
+    const handleDecreaseQuantity = (orderLineId: EntityId) => {
+        dispatch(decreaseQuantity({ id: orderLineId }));
+    };
+
+    const handleRemoveOrderLine = (orderLineId: EntityId) => {
+        dispatch(removeOrderLine({ id: orderLineId }));
+    };
+
+    const handleSetQuantity = (event: any, orderLineId: EntityId) => {
         const inputValue = parseInt(event.target.value, 10);
 
-        if (!isNaN(inputValue)) {
-            setQuantity(inputValue);
-        } else {
-            setQuantity('');
-        }
-    };
-
-    const handleOnBlur = () => {
-        if (quantity === '') {
-            setQuantity(1);
-        }
-    };
-
-    const handleIncreaseQuantity = (productId: EntityId) => {
-        dispatch(increaseQuantity({ id: productId }));
-    };
-
-    const handleDecreaseQuantity = (productId: EntityId) => {
-        dispatch(decreaseQuantity({ id: productId }));
-    };
-
-    const handleRemoveOrderLine = (productId: EntityId) => {
-        dispatch(removeOrderLine({ id: productId }));
+        dispatch(setQuantity({ id: orderLineId, inputValue: inputValue }));
     };
 
     return (
-        <div className='group/card flex rounded-lg px-4 py-2 transition-all duration-100 ease-linear hover:bg-lightSilver'>
+        <div
+            key={orderLine.id}
+            className='group/card flex rounded-lg px-4 py-2 transition-all duration-100 ease-linear hover:bg-lightSilver'
+        >
             {/* Image */}
             <div className='relative h-20 w-20'>
                 <Image
+                    loader={() => orderLine.image}
                     src={orderLine.image}
                     className='rounded-lg object-cover object-center'
                     fill={true}
@@ -104,9 +92,15 @@ const OrderCard: React.FC<OrderCardProps> = ({ orderLine }) => {
                         <li className='text-base'>
                             <input
                                 contentEditable={true}
-                                value={orderLine.quantity}
+                                value={
+                                    orderLine.quantity !== 0
+                                        ? orderLine.quantity
+                                        : ''
+                                }
                                 className='w-7 rounded-md bg-transparent bg-white p-1 text-center text-sm shadow-md lg:text-base'
-                                onChange={(event) => handleTypeQuantity(event)}
+                                onChange={(event) =>
+                                    handleSetQuantity(event, orderLine.id)
+                                }
                                 onBlur={handleOnBlur}
                             />
                         </li>
@@ -123,7 +117,7 @@ const OrderCard: React.FC<OrderCardProps> = ({ orderLine }) => {
                         </li>
                     </ul>
 
-                    <span className='line-clamp-1 inline-block text-base font-bold lg:text-lg'>
+                    <span className='line-clamp-1 inline-block text-base lg:text-lg'>
                         {priceString}{' '}
                     </span>
                 </div>
@@ -132,4 +126,4 @@ const OrderCard: React.FC<OrderCardProps> = ({ orderLine }) => {
     );
 };
 
-export default OrderCard;
+export default OrderLineCard;
