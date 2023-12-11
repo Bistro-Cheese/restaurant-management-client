@@ -68,9 +68,9 @@ export const managerRoutes: SidebarItemProps[] = [
 
 export const filterByFields: FilterItemProps[] = [
     {
-        name: 'Best seller'
+        nameSortCase: 'Best seller'
     },
     {
-        name: 'The Newest'
+        nameSortCase: 'The Newest'
     }
 ];

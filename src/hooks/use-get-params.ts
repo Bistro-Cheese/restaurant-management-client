@@ -6,19 +6,19 @@ export const useGetParams = () => {
     const searchParams = useSearchParams();
 
     const category = searchParams.get('category');
-    const searchKey = searchParams.get('search_key');
-    const sortCase = searchParams.get('sort_case');
-    const isAscSort = searchParams.get('is_asc_sort');
-    const minPrice = searchParams.get('min_price');
-    const maxPrice = searchParams.get('max_price');
+    const name = searchParams.get('name');
+    const sortCase = searchParams.get('sortCase');
+    const isAscSort = searchParams.get('isAscSort');
+    const fromPrice = searchParams.get('fromPrice');
+    const toPrice = searchParams.get('toPrice');
 
     return {
         searchParams,
         category,
-        searchKey,
+        name,
         sortCase,
         isAscSort,
-        minPrice,
-        maxPrice
+        fromPrice,
+        toPrice
     };
 };
