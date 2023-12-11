@@ -21,7 +21,7 @@ export const SearchInput = () => {
 
     const isFoodMenu = pathname.includes('/foods/menu');
 
-    const { category, sortCase, isAscSort, minPrice, maxPrice } =
+    const { category, sortCase, isAscSort, fromPrice, toPrice } =
         useGetParams();
 
     // useEffect(() => {
@@ -34,32 +34,22 @@ export const SearchInput = () => {
                 url: pathname,
                 query: isFoodMenu
                     ? {
-                          category: category,
-                          search_key: debouncedValue,
-                          sort_case: sortCase,
-                          is_asc_sort: isAscSort,
-                          min_price: minPrice,
-                          max_price: maxPrice
-                      }
+                        category: category,
+                        name: debouncedValue,
+                        sortCase: sortCase,
+                        isAscSort: isAscSort,
+                        fromPrice: fromPrice,
+                        toPrice: toPrice
+                    }
                     : {
-                          employee: debouncedValue
-                      }
+                        employee: debouncedValue
+                    }
             },
             { skipEmptyString: true, skipNull: true }
         );
 
         router.push(url);
-    }, [
-        debouncedValue,
-        pathname,
-        isFoodMenu,
-        router,
-        category,
-        sortCase,
-        isAscSort,
-        minPrice,
-        maxPrice
-    ]);
+    }, [debouncedValue, pathname, isFoodMenu, router, category, sortCase, isAscSort, fromPrice, toPrice]);
 
     return (
         <div className='relative'>

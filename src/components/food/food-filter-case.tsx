@@ -11,12 +11,12 @@ import { cn } from "@/lib/utils";
 import { useGetParams } from "@/hooks/use-get-params";
 
 export interface FilterItemProps {
-    name: string;
+    nameSortCase: string;
     icon?: IconType;
 };
 
 export const FoodFilterCase = ({
-    name,
+    nameSortCase,
     icon: Icon,
 }: FilterItemProps) => {
 
@@ -25,25 +25,25 @@ export const FoodFilterCase = ({
 
     const {
         category,
-        searchKey,
         sortCase,
+        name,
         isAscSort,
-        minPrice,
-        maxPrice
+        fromPrice,
+        toPrice
     } = useGetParams()
 
-    const isSelected = sortCase === name;
+    const isSelected = sortCase === nameSortCase;
 
     const handleClick = () => {
         const url = qs.stringifyUrl({
             url: pathname,
             query: {
                 category,
-                searchKey,
-                minPrice,
-                maxPrice,
-                is_asc_sort: isAscSort,
-                sort_case: isSelected ? null : name,
+                name,
+                fromPrice,
+                toPrice,
+                isAscSort: isAscSort,
+                sortCase: isSelected ? null : nameSortCase,
             }
         }, { skipNull: true, skipEmptyString: true });
 
@@ -55,7 +55,7 @@ export const FoodFilterCase = ({
             isSelected && "border-sky-700 bg-sky-200/20 text-sky-800")}>
             {Icon && <Icon size={20} />}
             <div className="truncate">
-                {name}
+                {nameSortCase}
             </div>
         </button>
 

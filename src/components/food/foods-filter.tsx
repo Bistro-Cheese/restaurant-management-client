@@ -24,8 +24,6 @@ import * as z from 'zod';
 import qs from 'query-string';
 import { useEffect, useState } from 'react';
 import { useDebounce } from '@/hooks/use-debounced';
-import Link from 'next/link';
-import { Button } from '../ui/button';
 
 const formSchema = z.object({
     isAscSort: z.string()
@@ -40,7 +38,7 @@ export const FoodsFilter = () => {
     const pathname = usePathname();
     const router = useRouter();
 
-    const { category, searchKey, sortCase, isAscSort, minPrice, maxPrice } =
+    const { category, name, sortCase, isAscSort, fromPrice, toPrice } =
         useGetParams();
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -56,11 +54,11 @@ export const FoodsFilter = () => {
                 url: pathname,
                 query: {
                     category: category,
-                    search_key: searchKey,
-                    sort_case: sortCase,
-                    min_price: minPrice,
-                    max_price: maxPrice,
-                    is_asc_sort: value === 'lowtohigh' ? true : false
+                    name: name,
+                    sortCase: sortCase,
+                    fromPrice: fromPrice,
+                    toPrice: toPrice,
+                    isAscSort: value === 'lowtohigh' ? true : false
                 }
             },
             { skipNull: true, skipEmptyString: true }
@@ -97,27 +95,18 @@ export const FoodsFilter = () => {
                 url: pathname,
                 query: {
                     category: category,
-                    search_key: searchKey,
-                    sort_case: sortCase,
-                    min_price: debouncedMinValue,
-                    max_price: debouncedMaxValue,
-                    is_asc_sort: isAscSort
+                    name: name,
+                    sortCase: sortCase,
+                    fromPrice: debouncedMinValue,
+                    toPrice: debouncedMaxValue,
+                    isAscSort: isAscSort
                 }
             },
             { skipNull: true, skipEmptyString: true }
         );
 
         router.push(url);
-    }, [
-        debouncedMinValue,
-        debouncedMaxValue,
-        pathname,
-        category,
-        searchKey,
-        sortCase,
-        isAscSort,
-        router
-    ]);
+    }, [debouncedMinValue, debouncedMaxValue, pathname, category, sortCase, isAscSort, router, name]);
 
     return (
         <div className='flex grow flex-col gap-y-3 xl:flex-row xl:items-center xl:justify-between'>
@@ -125,7 +114,7 @@ export const FoodsFilter = () => {
 
             <div className='flex items-start justify-start gap-x-2'>
                 {filterByFields.map((item) => (
-                    <FoodFilterCase key={item.name} name={item.name} />
+                    <FoodFilterCase key={item.nameSortCase} nameSortCase={item.nameSortCase} />
                 ))}
                 <Form {...form}>
                     <form className='flex'>

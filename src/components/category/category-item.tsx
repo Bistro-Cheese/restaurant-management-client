@@ -27,11 +27,11 @@ export const CategoryItem = ({
 
     const {
         category,
-        searchKey,
+        name,
         sortCase,
         isAscSort,
-        minPrice,
-        maxPrice
+        fromPrice,
+        toPrice
     } = useGetParams()
 
     const isSelected = category === value;
@@ -40,11 +40,11 @@ export const CategoryItem = ({
         const url = qs.stringifyUrl({
             url: pathname,
             query: {
-                search_key: searchKey,
-                sort_case: sortCase,
-                is_asc_sort: isAscSort,
-                min_price: minPrice,
-                max_price: maxPrice,
+                name: name,
+                sortCase: sortCase,
+                isAscSort: isAscSort,
+                fromPrice: fromPrice,
+                toPrice: toPrice,
                 category: isSelected ? null : value,
 
             }
