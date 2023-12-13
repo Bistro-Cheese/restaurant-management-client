@@ -1,8 +1,10 @@
 'use client';
 
+import { useSelector } from 'react-redux';
 import OrderMenu from './order-menu/OrderMenu';
 import OrderSummary from './order-summary/OrderSummary';
 import { useGetAllFoods } from '@/hooks/food/use-get-foods';
+import { RootState } from '@/redux/store';
 
 const OrderData = [
     {
@@ -301,8 +303,9 @@ interface OrderPageProps {
     tableId: number | null;
 }
 
-const OrderPage = ({ tableId }: OrderPageProps) => {
+const OrderPage = () => {
     const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
+    const order = useSelector((state: RootState) => state.reducer.order);
 
     if (isFoodsLoading) {
         return <div>Loading All Foods...</div>;
@@ -310,19 +313,19 @@ const OrderPage = ({ tableId }: OrderPageProps) => {
 
     if (isFoodsSuccess) {
         console.log('foods:::', foods);
-        console.log('tableId:::', tableId);
+        console.log('tableId:::', order.tableId);
 
         return (
             <>
                 <OrderMenu foods={foods?.entities} />
-                <OrderSummary tableId={tableId} />
+                <OrderSummary />
             </>
         );
     }
 
     return (
         <>
-            <OrderSummary tableId={tableId} />
+            <OrderSummary />
         </>
     );
 };

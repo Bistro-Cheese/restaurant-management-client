@@ -2,9 +2,9 @@ import Image from 'next/image';
 import { TbShoppingCartPlus } from 'react-icons/tb';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addToOrder } from '@/redux/features/order-line-slice';
+import { addToOrder } from '@/redux/features/order-slice';
 import { FoodType } from '@/types';
-import { convertPriceToString } from '@/utils/convert-price-to-string';
+import { convertPriceToString } from '@/utils';
 
 interface FoodCardProps {
     food: FoodType;
@@ -13,7 +13,7 @@ interface FoodCardProps {
 const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
     const dispatch = useDispatch();
 
-    const handleAddToOrder = (food: FoodType) => {
+    const handleAddToOrder = () => {
         dispatch(addToOrder(food));
         console.log('food added to order:::', food);
     };
@@ -63,7 +63,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
                     <div className='flex items-center justify-between md:mt-1'>
                         <span className='group grow transition-all duration-100 ease-linear active:scale-95 active:opacity-70'>
                             <button
-                                onClick={() => handleAddToOrder(food)}
+                                onClick={() => handleAddToOrder()}
                                 className='inline-flex w-full items-center justify-center gap-4 rounded-xl bg-gradient-primary bg-size-200 bg-pos-100 px-4 py-2 font-primary transition-all duration-300 ease-linear group-hover:bg-pos-0'
                             >
                                 <TbShoppingCartPlus className='text-base text-white duration-100 ease-linear md:text-2xl' />

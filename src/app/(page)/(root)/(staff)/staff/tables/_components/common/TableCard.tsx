@@ -1,18 +1,40 @@
 'use client';
 
 import { cn } from '@/lib/utils';
-import { EntityId } from '@reduxjs/toolkit';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { TableType } from '@/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setInitialOrder } from '@/redux/features/order-slice';
+import { RootState } from '@/redux/store';
+import { deleteTableOrder } from '@/redux/features/table-order-slice';
 
 interface TableCardProps {
     table: TableType;
 }
 
 const TableCard: FC<TableCardProps> = ({ table }) => {
-    const router = useRouter();
+    const dispatch = useDispatch();
+    const tableOrders = useSelector(
+        (state: RootState) => state.reducer.tableOrder.tableOrders
+    );
+
+    const currentTableOrder = tableOrders.find(
+        (tableOrder) => tableOrder.tableId === table.id
+    );
+
+    console.log('tableOrders:::', tableOrders);
+
+    const handleTableClick = () => {
+        dispatch(
+            setInitialOrder({
+                tableId: table.id,
+                orderLines: currentTableOrder
+                    ? currentTableOrder.orderLines
+                    : []
+            })
+        );
+    };
 
     let status: string = '';
     let statusCardClassName: string = '';
@@ -39,6 +61,7 @@ const TableCard: FC<TableCardProps> = ({ table }) => {
     return (
         <Link
             href={`/staff/tables/${table.id}`}
+            onClick={() => handleTableClick()}
             className={cn(
                 'flex h-[7rem] flex-col justify-between rounded-lg px-4 py-2',
                 statusCardClassName

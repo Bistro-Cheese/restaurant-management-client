@@ -4,6 +4,9 @@ import TableCard from './_components/common/TableCard';
 import TableList from './_components/TableList';
 import { useGetTablesQuery } from '@/redux/services/table-api';
 import { useGetAllTables } from '@/hooks/table/use-get-table';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteTableOrder } from '@/redux/features/table-order-slice';
 
 // Mảng TableData cứng với 16 object, trong đó giá trị của key status là 0, 1 hoặc 2
 // const TableData: TableType[] = [

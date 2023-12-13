@@ -1,55 +1,121 @@
-import { TableType } from '@/types';
-import { EntityId, PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { OrderLineType } from '@/types';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-export const tableKey = 'table';
+export const orderKey = 'order';
 
 export interface OrderState {
-    tables: TableType[];
+    tableId: number;
+    orderLines: OrderLineType[];
 }
 
 interface IncreaseQuantityPayload {
-    id: EntityId;
+    foodId: string;
 }
 
 interface DecreaseQuantityPayload {
-    id: EntityId;
+    foodId: string;
 }
 
 interface SetQuantityPayload {
-    id: EntityId;
+    foodId: string;
     inputValue: number;
 }
 
 interface RemoveOrderLinePayload {
-    id: EntityId;
+    foodId: string;
+}
+
+interface SetInitialOrderPayload {
+    tableId: number;
+    orderLines: OrderLineType[];
 }
 
 const initialState: OrderState = {
-    tables: []
+    tableId: -1,
+    orderLines: []
 };
 
-export const tableSlice = createSlice({
-    name: 'table',
+export const orderSlice = createSlice({
+    name: 'order',
     initialState,
     reducers: {
         addToOrder: (state, action) => {
-            const orderLine = state.tables.find(
-                (orderLine) => orderLine.id === action.payload.id
+            const orderLine = state.orderLines.find(
+                (orderLine) => orderLine.id === action.payload.foodId
             );
+
+            if (orderLine) {
+                orderLine.quantity = Number(orderLine.quantity) + 1;
+            } else {
+                state.orderLines.push({
+                    ...action.payload,
+                    quantity: 1
+                });
+            }
         },
         increaseQuantity: (
             state,
             action: PayloadAction<IncreaseQuantityPayload>
-        ) => {},
+        ) => {
+            const orderLine = state.orderLines.find(
+                (orderLine) => orderLine.id === action.payload.foodId
+            );
+
+            if (orderLine) {
+                orderLine.quantity = Number(orderLine.quantity) + 1;
+            }
+        },
         decreaseQuantity: (
             state,
             action: PayloadAction<DecreaseQuantityPayload>
-        ) => {},
-        setQuantity: (state, action: PayloadAction<SetQuantityPayload>) => {},
+        ) => {
+            const orderLine = state.orderLines.find(
+                (orderLine) => orderLine.id === action.payload.foodId
+            );
+
+            if (orderLine) {
+                if (orderLine.quantity === 1) {
+                    const updatedOrderLines = state.orderLines.filter(
+                        (orderLine) => orderLine.id !== action.payload.foodId
+                    );
+                    state.orderLines = updatedOrderLines;
+
+                    return;
+                }
+
+                orderLine.quantity = Number(orderLine.quantity) - 1;
+            }
+        },
+        setQuantity: (state, action: PayloadAction<SetQuantityPayload>) => {
+            const orderLine = state.orderLines.find(
+                (orderLine) => orderLine.id === action.payload.foodId
+            );
+
+            if (orderLine) {
+                if (!isNaN(action.payload.inputValue)) {
+                    orderLine.quantity = action.payload.inputValue;
+                } else {
+                    orderLine.quantity = Number('');
+                }
+            }
+        },
         removeOrderLine: (
             state,
             action: PayloadAction<RemoveOrderLinePayload>
-        ) => {}
+        ) => {
+            const removeOrderLine = state.orderLines.filter(
+                (orderLine) => orderLine.id !== action.payload.foodId
+            );
+
+            state.orderLines = removeOrderLine;
+        },
+        setInitialOrder: (
+            state,
+            action: PayloadAction<SetInitialOrderPayload>
+        ) => {
+            state.tableId = action.payload.tableId;
+            state.orderLines = action.payload.orderLines;
+        }
     }
 });
 
@@ -58,5 +124,6 @@ export const {
     increaseQuantity,
     decreaseQuantity,
     setQuantity,
-    removeOrderLine
-} = tableSlice.actions;
+    removeOrderLine,
+    setInitialOrder
+} = orderSlice.actions;

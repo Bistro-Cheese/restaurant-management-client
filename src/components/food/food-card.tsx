@@ -7,7 +7,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import { AlertModal } from '../modal/alert-modal';
 import { useState } from 'react';
 import { useDeleteFoodMutation } from '@/redux/services/food-api';
-import { convertPriceToString } from '@/utils/convert-price-to-string';
+import { convertPriceToString } from '@/utils';
 
 export type FoodCardProps = {
     id: EntityId;
