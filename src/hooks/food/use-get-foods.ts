@@ -20,8 +20,6 @@ export const useGetAllFoods = () => {
         refetchOnMountOrArgChange: true
     });
 
-    console.log('FOODQUERY:::', foods);
-
     return {
         foods,
         foodsError,

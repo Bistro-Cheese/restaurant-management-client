@@ -1,15 +1,18 @@
 import { authKey, authSlice } from './auth-slice';
 import { userKey, userSlice } from './user-slice';
-import { orderLineKey, orderLineSlice } from './order-line-slice';
+import { orderKey, orderSlice } from './order-slice';
+import { tableOrderKey, tableOrderSlice } from './table-order-slice';
 
 type ReduxState = {
     [userKey]: typeof userSlice.reducer;
     [authKey]: typeof authSlice.reducer;
-    [orderLineKey]: typeof orderLineSlice.reducer;
+    [orderKey]: typeof orderSlice.reducer;
+    [tableOrderKey]: typeof tableOrderSlice.reducer;
 };
 
 export const reducers: ReduxState = {
     [userKey]: userSlice.reducer,
     [authKey]: authSlice.reducer,
-    [orderLineKey]: orderLineSlice.reducer
+    [orderKey]: orderSlice.reducer,
+    [tableOrderKey]: tableOrderSlice.reducer
 };

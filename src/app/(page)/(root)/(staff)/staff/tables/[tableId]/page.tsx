@@ -9,7 +9,7 @@ interface OrderTableProps {
 }
 
 const OrderTable: React.FC<OrderTableProps> = ({ params }) => {
-    return <OrderPage tableId={params.tableId} />;
+    return <OrderPage />;
 };
 
 export default OrderTable;

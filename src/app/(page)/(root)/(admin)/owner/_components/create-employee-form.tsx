@@ -36,10 +36,11 @@ import { EntityId } from '@reduxjs/toolkit';
 import {
     selectUserById,
     useAddNewUserMutation,
-    useDeleteUserMutation
+    useDeleteUserMutation,
+    useUpdateUserMutation
 } from '@/redux/services/user-api';
 import { useUpdateFoodMutation } from '@/redux/services/food-api';
-import { RemoveUnwantedKeys } from '@/utils/remove-key-object';
+import { removeUnwantedKeys } from '@/utils';
 
 const formSchema = z.object({
     username: z.string().min(1),
@@ -100,7 +101,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
             isError: isUpdatedError,
             error: updatedError
         }
-    ] = useUpdateFoodMutation();
+    ] = useUpdateUserMutation();
 
     const [
         deleteUser,
@@ -183,7 +184,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
     const onSubmit = async (data: UserFormValues) => {
         if (data) {
-            let removedKeysData = RemoveUnwantedKeys(data, unwantedKeys);
+            let removedKeysData = removeUnwantedKeys(data, unwantedKeys);
 
             isCreate
                 ? await updateUser({

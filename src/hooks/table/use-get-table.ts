@@ -1,8 +1,5 @@
 'use client';
-import {
-    useGetTablesQuery,
-    useSearchTablesQuery
-} from '@/redux/services/table-api';
+import { useGetTablesQuery } from '@/redux/services/table-api';
 
 export const useGetAllTables = () => {
     const {
@@ -14,8 +11,6 @@ export const useGetAllTables = () => {
         refetchOnFocus: true,
         refetchOnMountOrArgChange: true
     });
-
-    console.log('TABLEQUERY:::', tables);
 
     return {
         tables,

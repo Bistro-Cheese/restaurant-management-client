@@ -6,7 +6,7 @@ export type TableStatus = {
 };
 
 type Table = {
-    id: string;
+    id: number;
     tableNumber: number;
     seatNumber: number;
     tableStatus: string;

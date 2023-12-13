@@ -1,5 +1,6 @@
-import Link from 'next/link';
 import TableCard from './common/TableCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 interface TableListProps {
     tables: any;

@@ -4,24 +4,24 @@ import {
     createSelector
 } from '@reduxjs/toolkit';
 import { apiSlice } from './base-api';
-import { OrderLineType } from '@/types';
+import { OrderLineType, OrderType } from '@/types';
 
-const orderLinesAdapter = createEntityAdapter<OrderLineType>({
-    selectId: (orderLine) => orderLine.id,
-    sortComparer: (a, b) => a.category.id.localeCompare(b.category.id)
+const ordersAdapter = createEntityAdapter<OrderType>({
+    selectId: (order) => order.id,
+    sortComparer: (a, b) => a.id.localeCompare(b.id)
 });
 
-const initialState = orderLinesAdapter.getInitialState();
+const initialState = ordersAdapter.getInitialState();
 
-export const orderLinesApi = apiSlice.injectEndpoints({
+export const ordersApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getOrderLines: builder.query<EntityState<OrderLineType>, void>({
+        getOrders: builder.query<EntityState<OrderType>, void>({
             query: () => '/orders',
             transformResponse(response: {
                 message: string;
-                data: OrderLineType[];
+                data: OrderType[];
             }) {
-                return orderLinesAdapter.setAll(initialState, response.data);
+                return ordersAdapter.setAll(initialState, response.data);
             },
             // highlight-start
             providesTags: (result) =>
@@ -36,7 +36,7 @@ export const orderLinesApi = apiSlice.injectEndpoints({
                     : [{ type: 'Order', id: 'LIST' }]
             // highlight-end
         }),
-        createNewOrder: builder.mutation({
+        createOrder: builder.mutation({
             query: (initialOrderData) => ({
                 url: '/orders',
                 method: 'POST',
@@ -47,8 +47,8 @@ export const orderLinesApi = apiSlice.injectEndpoints({
             invalidatesTags: [{ type: 'Order', id: 'LIST' }]
         }),
         updateOrder: builder.mutation({
-            query: ({ order_id, data }) => ({
-                url: `/orders/${order_id}`, // pass the id parameter into the URL
+            query: (data) => ({
+                url: `/orders`,
                 method: 'PUT',
                 body: {
                     ...data
@@ -66,36 +66,26 @@ export const orderLinesApi = apiSlice.injectEndpoints({
             invalidatesTags: (result, error, arg) => [
                 { type: 'Order', id: arg.id }
             ]
-        }),
-        getOrderLine: builder.query<
-            { message: string; data: OrderLineType },
-            void
-        >({
-            query: () => '/orders/orderline'
         })
     })
 });
 
 export const {
-    useGetOrderLinesQuery,
-    useCreateNewOrderMutation,
+    useGetOrdersQuery,
+    useCreateOrderMutation,
     useUpdateOrderMutation,
-    useDeleteOrderMutation,
-    useGetOrderLineQuery
-} = orderLinesApi;
+    useDeleteOrderMutation
+} = ordersApi;
 // returns the query result object
-export const selectOrderLinesResult =
-    orderLinesApi.endpoints.getOrderLines.select();
+export const selectOrdersResult = ordersApi.endpoints.getOrders.select();
 
 // creates memoized selector
-const selectOrderLinersData = createSelector(
-    selectOrderLinesResult,
-    (usersResult) => usersResult.data // normalized state object with ids & entities
+const selectOrdersData = createSelector(
+    selectOrdersResult,
+    (ordersResult) => ordersResult.data // normalized state object with ids & entities
 );
 
-export const {
-    selectAll: selectAllOrderLines,
-    selectById: selectOrderLineById
-} = orderLinesAdapter.getSelectors(
-    (state: any) => selectOrderLinersData(state) ?? initialState
-);
+export const { selectAll: selectAllOrders, selectById: selectOrderById } =
+    ordersAdapter.getSelectors(
+        (state: any) => selectOrdersData(state) ?? initialState
+    );

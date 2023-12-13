@@ -9,9 +9,10 @@ import {
     increaseQuantity,
     removeOrderLine,
     setQuantity
-} from '@/redux/features/order-line-slice';
+} from '@/redux/features/order-slice';
 import { OrderLineType } from '@/types';
-import { convertPriceToString } from '@/utils/convert-price-to-string';
+import { convertPriceToString } from '@/utils';
+import { ChangeEvent } from 'react';
 
 interface OrderLineCardProps {
     orderLine: OrderLineType;
@@ -24,22 +25,22 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
 
     const handleOnBlur = () => {};
 
-    const handleIncreaseQuantity = (orderLineId: EntityId) => {
-        dispatch(increaseQuantity({ id: orderLineId }));
+    const handleIncreaseQuantity = () => {
+        dispatch(increaseQuantity({ foodId: orderLine.id }));
     };
 
-    const handleDecreaseQuantity = (orderLineId: EntityId) => {
-        dispatch(decreaseQuantity({ id: orderLineId }));
+    const handleDecreaseQuantity = () => {
+        dispatch(decreaseQuantity({ foodId: orderLine.id }));
     };
 
-    const handleRemoveOrderLine = (orderLineId: EntityId) => {
-        dispatch(removeOrderLine({ id: orderLineId }));
+    const handleRemoveOrderLine = () => {
+        dispatch(removeOrderLine({ foodId: orderLine.id }));
     };
 
-    const handleSetQuantity = (event: any, orderLineId: EntityId) => {
+    const handleSetQuantity = (event: ChangeEvent<HTMLInputElement>) => {
         const inputValue = parseInt(event.target.value, 10);
 
-        dispatch(setQuantity({ id: orderLineId, inputValue: inputValue }));
+        dispatch(setQuantity({ foodId: orderLine.id, inputValue: inputValue }));
     };
 
     return (
@@ -68,7 +69,7 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
 
                     <span className='group translate-x-4 opacity-0 transition-all duration-200 ease-linear group-hover/card:translate-x-0 group-hover/card:opacity-100 '>
                         <button
-                            onClick={() => handleRemoveOrderLine(orderLine.id)}
+                            onClick={() => handleRemoveOrderLine()}
                             className='inline-flex items-center justify-center self-start rounded-lg p-1 transition-all duration-100 ease-linear hover:bg-red-200 active:scale-95 active:opacity-70'
                         >
                             <Trash2Icon className='h-5 w-5 text-red-400 transition-all duration-100 ease-linear 2xl:h-6 2xl:w-6' />
@@ -80,9 +81,7 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
                     <ul className='flex items-center justify-between gap-1 lg:gap-2'>
                         <li className='inline-flex '>
                             <button
-                                onClick={() =>
-                                    handleDecreaseQuantity(orderLine.id)
-                                }
+                                onClick={() => handleDecreaseQuantity()}
                                 className='group cursor-pointer rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 shadow-md duration-150 ease-linear hover:bg-pos-0 hover:shadow-harvest-gold-500 active:scale-95 active:opacity-70'
                             >
                                 <TiMinus className='text-sm text-white duration-100 ease-linear lg:text-base' />
@@ -98,18 +97,14 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
                                         : ''
                                 }
                                 className='w-7 rounded-md bg-transparent bg-white p-1 text-center text-sm shadow-md lg:text-base'
-                                onChange={(event) =>
-                                    handleSetQuantity(event, orderLine.id)
-                                }
+                                onChange={(event) => handleSetQuantity(event)}
                                 onBlur={handleOnBlur}
                             />
                         </li>
 
                         <li className='inline-flex'>
                             <button
-                                onClick={() =>
-                                    handleIncreaseQuantity(orderLine.id)
-                                }
+                                onClick={() => handleIncreaseQuantity()}
                                 className='group cursor-pointer rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 shadow-md duration-150 ease-linear hover:bg-pos-0 hover:shadow-harvest-gold-500 active:scale-95 active:opacity-70'
                             >
                                 <TiPlus className='text-sm text-white duration-100 ease-linear lg:text-base' />

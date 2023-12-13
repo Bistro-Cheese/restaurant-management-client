@@ -98,7 +98,7 @@ const OrderData = [
 
 const OrderList = () => {
     const orderLines = useSelector(
-        (state: RootState) => state.reducer.orderLine.orderLines
+        (state: RootState) => state.reducer.order.orderLines
     );
 
     return (

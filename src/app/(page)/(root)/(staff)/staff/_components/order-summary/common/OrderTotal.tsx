@@ -3,13 +3,25 @@ import { TbShoppingCartCheck } from 'react-icons/tb';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderLineType, OrderType } from '@/types';
-import { setInitialOrderLines } from '@/redux/features/order-line-slice';
+import { setInitialOrder } from '@/redux/features/order-slice';
 import { RootState } from '@/redux/store';
-import { convertPriceToString } from '@/utils/convert-price-to-string';
-import { useCreateNewOrderMutation } from '@/redux/services/order-api';
+import { convertPriceToString } from '@/utils';
+import {
+    useCreateOrderMutation,
+    useUpdateOrderMutation
+} from '@/redux/services/order-api';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
+import { create } from 'domain';
+import { createTableOrder } from '@/redux/features/table-order-slice';
+import { useCreateOrder } from '@/hooks/order/use-create-order';
+import { useUpdateOrder } from '@/hooks/order/use-update-order';
+
+interface OrderLineRequest {
+    food_id: string;
+    quantity: number;
+}
 
 const getSubTotal = (orderLines: OrderLineType[]) => {
     let totalQuantity = 0;
@@ -23,21 +35,12 @@ const getSubTotal = (orderLines: OrderLineType[]) => {
     return { subTotalPrice, totalQuantity };
 };
 
-interface OrderTotalProps {
-    tableId: number | null;
-}
-
-interface OrderLineRequest {
-    foodId: string;
-    quantity: number;
-}
-
-const ConvertOrderLineType = (orderLines: OrderLineType[]) => {
+const convertToOrderLinesRequestType = (orderLines: OrderLineType[]) => {
     let orderLinesRequest: OrderLineRequest[] = [];
 
     orderLines.forEach((orderLine) => {
         orderLinesRequest.push({
-            foodId: orderLine.id,
+            food_id: orderLine.id,
             quantity: orderLine.quantity
         });
     });
@@ -45,57 +48,66 @@ const ConvertOrderLineType = (orderLines: OrderLineType[]) => {
     return orderLinesRequest;
 };
 
-const OrderTotal = ({ tableId }: OrderTotalProps) => {
+const OrderTotal = () => {
     const router = useRouter();
     const dispatch = useDispatch();
-
-    const orderLines = useSelector(
-        (state: RootState) => state.reducer.orderLine.orderLines
+    const tableOrders = useSelector(
+        (state: RootState) => state.reducer.tableOrder.tableOrders
     );
 
-    const quantity = getSubTotal(orderLines).totalQuantity;
+    const order = useSelector((state: RootState) => state.reducer.order);
+
+    const quantity = getSubTotal(order.orderLines).totalQuantity;
     const subTotalPrice = convertPriceToString(
-        getSubTotal(orderLines).subTotalPrice
+        getSubTotal(order.orderLines).subTotalPrice
     );
 
-    const [
-        createNewOrder,
-        {
-            isLoading: isCreatingLoading,
-            isSuccess: isCreatedSuccess,
-            isError: isCreatingError,
-            error: creatingError
-        }
-    ] = useCreateNewOrderMutation();
+    const {
+        createOrder,
+        isCreatingLoading,
+        isCreatedSuccess,
+        isCreatingError,
+        creatingError
+    } = useCreateOrder();
+
+    const {
+        updateOrder,
+        isUpdatingLoading,
+        isUpdatedSuccess,
+        isUpdatedError,
+        updatedError
+    } = useUpdateOrder();
 
     useEffect(() => {
-        if (isCreatedSuccess) {
-            console.log('isCreatedSuccess:::', isCreatedSuccess);
+        if (isCreatedSuccess || isUpdatedSuccess) {
             router.refresh();
             router.push('/staff/tables');
             toast.success('Create new order successfully!');
         }
-    }, [isCreatedSuccess]);
+    }, [isCreatedSuccess, isUpdatedSuccess]);
 
-    const handleCreateNewOrder = async (data: OrderLineType[]) => {
-        if (data) {
-            let orderLinesRequest: OrderLineRequest[] =
-                ConvertOrderLineType(data);
+    const handleCreateNewOrder = async () => {
+        if (order.orderLines.length > 0) {
+            dispatch(createTableOrder(order));
 
-            let order = {
-                tableId,
-                orderLines: orderLinesRequest
+            let orderLinesDataRequest: OrderLineRequest[] =
+                convertToOrderLinesRequestType(order.orderLines);
+
+            let orderDataRequest = {
+                table_id: order.tableId,
+                order_lines: orderLinesDataRequest
             };
 
-            console.log('order created already:::', order);
+            tableOrders.find(
+                (tableOrder) => tableOrder.tableId === order.tableId
+            )
+                ? await updateOrder(orderDataRequest)
+                : await createOrder(orderDataRequest);
 
-            createNewOrder({ ...order });
-            dispatch(setInitialOrderLines({ orderLines: [] }));
+            console.log('order created already:::', orderDataRequest);
         } else {
-            console.log('create order:::', data);
+            alert('Please add at least one item to place order!');
         }
-
-        console.log('data order created:::', data);
     };
 
     return (
@@ -145,8 +157,8 @@ const OrderTotal = ({ tableId }: OrderTotalProps) => {
 
                 <div className='group mt-4 cursor-pointer'>
                     <button
-                        onClick={() => handleCreateNewOrder(orderLines)}
-                        className=' inline-flex min-w-full items-center justify-center rounded-md bg-green-500 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-green-400 group-active:scale-95 group-active:opacity-70'
+                        onClick={() => handleCreateNewOrder()}
+                        className=' inline-flex min-w-full items-center justify-center rounded-md bg-harvest-gold-600 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-harvest-gold-500 group-active:scale-95 group-active:opacity-70'
                     >
                         <span className='flex items-center justify-center gap-4 text-lg '>
                             <TbShoppingCartCheck className='h-7 w-7 text-white' />

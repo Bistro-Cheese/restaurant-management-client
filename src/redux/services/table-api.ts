@@ -38,13 +38,7 @@ export const tablesApi = apiSlice.injectEndpoints({
                     : [{ type: 'Table', id: 'LIST' }]
             // highlight-end
         }),
-        searchTables: builder.query<EntityState<TableType>, string>({
-            query: (pathUrl) => `/tables/search${pathUrl}`,
-            transformResponse(response: any) {
-                return tablesAdapter.setAll(initialState, response.content);
-            }
-        }),
-        addNewTable: builder.mutation({
+        createNewTable: builder.mutation({
             query: (initialTableData) => ({
                 url: '/tables',
                 method: 'POST',
@@ -80,8 +74,7 @@ export const tablesApi = apiSlice.injectEndpoints({
 
 export const {
     useGetTablesQuery,
-    useSearchTablesQuery,
-    useAddNewTableMutation,
+    useCreateNewTableMutation,
     useUpdateTableMutation,
     useDeleteTableMutation
 } = tablesApi;

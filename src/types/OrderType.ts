@@ -1,7 +1,7 @@
 import { OrderLineType } from '.';
 
 type Order = {
-    id: number;
+    id: string;
     tableId: number;
     orderLines: OrderLineType[];
 };

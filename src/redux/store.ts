@@ -15,13 +15,14 @@ import storage from 'redux-persist/lib/storage';
 import { reducers } from './features';
 import { userKey } from './features/user-slice';
 import { authKey } from './features/auth-slice';
-import { orderLineKey } from './features/order-line-slice';
 import { apiSlice } from './services/base-api';
+import { orderKey } from './features/order-slice';
+import { tableOrderKey } from './features/table-order-slice';
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: [authKey, userKey, orderLineKey]
+    whitelist: [authKey, userKey, orderKey, tableOrderKey]
 };
 
 const combinedReducer = combineReducers({
