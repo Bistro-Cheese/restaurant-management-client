@@ -19,7 +19,10 @@ export const ingredientApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getIngredients: builder.query<EntityState<IngredientType>, void>({
             query: () => '/ingredients',
-            transformResponse(response: { message: string; data: IngredientType[] }) {
+            transformResponse(response: {
+                message: string;
+                data: IngredientType[];
+            }) {
                 return ingredientAdapter.setAll(initialState, response.data);
             },
             // highlight-start
@@ -34,17 +37,15 @@ export const ingredientApi = apiSlice.injectEndpoints({
                       ]
                     : [{ type: 'Ingredient', id: 'LIST' }]
             // highlight-end
-        }),
-       
+        })
     })
 });
 
-export const {
-    useGetIngredientsQuery,
-} = ingredientApi;
+export const { useGetIngredientsQuery } = ingredientApi;
 
 // returns the query result object
-export const selectIngredientResult = ingredientApi.endpoints.getIngredients.select();
+export const selectIngredientResult =
+    ingredientApi.endpoints.getIngredients.select();
 
 // creates memoized selector
 const selectIngredientsData = createSelector(
@@ -52,7 +53,9 @@ const selectIngredientsData = createSelector(
     (ingredientResult) => ingredientResult.data // normalized state object with ids & entities
 );
 
-export const { selectAll: selectIngredients, selectById: selectIngredientById } =
-   ingredientAdapter.getSelectors(
-        (state: any) => selectIngredientsData(state) ?? initialState
-    );
+export const {
+    selectAll: selectIngredients,
+    selectById: selectIngredientById
+} = ingredientAdapter.getSelectors(
+    (state: any) => selectIngredientsData(state) ?? initialState
+);

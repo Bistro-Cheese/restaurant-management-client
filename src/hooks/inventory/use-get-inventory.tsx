@@ -9,11 +9,12 @@ export const useGetInventory = () => {
         isLoading: isInventoryLoading,
         isError: isInventoryError,
         isFetching: isInventoryFetching,
-        isSuccess: isInventorySuccess } = useGetInventoryQuery(undefined, {
-            pollingInterval: 60000,
-            refetchOnFocus: true,
-            refetchOnMountOrArgChange: true
-        });
+        isSuccess: isInventorySuccess
+    } = useGetInventoryQuery(undefined, {
+        pollingInterval: 60000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    });
 
     return {
         inventory,
