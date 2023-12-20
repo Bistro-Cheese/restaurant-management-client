@@ -4,7 +4,8 @@ const nextConfig = {
         domains: [
             'thucphamsieuthi.vn',
             'res.cloudinary.com',
-            'files.cults3d.com'
+            'files.cults3d.com',
+            'dompet.dexignlab.com'
         ]
     }
 };

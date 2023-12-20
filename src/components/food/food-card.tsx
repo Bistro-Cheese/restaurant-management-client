@@ -72,7 +72,7 @@ export const FoodCard = ({
     const onDelete = async (id: EntityId) => {
         console.log('FOODCARD ID DELETE:::', id);
         try {
-            await deleteFood({ food_id: id });
+            await deleteFood(id);
         } catch (err) {
             console.log('err:::', err);
         }

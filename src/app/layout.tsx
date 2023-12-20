@@ -1,7 +1,9 @@
-import { ReduxProvider } from '@/redux/redux-provider';
-import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+import { Toaster } from 'react-hot-toast';
+
+import { ReduxProvider } from '@/redux/redux-provider';
+import './globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,7 +23,10 @@ export default function RootLayout({
                 <link rel='icon' href='/cheese-logo.png' />
             </head>
             <body className={inter.className}>
-                <ReduxProvider>{children}</ReduxProvider>
+                <ReduxProvider>
+                    {children}
+                    <Toaster />
+                </ReduxProvider>
             </body>
         </html>
     );

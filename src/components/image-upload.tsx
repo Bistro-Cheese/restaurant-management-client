@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
@@ -36,24 +36,30 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
     return (
         <div>
-            <div className="mb-4 flex items-center gap-4">
-                {value.length > 0 && <div className="relative w-[200px] h-[200px] rounded-md overflow-hidden">
-                    <div className="z-10 absolute top-2 right-2">
-                        <Button type="button" onClick={() => onRemove(value)} variant="destructive" size="sm">
-                            <Trash className="h-4 w-4" />
-                        </Button>
+            <div className='mb-4 flex items-center gap-4'>
+                {value.length > 0 && (
+                    <div className='relative h-[200px] w-[200px] overflow-hidden rounded-md'>
+                        <div className='absolute right-2 top-2 z-10'>
+                            <Button
+                                type='button'
+                                onClick={() => onRemove(value)}
+                                variant='destructive'
+                                size='sm'
+                            >
+                                <Trash className='h-4 w-4' />
+                            </Button>
+                        </div>
+                        <Image
+                            fill
+                            sizes='100vw'
+                            className='object-cover'
+                            alt='Image'
+                            src={value}
+                        />
                     </div>
-                    <Image
-                        fill
-                        sizes='100vw'
-                        className="object-cover"
-                        alt="Image"
-                        src={value}
-                    />
-                </div>}
-
+                )}
             </div>
-            <CldUploadWidget onUpload={onUpload} uploadPreset="crinmbg4">
+            <CldUploadWidget onUpload={onUpload} uploadPreset='crinmbg4'>
                 {({ open }) => {
                     const onClick = () => {
                         open();
@@ -61,12 +67,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
 
                     return (
                         <Button
-                            type="button"
+                            type='button'
                             disabled={disabled}
-                            variant="secondary"
+                            variant='secondary'
                             onClick={onClick}
                         >
-                            <ImagePlus className="h-4 w-4 mr-2" />
+                            <ImagePlus className='mr-2 h-4 w-4' />
                             Upload an Image
                         </Button>
                     );
@@ -74,6 +80,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             </CldUploadWidget>
         </div>
     );
-}
+};
 
 export default ImageUpload;

@@ -31,9 +31,9 @@ export const foodsApi = apiSlice.injectEndpoints({
                               type: 'Food' as const,
                               id
                           })),
-                          { type: 'Food', id: 'LIST' }
+                          'Food'
                       ]
-                    : [{ type: 'Food', id: 'LIST' }]
+                    : ['Food']
             // highlight-end
         }),
         searchFoods: builder.query<EntityState<FoodType>, string>({
@@ -65,7 +65,7 @@ export const foodsApi = apiSlice.injectEndpoints({
             ]
         }),
         deleteFood: builder.mutation({
-            query: ({ food_id }) => ({
+            query: (food_id) => ({
                 url: `/foods/${food_id}`,
                 method: 'DELETE'
             }),
