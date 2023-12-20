@@ -13,7 +13,7 @@ export const FoodList = ({ items }: FoodListProps) => {
                     return (
                         <FoodCard
                             key={items[item].id}
-                            category={items[item].category.name}
+                            category={items[item].category}
                             id={items[item].id}
                             name={items[item].name}
                             price={items[item].price}

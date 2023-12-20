@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { EntityId } from '@reduxjs/toolkit';
 import { AlertModal } from '../modal/alert-modal';
-import { useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import { useDeleteFoodMutation } from '@/redux/services/food-api';
 import { convertPriceToString } from '@/utils';
 
@@ -28,7 +28,10 @@ export const FoodCard = ({
 }: FoodCardProps) => {
     const [open, setOpen] = useState(false);
 
-    const [deleteFood, { isLoading }] = useDeleteFoodMutation();
+    const router = useRouter();
+
+
+    const [deleteFood, { isLoading, isSuccess }] = useDeleteFoodMutation();
 
     var colorStatus = '';
     var nameStatus = '';
@@ -50,7 +53,12 @@ export const FoodCard = ({
             nameStatus = 'Draft';
             break;
     }
-    const router = useRouter();
+
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen(false);
+        }
+    }, [isSuccess]);
 
     const handleClickEdit = (id: EntityId) => {
         console.log('FoodId:::', id);
@@ -68,7 +76,6 @@ export const FoodCard = ({
         } catch (err) {
             console.log('err:::', err);
         }
-        setOpen(false);
     };
 
     return (

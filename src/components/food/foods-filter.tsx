@@ -112,7 +112,7 @@ export const FoodsFilter = () => {
         <div className='flex grow flex-col gap-y-3 xl:flex-row xl:items-center xl:justify-between'>
             <Categories items={categories} />
 
-            <div className='flex items-start justify-start gap-x-2'>
+            {/* <div className='flex items-start justify-start gap-x-2'>
                 {filterByFields.map((item) => (
                     <FoodFilterCase key={item.nameSortCase} nameSortCase={item.nameSortCase} />
                 ))}
@@ -145,8 +145,8 @@ export const FoodsFilter = () => {
                                     </Select>
                                 </FormItem>
                             )}
-                        />
-                        {/* <FormField
+                        /> */}
+            {/* <FormField
                             control={form.control}
                             name="minPrice"
                             render={({ field }) => (
@@ -186,9 +186,9 @@ export const FoodsFilter = () => {
 
                             )}
                         /> */}
-                    </form>
-                </Form>
-                <Input
+            {/* </form> */}
+            {/* </Form> */}
+            {/* <Input
                     placeholder='min'
                     value={minValue}
                     type='number'
@@ -216,8 +216,8 @@ export const FoodsFilter = () => {
                             e.target.value.replace(/[^\w\s]/gi, '')
                         )
                     }
-                />
-            </div>
+                /> */}
+            {/* </div> */}
         </div>
     );
 };

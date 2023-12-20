@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { apiSlice } from './base-api';
 import { FoodType } from '@/types';
+import { RootState } from '../store';
 
 const foodsAdapter = createEntityAdapter<FoodType>({
     // Assume IDs are stored in a field other than `book.id`
@@ -84,7 +85,7 @@ export const {
 } = foodsApi;
 
 // returns the query result object
-export const selectFoodsResult = foodsApi.endpoints.getFoods.select();
+export const selectFoodsResult = foodsApi.endpoints.searchFoods.select('');
 
 // creates memoized selector
 const selectFoodsData = createSelector(
@@ -94,5 +95,5 @@ const selectFoodsData = createSelector(
 
 export const { selectAll: selectAllFoods, selectById: selectFoodById } =
     foodsAdapter.getSelectors(
-        (state: any) => selectFoodsData(state) ?? initialState
+        (state: RootState) => selectFoodsData(state) ?? initialState
     );

@@ -38,14 +38,15 @@ import {
     useDeleteFoodMutation,
     useUpdateFoodMutation
 } from '@/redux/services/food-api';
-import { useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
 
 const formSchema = z.object({
     name: z.string().min(1),
     description: z.string().min(1),
     category: z.string().min(1),
-    product_image: z.string().min(0),
+    image: z.string().min(0),
     price: z.coerce.number().min(1),
     status: z.string()
 });
@@ -64,7 +65,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const food = useSelector((state) =>
+    const food = useSelector((state: RootState) =>
         selectFoodById(state, foodId as EntityId)
     );
 
@@ -109,23 +110,23 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
 
     const defaultValues = isCreate
         ? {
-              name: food?.name,
-              description: food?.description,
-              product_image: food?.image,
-              category: JSON.stringify(food?.category.id),
-              price: parseFloat(String(food?.price)),
-              status: JSON.stringify(food?.status)
-          }
+            name: food?.name,
+            description: food?.description,
+            image: food?.image,
+            category: JSON.stringify(food?.category.id),
+            price: parseFloat(String(food?.price)),
+            status: JSON.stringify(food?.status)
+        }
         : {
-              name: '',
-              description: '',
-              product_image: '',
-              category: '',
-              price: 0,
-              status: ''
-          };
+            name: '',
+            description: '',
+            image: '',
+            category: '',
+            price: 0,
+            status: ''
+        };
 
-    console.log('defaultValues Image:::', defaultValues.product_image);
+    console.log('defaultValues Image:::', defaultValues.image);
 
     const form = useForm<FoodFormValues>({
         resolver: zodResolver(formSchema),
@@ -142,7 +143,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
 
     useEffect(() => {
         if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
-            console.log('isDeletedSuccess:::', isDeletedSuccess);
+            console.log('isUpdatedSuccess:::', isUpdatedSuccess);
             router.refresh();
             router.push('/owner/foods/menu');
             toast.success(toastMessage);
@@ -201,7 +202,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                 >
                     <FormField
                         control={form.control}
-                        name='product_image'
+                        name='image'
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Images</FormLabel>
