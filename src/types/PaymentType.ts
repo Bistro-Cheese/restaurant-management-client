@@ -1,7 +1,7 @@
 import { EntityId } from '@reduxjs/toolkit';
 
 type PaymentType = {
-    id: string | EntityId;
+    id: number | EntityId;
     methodType: number;
     methodName: string;
     accountNumber: string;

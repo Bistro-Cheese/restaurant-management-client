@@ -1,18 +1,19 @@
 import Image from 'next/image';
+import { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { accountImages } from '@/constants/image';
-import PaymentType from '@/types/PaymentType';
+
+// Constants
 import { TransferMethodEnum, TransferMethodEnumValue } from '@/constants/enum';
 
-// interface IProps {
-//     image: string;
-//     type: string;
-//     bankName: string;
-//     accountNumber: string;
-//     ownerName: string;
-//     status: string;
-// }
+import { cn } from '@/lib/utils';
+import PaymentType from '@/types/PaymentType';
+
+// Redux
+import { useAppDispatch } from '@/hooks/redux-hook';
+import { setOpenModal, setPayment } from '@/redux/features/payment-slice';
+
+// Components
+import DeleteDialog from './DeleteDialog';
 
 interface IProps {
     payment: PaymentType;
@@ -20,6 +21,19 @@ interface IProps {
 }
 
 export default function MethodCard({ payment, image }: IProps) {
+    const [openDialog, setOpenDialog] = useState(false);
+
+    const dispatch = useAppDispatch();
+
+    const handleEdit = () => {
+        dispatch(setPayment(payment));
+        dispatch(setOpenModal(true));
+    };
+
+    const handleDelete = () => {
+        setOpenDialog(true);
+    };
+
     return (
         <>
             <div className='mt-8 flex w-full items-center justify-between xl:text-center'>
@@ -81,11 +95,17 @@ export default function MethodCard({ payment, image }: IProps) {
                     </div>
                 </div>
                 <div className='flex flex-[2] justify-end gap-4'>
-                    <button className='flex min-w-[100px] items-center justify-center gap-3 rounded-md bg-yellow-400 py-1'>
+                    <button
+                        onClick={handleEdit}
+                        className='flex min-w-[100px] items-center justify-center gap-3 rounded-md bg-yellow-400 py-1 hover:bg-yellow-500'
+                    >
                         <Pencil className='h-4 w-4' />
                         <span>Edit</span>
                     </button>
-                    <button className='flex min-w-[100px] items-center justify-center gap-3 rounded-md bg-red-400 py-1'>
+                    <button
+                        onClick={handleDelete}
+                        className='flex min-w-[100px] items-center justify-center gap-3 rounded-md bg-red-400 py-1 hover:bg-red-500'
+                    >
                         <Trash2 className='h-4 w-4' />
                         <span>Delete</span>
                     </button>
@@ -93,6 +113,12 @@ export default function MethodCard({ payment, image }: IProps) {
             </div>
 
             <div className='mt-4 w-full outline outline-1 outline-gray-200' />
+
+            <DeleteDialog
+                open={openDialog}
+                setOpen={setOpenDialog}
+                payment={payment}
+            />
         </>
     );
 }
