@@ -1,20 +1,19 @@
-"use client";
+'use client';
 
-import { Heading } from "@/components/heading";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import InventoryList from "../../../_components/inventory-list";
-import { useGetInventory } from "@/hooks/inventory/use-get-inventory";
-import { useGetIngredientsQuery } from "@/redux/services/ingredient-api";
+import { Heading } from '@/components/heading';
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
+import InventoryList from '../../../_components/inventory-list';
+import { useGetInventory } from '@/hooks/inventory/use-get-inventory';
+import { useGetIngredientsQuery } from '@/redux/services/ingredient-api';
 
 const Inventory = () => {
-
     const { inventory } = useGetInventory();
     const { data: ingredients } = useGetIngredientsQuery();
 
-    console.log("INGREDIENTS:::", ingredients)
+    console.log('INGREDIENTS:::', ingredients);
 
-    console.log("INVENTORY:::", inventory);
+    console.log('INVENTORY:::', inventory);
 
     return (
         <div className='px-6 py-4'>

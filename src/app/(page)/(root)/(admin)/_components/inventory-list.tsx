@@ -34,9 +34,7 @@ const InventoryList = ({ inventoryList }: any) => {
                         ></th>
                     </tr>
                 </thead>
-                <tbody className='divide-y divide-gray-100 border-t border-gray-100'>
-
-                </tbody>
+                <tbody className='divide-y divide-gray-100 border-t border-gray-100'></tbody>
             </table>
         </div>
     );

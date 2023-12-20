@@ -34,22 +34,32 @@ export const SearchInput = () => {
                 url: pathname,
                 query: isFoodMenu
                     ? {
-                        category: category,
-                        name: debouncedValue,
-                        sortCase: sortCase,
-                        isAscSort: isAscSort,
-                        fromPrice: fromPrice,
-                        toPrice: toPrice
-                    }
+                          category: category,
+                          name: debouncedValue,
+                          sortCase: sortCase,
+                          isAscSort: isAscSort,
+                          fromPrice: fromPrice,
+                          toPrice: toPrice
+                      }
                     : {
-                        employee: debouncedValue
-                    }
+                          employee: debouncedValue
+                      }
             },
             { skipEmptyString: true, skipNull: true }
         );
 
         router.push(url);
-    }, [debouncedValue, pathname, isFoodMenu, router, category, sortCase, isAscSort, fromPrice, toPrice]);
+    }, [
+        debouncedValue,
+        pathname,
+        isFoodMenu,
+        router,
+        category,
+        sortCase,
+        isAscSort,
+        fromPrice,
+        toPrice
+    ]);
 
     return (
         <div className='relative'>

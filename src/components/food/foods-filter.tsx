@@ -106,7 +106,16 @@ export const FoodsFilter = () => {
         );
 
         router.push(url);
-    }, [debouncedMinValue, debouncedMaxValue, pathname, category, sortCase, isAscSort, router, name]);
+    }, [
+        debouncedMinValue,
+        debouncedMaxValue,
+        pathname,
+        category,
+        sortCase,
+        isAscSort,
+        router,
+        name
+    ]);
 
     return (
         <div className='flex grow flex-col gap-y-3 xl:flex-row xl:items-center xl:justify-between'>
@@ -114,7 +123,10 @@ export const FoodsFilter = () => {
 
             <div className='flex items-start justify-start gap-x-2'>
                 {filterByFields.map((item) => (
-                    <FoodFilterCase key={item.nameSortCase} nameSortCase={item.nameSortCase} />
+                    <FoodFilterCase
+                        key={item.nameSortCase}
+                        nameSortCase={item.nameSortCase}
+                    />
                 ))}
                 <Form {...form}>
                     <form className='flex'>

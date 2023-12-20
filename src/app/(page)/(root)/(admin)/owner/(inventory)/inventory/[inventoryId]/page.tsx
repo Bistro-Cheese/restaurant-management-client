@@ -1,6 +1,6 @@
 'use client';
 
-import { InventoryForm } from "../../../_components/create-inventory-form";
+import { InventoryForm } from '../../../_components/create-inventory-form';
 
 interface InventoryPageProps {
     params: {

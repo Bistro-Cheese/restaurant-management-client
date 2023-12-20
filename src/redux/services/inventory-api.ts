@@ -19,7 +19,10 @@ export const inventoryApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getInventory: builder.query<EntityState<InventoryType>, void>({
             query: () => '/inventory',
-            transformResponse(response: { message: string; data: InventoryType[] }) {
+            transformResponse(response: {
+                message: string;
+                data: InventoryType[];
+            }) {
                 return inventoryAdapter.setAll(initialState, response.data);
             },
             // highlight-start
@@ -35,8 +38,11 @@ export const inventoryApi = apiSlice.injectEndpoints({
                     : [{ type: 'Inventory', id: 'LIST' }]
             // highlight-end
         }),
-        importInventory: builder.mutation<any, {ingredient_id: number, payload: {quantity: number}}>({
-            query: ({ingredient_id, payload}) => ({
+        importInventory: builder.mutation<
+            any,
+            { ingredient_id: number; payload: { quantity: number } }
+        >({
+            query: ({ ingredient_id, payload }) => ({
                 url: `/inventory/${ingredient_id}`,
                 method: 'POST',
                 body: {
@@ -44,18 +50,16 @@ export const inventoryApi = apiSlice.injectEndpoints({
                 }
             }),
             invalidatesTags: [{ type: 'Inventory', id: 'LIST' }]
-        }),
-       
+        })
     })
 });
 
-export const {
-    useGetInventoryQuery,
-    useImportInventoryMutation
-} = inventoryApi;
+export const { useGetInventoryQuery, useImportInventoryMutation } =
+    inventoryApi;
 
 // returns the query result object
-export const selectInventoryResult = inventoryApi.endpoints.getInventory.select();
+export const selectInventoryResult =
+    inventoryApi.endpoints.getInventory.select();
 
 // creates memoized selector
 const selectInventoryData = createSelector(
@@ -64,6 +68,6 @@ const selectInventoryData = createSelector(
 );
 
 export const { selectAll: selectInventory, selectById: selectInventoryById } =
-   inventoryAdapter.getSelectors(
+    inventoryAdapter.getSelectors(
         (state: any) => selectInventoryData(state) ?? initialState
     );
