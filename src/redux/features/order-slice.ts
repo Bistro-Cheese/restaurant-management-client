@@ -41,7 +41,7 @@ export const orderSlice = createSlice({
     reducers: {
         addToOrder: (state, action) => {
             const orderLine = state.orderLines.find(
-                (orderLine) => orderLine.id === action.payload.foodId
+                (orderLine) => orderLine.id === action.payload.id
             );
 
             if (orderLine) {

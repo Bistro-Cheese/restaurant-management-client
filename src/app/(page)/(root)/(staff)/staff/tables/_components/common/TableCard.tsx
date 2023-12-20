@@ -19,13 +19,11 @@ const TableCard: FC<TableCardProps> = ({ table }) => {
         (state: RootState) => state.reducer.tableOrder.tableOrders
     );
 
-    const currentTableOrder = tableOrders.find(
-        (tableOrder) => tableOrder.tableId === table.id
-    );
-
-    console.log('tableOrders:::', tableOrders);
-
     const handleTableClick = () => {
+        const currentTableOrder = tableOrders.find(
+            (tableOrder) => tableOrder.tableId === table.id
+        );
+
         dispatch(
             setInitialOrder({
                 tableId: table.id,
