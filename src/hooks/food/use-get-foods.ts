@@ -1,9 +1,6 @@
 'use client';
 
-import {
-    useGetFoodsQuery,
-    useSearchFoodsQuery
-} from '@/redux/services/food-api';
+import { useSearchFoodsQuery } from '@/redux/services/food-api';
 
 export const useGetAllFoods = () => {
     const {

@@ -28,7 +28,8 @@ export const useGetSearchFoods = () => {
         isLoading: isSearchFoodsLoading,
         isError: isSearchFoodsError,
         isFetching: isSearchFoodsFetching,
-        isSuccess: isSearchFoodsSuccess
+        isSuccess: isSearchFoodsSuccess,
+        refetch: refetchSearchFoods
     } = useSearchFoodsQuery(requestParams);
     console.log('searchFoods:::', searchFoods);
 
@@ -60,6 +61,7 @@ export const useGetSearchFoods = () => {
         isSearchFoodsLoading,
         isSearchFoodsError,
         isSearchFoodsFetching,
-        isSearchFoodsSuccess
+        isSearchFoodsSuccess,
+        refetchSearchFoods
     };
 };

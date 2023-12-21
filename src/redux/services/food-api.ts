@@ -18,12 +18,11 @@ const initialState = foodsAdapter.getInitialState();
 
 export const foodsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getFoods: builder.query<EntityState<FoodType>, void>({
-            query: () => '/foods',
-            transformResponse(response: { message: string; data: FoodType[] }) {
-                return foodsAdapter.setAll(initialState, response.data);
+        searchFoods: builder.query<EntityState<FoodType>, string>({
+            query: (pathUrl) => `/foods/search${pathUrl}`,
+            transformResponse(response: any) {
+                return foodsAdapter.setAll(initialState, response.content);
             },
-            // highlight-start
             providesTags: (result) =>
                 result
                     ? [
@@ -31,16 +30,9 @@ export const foodsApi = apiSlice.injectEndpoints({
                               type: 'Food' as const,
                               id
                           })),
-                          'Food'
+                          { type: 'Food', id: 'LIST' }
                       ]
-                    : ['Food']
-            // highlight-end
-        }),
-        searchFoods: builder.query<EntityState<FoodType>, string>({
-            query: (pathUrl) => `/foods/search${pathUrl}`,
-            transformResponse(response: any) {
-                return foodsAdapter.setAll(initialState, response.content);
-            }
+                    : [{ type: 'Food', id: 'LIST' }]
         }),
         addNewFood: builder.mutation({
             query: (initialFoodData) => ({
@@ -77,7 +69,6 @@ export const foodsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-    useGetFoodsQuery,
     useSearchFoodsQuery,
     useAddNewFoodMutation,
     useUpdateFoodMutation,

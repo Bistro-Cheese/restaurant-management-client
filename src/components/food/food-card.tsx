@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { EntityId } from '@reduxjs/toolkit';
 import { AlertModal } from '../modal/alert-modal';
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDeleteFoodMutation } from '@/redux/services/food-api';
 import { convertPriceToString } from '@/utils';
 
@@ -29,7 +29,6 @@ export const FoodCard = ({
     const [open, setOpen] = useState(false);
 
     const router = useRouter();
-
 
     const [deleteFood, { isLoading, isSuccess }] = useDeleteFoodMutation();
 
@@ -132,7 +131,7 @@ export const FoodCard = ({
                         <Button
                             onClick={() => handleClickEdit(id)}
                             size='sm'
-                            className='bg-yellow-400 px-5 py-[1px] text-xs font-semibold text-sky-800 hover:bg-yellow-500 '
+                            className='bg-primary px-5 py-[1px] text-xs font-semibold text-sky-800 hover:bg-yellow-500 '
                         >
                             Edit
                         </Button>
