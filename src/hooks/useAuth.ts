@@ -1,7 +1,8 @@
+import { useMemo } from 'react';
 import { useAppSelector } from './redux-hook';
 
 export const useAuth = () => {
-    const { status } = useAppSelector((state) => state.reducer.user);
+    const { status } = useAppSelector((state) => state.reducer.auth);
 
-    return status === 'authenticated';
+    return useMemo(() => ({ status }), [status]);
 };

@@ -18,7 +18,6 @@ import { Input } from '@/components/ui/input';
 import { useDispatchLogin } from '@/hooks/use-dispatch-auth';
 import { RiLockPasswordLine, RiUser3Line } from 'react-icons/ri';
 import { PiEye, PiEyeClosed } from 'react-icons/pi';
-import { useRouter } from 'next/navigation';
 
 const formSchema = z.object({
     username: z.string().min(1, 'Username is require'),
@@ -29,7 +28,6 @@ const formSchema = z.object({
 });
 
 const SignInForm = (): JSX.Element => {
-    const router = useRouter();
 
     const { isLoginLoading, dispatchLogin, loginError } = useDispatchLogin();
 
