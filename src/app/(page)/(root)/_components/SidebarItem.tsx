@@ -1,15 +1,9 @@
 'use client';
 import { cn } from '@/lib/utils';
-import { LucideIcon } from 'lucide-react';
+import SidebarItemType from '@/types/SidebarItemType';
 import { usePathname, useRouter } from 'next/navigation';
 
-export interface SidebarItemProps {
-    icon: LucideIcon;
-    label: string;
-    href: string;
-}
-
-export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemType) => {
     const pathname = usePathname();
     const router = useRouter();
 
@@ -27,7 +21,7 @@ export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
             onClick={onClick}
             type='button'
             className={cn(
-                'flex items-center gap-x-2 pl-6 text-sm font-[500] text-slate-600 transition transition-all duration-500 ease-linear hover:bg-yellow-300 hover:text-sky-700',
+                'flex items-center gap-x-2 pl-6 text-sm font-[500] text-slate-600 transition-all duration-500 ease-linear hover:bg-yellow-300 hover:text-sky-700',
                 isActive &&
                     'bg-yellow-400 text-sky-700 hover:bg-sky-200/20 hover:text-sky-700'
             )}

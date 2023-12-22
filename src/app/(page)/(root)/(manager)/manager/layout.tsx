@@ -1,9 +1,10 @@
-import { Header } from '../../_components/Header';
+// import { Sidebar } from '../_components/sidebar';
+import { Header } from '@/app/(page)/(root)/_components/Header';
 
 import { Sidebar } from '../../_components/Sidebar';
 import { SidebarRoutes } from '../_components/SidebarRoutes';
 
-const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
+const ManagerLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <div className='h-full'>
             <div className='fixed z-50 h-[80px] w-full'>
@@ -23,4 +24,4 @@ const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
     );
 };
 
-export default OwnerLayout;
+export default ManagerLayout;

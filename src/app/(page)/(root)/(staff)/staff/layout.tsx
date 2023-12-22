@@ -1,6 +1,6 @@
 'use client';
 
-import { Header } from '@/components/header';
+import { Header } from '@/app/(page)/(root)/_components/Header';
 import Navbar from './_components/Navbar';
 import { ReduxProvider } from '@/redux/redux-provider';
 import { Provider } from 'react-redux';

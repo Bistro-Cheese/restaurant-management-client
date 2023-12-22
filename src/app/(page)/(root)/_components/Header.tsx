@@ -1,9 +1,9 @@
 'use client';
-
-import { HeaderContent } from '@/components/header-content';
-import { MobileSidebar } from './mobile-sidebar';
-import { Logo } from '@/app/(page)/(root)/(admin)/_components/logo';
 import { usePathname } from 'next/navigation';
+
+import { Logo } from './Logo';
+import { HeaderContent } from './header-content';
+import { MobileSidebar } from './MobileSidebar';
 
 export const Header = ({ children }: { children: React.ReactNode }) => {
     const pathname = usePathname();

@@ -1,11 +1,5 @@
-import { Header } from '@/components/header';
-import { HeaderContent } from '@/components/header-content';
-import { Heading } from '@/components/heading';
-import { cn } from '@/lib/utils';
-import OrderCard from './common/OrderLineCard';
 import OrderList from './common/OrderList';
 import OrderTotal from './common/OrderTotal';
-import { Separator } from '@/components/ui/separator';
 import OrderHeader from './common/OrderHeader';
 
 const OrderSummary = () => {
