@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { Trash } from 'lucide-react';
 
 import * as z from 'zod';
@@ -38,14 +38,16 @@ import {
     useDeleteFoodMutation,
     useUpdateFoodMutation
 } from '@/redux/services/food-api';
-import { useSelector } from 'react-redux';
 import { EntityId } from '@reduxjs/toolkit';
+import { RootState } from '@/redux/store';
+import { useSelector } from 'react-redux';
+import { FoodType } from '@/types';
 
 const formSchema = z.object({
     name: z.string().min(1),
     description: z.string().min(1),
     category: z.string().min(1),
-    product_image: z.string().min(0),
+    image: z.string().min(0),
     price: z.coerce.number().min(1),
     status: z.string()
 });
@@ -57,18 +59,20 @@ interface FoodFormProps {
 }
 
 export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
-    console.log('ID FOOD FORM EDIT:::', foodId);
 
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const food = useSelector((state) =>
+    const food = useSelector((state: RootState) =>
         selectFoodById(state, foodId as EntityId)
     );
 
-    console.log('FOOD FORM EDIT:::', food);
+    useEffect(() => {
+        console.log('FOOD FORM EDIT:::', food);
+    }, [food]);
+
 
     const [
         addNewFood,
@@ -109,23 +113,23 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
 
     const defaultValues = isCreate
         ? {
-              name: food?.name,
-              description: food?.description,
-              product_image: food?.image,
-              category: JSON.stringify(food?.category.id),
-              price: parseFloat(String(food?.price)),
-              status: JSON.stringify(food?.status)
-          }
+            name: food?.name,
+            description: food?.description,
+            image: food?.image,
+            category: JSON.stringify(food?.category.id),
+            price: parseFloat(String(food?.price)),
+            status: JSON.stringify(food?.status)
+        }
         : {
-              name: '',
-              description: '',
-              product_image: '',
-              category: '',
-              price: 0,
-              status: ''
-          };
+            name: '',
+            description: '',
+            image: '',
+            category: '',
+            price: 0,
+            status: ''
+        };
 
-    console.log('defaultValues Image:::', defaultValues.product_image);
+    console.log('defaultValues Image:::', defaultValues.image);
 
     const form = useForm<FoodFormValues>({
         resolver: zodResolver(formSchema),
@@ -142,7 +146,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
 
     useEffect(() => {
         if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
-            console.log('isDeletedSuccess:::', isDeletedSuccess);
+            console.log('isUpdatedSuccess:::', isUpdatedSuccess);
             router.refresh();
             router.push('/owner/foods/menu');
             toast.success(toastMessage);
@@ -201,7 +205,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                 >
                     <FormField
                         control={form.control}
-                        name='product_image'
+                        name='image'
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Images</FormLabel>
@@ -243,6 +247,17 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
                                         <Input
+                                            onChangeCapture={e => {
+                                                const value = e.currentTarget.value;
+                                                console.log('value:::', value);
+                                                // if (value.length === 0 && value === '0') {
+                                                //     e.currentTarget.value = '';
+                                                // }
+                                                if (value[0] === '0') {
+                                                    e.currentTarget.value = e.currentTarget.value.slice(1);
+                                                }
+                                            }}
+                                            inputMode='numeric'
                                             type='number'
                                             disabled={loading}
                                             placeholder='20000'

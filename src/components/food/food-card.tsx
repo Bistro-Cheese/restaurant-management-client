@@ -5,7 +5,7 @@ import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
 import { EntityId } from '@reduxjs/toolkit';
 import { AlertModal } from '../modal/alert-modal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDeleteFoodMutation } from '@/redux/services/food-api';
 import { convertPriceToString } from '@/utils';
 
@@ -28,7 +28,9 @@ export const FoodCard = ({
 }: FoodCardProps) => {
     const [open, setOpen] = useState(false);
 
-    const [deleteFood, { isLoading }] = useDeleteFoodMutation();
+    const router = useRouter();
+
+    const [deleteFood, { isLoading, isSuccess }] = useDeleteFoodMutation();
 
     var colorStatus = '';
     var nameStatus = '';
@@ -50,7 +52,12 @@ export const FoodCard = ({
             nameStatus = 'Draft';
             break;
     }
-    const router = useRouter();
+
+    useEffect(() => {
+        if (isSuccess) {
+            setOpen(false);
+        }
+    }, [isSuccess]);
 
     const handleClickEdit = (id: EntityId) => {
         console.log('FoodId:::', id);
@@ -64,11 +71,10 @@ export const FoodCard = ({
     const onDelete = async (id: EntityId) => {
         console.log('FOODCARD ID DELETE:::', id);
         try {
-            await deleteFood({ food_id: id });
+            await deleteFood(id);
         } catch (err) {
             console.log('err:::', err);
         }
-        setOpen(false);
     };
 
     return (
@@ -79,8 +85,8 @@ export const FoodCard = ({
                 onConfirm={() => onDelete(id)}
                 loading={isLoading}
             />
-            <div className='group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm'>
-                <div className='relative aspect-video w-full overflow-hidden rounded-md'>
+            <div className='group h-full overflow-hidden rounded-lg border transition hover:shadow-sm bg-white'>
+                <div className='relative aspect-video w-full overflow-hidden '>
                     <Image
                         fill
                         className='object-content'
@@ -89,20 +95,20 @@ export const FoodCard = ({
                         src={image}
                     />
                 </div>
-                <div className='flex flex-col pt-2'>
+                <div className='flex flex-col p-3'>
                     <div className='mb-1 line-clamp-2 flex h-12 flex-row justify-between text-lg font-medium transition group-hover:text-sky-700 md:text-base'>
-                        <p className='line-clamp-2 w-32 font-semibold'>
+                        <p className='line-clamp-2  font-semibold text-text'>
                             {name}
                         </p>
-                        <div className='font-bold text-red-500'>
-                            {priceString} <span className='text-xs'>VND</span>
-                        </div>
+
                     </div>
 
-                    <div className='flex flex-row items-center justify-between'>
+                    <div className='flex flex-row text-text-subtle justify-between'>
+
                         <p className='text-xs text-muted-foreground'>
-                            category: {category}
+                            {category}
                         </p>
+
                         <div
                             className={cn(
                                 'rounded-sm p-[5px] text-xs font-bold text-white',
@@ -112,8 +118,11 @@ export const FoodCard = ({
                             {nameStatus}
                         </div>
                     </div>
+                    <div className='font-bold text-red-500'>
+                        {priceString} <span className='text-xs'>VND</span>
+                    </div>
 
-                    <div className='mt-6 flex flex-row items-center justify-between'>
+                    <div className='mt-4 flex flex-row items-center justify-between'>
                         <Button
                             onClick={() => handleClickDelete()}
                             variant='destructive'
@@ -125,7 +134,7 @@ export const FoodCard = ({
                         <Button
                             onClick={() => handleClickEdit(id)}
                             size='sm'
-                            className='bg-yellow-400 px-5 py-[1px] text-xs font-semibold text-sky-800 hover:bg-yellow-500 '
+                            className='bg-primary px-5 py-[1px] text-xs font-semibold text-text hover:bg-yellow-500 '
                         >
                             Edit
                         </Button>

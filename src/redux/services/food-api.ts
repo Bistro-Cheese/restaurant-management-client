@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { apiSlice } from './base-api';
 import { FoodType } from '@/types';
+import { RootState } from '../store';
 
 const foodsAdapter = createEntityAdapter<FoodType>({
     // Assume IDs are stored in a field other than `book.id`
@@ -17,12 +18,11 @@ const initialState = foodsAdapter.getInitialState();
 
 export const foodsApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getFoods: builder.query<EntityState<FoodType>, void>({
-            query: () => '/foods',
-            transformResponse(response: { message: string; data: FoodType[] }) {
-                return foodsAdapter.setAll(initialState, response.data);
+        searchFoods: builder.query<EntityState<FoodType>, string>({
+            query: (pathUrl) => `/foods/search${pathUrl}`,
+            transformResponse(response: any) {
+                return foodsAdapter.setAll(initialState, response.content);
             },
-            // highlight-start
             providesTags: (result) =>
                 result
                     ? [
@@ -33,13 +33,6 @@ export const foodsApi = apiSlice.injectEndpoints({
                           { type: 'Food', id: 'LIST' }
                       ]
                     : [{ type: 'Food', id: 'LIST' }]
-            // highlight-end
-        }),
-        searchFoods: builder.query<EntityState<FoodType>, string>({
-            query: (pathUrl) => `/foods/search${pathUrl}`,
-            transformResponse(response: any) {
-                return foodsAdapter.setAll(initialState, response.content);
-            }
         }),
         addNewFood: builder.mutation({
             query: (initialFoodData) => ({
@@ -64,7 +57,7 @@ export const foodsApi = apiSlice.injectEndpoints({
             ]
         }),
         deleteFood: builder.mutation({
-            query: ({ food_id }) => ({
+            query: (food_id) => ({
                 url: `/foods/${food_id}`,
                 method: 'DELETE'
             }),
@@ -76,7 +69,6 @@ export const foodsApi = apiSlice.injectEndpoints({
 });
 
 export const {
-    useGetFoodsQuery,
     useSearchFoodsQuery,
     useAddNewFoodMutation,
     useUpdateFoodMutation,
@@ -84,7 +76,7 @@ export const {
 } = foodsApi;
 
 // returns the query result object
-export const selectFoodsResult = foodsApi.endpoints.getFoods.select();
+export const selectFoodsResult = foodsApi.endpoints.searchFoods.select('');
 
 // creates memoized selector
 const selectFoodsData = createSelector(
@@ -94,5 +86,5 @@ const selectFoodsData = createSelector(
 
 export const { selectAll: selectAllFoods, selectById: selectFoodById } =
     foodsAdapter.getSelectors(
-        (state: any) => selectFoodsData(state) ?? initialState
+        (state: RootState) => selectFoodsData(state) ?? initialState
     );
