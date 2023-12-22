@@ -1,8 +1,7 @@
-// import { Sidebar } from '../_components/sidebar';
 import { Header } from '@/app/(page)/(root)/_components/Header';
 
-import { Sidebar } from '../../_components/sidebar';
 import { SidebarRoutes } from '../_components/SidebarRoutes';
+import { Sidebar } from '../../_components/sidebar';
 
 const ManagerLayout = ({ children }: { children: React.ReactNode }) => {
     return (

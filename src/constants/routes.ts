@@ -1,6 +1,23 @@
 import SidebarItemType from '@/types/SidebarItemType';
 import { Layout, Pizza, Users, CreditCard, Store } from 'lucide-react';
 
+export const paths = {
+    owner: {
+        dashboard: '/owner',
+        foodMenu: '/owner/foods/menu',
+        employees: '/owner/employees',
+        payments: '/owner/payments'
+    },
+    manager: {
+        timekeeping: '/manager/timekeeping',
+        inventory: '/manager/inventory'
+    },
+    staff: {
+        orders: '/staff/orders',
+        tables: '/staff/tables'
+    }
+};
+
 export const ownerRoutes: SidebarItemType[] = [
     {
         icon: Layout,

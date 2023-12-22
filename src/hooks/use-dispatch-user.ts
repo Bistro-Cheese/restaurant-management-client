@@ -11,9 +11,7 @@ export const useGetProfile = () => {
 
     useEffect(() => {
         if (data?.data) {
-            dispatch(
-                setProfile({ status: 'authenticated', userInfo: data.data })
-            );
+            dispatch(setProfile({ userInfo: data.data }));
         }
     }, [data, dispatch]);
     return {
