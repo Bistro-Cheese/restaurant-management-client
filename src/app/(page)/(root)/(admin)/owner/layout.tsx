@@ -1,7 +1,7 @@
 import { UnauthenticateLayout } from '@/hoc/unauthenticate-layout';
 import { Header } from '../../_components/Header';
-import { Sidebar } from '../../_components/Sidebar';
 import { SidebarRoutes } from '../_components/SidebarRoutes';
+import { Sidebar } from '../../_components/sidebar';
 
 const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
     return (
@@ -16,13 +16,11 @@ const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
                     <Sidebar>
                         <SidebarRoutes />
                     </Sidebar>
-
-                    <main className='h-full pt-[80px] md:pl-56'>
-                        {children}
-                    </main>
                 </div>
-           </div>
+                <main className='h-full pt-[80px] md:pl-56'>{children}</main>
+            </div>
         </UnauthenticateLayout>
+
     );
 };
 

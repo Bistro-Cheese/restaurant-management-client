@@ -1,13 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { redirect, usePathname, useRouter } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/hooks/use-auth';
 
 export const AuthenticateLayout = ({ children }: { children: React.ReactNode }) => {
     const { status } = useAuth();
     const router = useRouter()
-    const pathName = usePathname()
     const [canRenderChildren, setCanRenderChildren] = useState(false)
 
     useEffect(() => {
@@ -19,5 +18,5 @@ export const AuthenticateLayout = ({ children }: { children: React.ReactNode }) 
         }
     }, [status, router]);
 
-    return canRenderChildren && <div>{children}</div>;
+    return canRenderChildren && <>{children}</>;
 };

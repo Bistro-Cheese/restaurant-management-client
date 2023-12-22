@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { redirect } from 'next/navigation';
-import { useAuth } from '@/hooks/useAuth';
+import { useAuth } from '@/hooks/use-auth';
 
 export const UnauthenticateLayout = ({ children }: { children: React.ReactNode }) => {
     const { status } = useAuth();
@@ -19,5 +19,5 @@ export const UnauthenticateLayout = ({ children }: { children: React.ReactNode }
     }, [status]);
 
 
-    return canRenderChildren && <div>{children}</div>;
+    return canRenderChildren && <>{children}</>;
 };
