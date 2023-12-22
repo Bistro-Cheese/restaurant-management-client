@@ -13,7 +13,8 @@ export const authApi = apiSlice.injectEndpoints({
             query: () => ({
                 url: '/auth/logout',
                 method: 'POST'
-            })
+            }),
+            invalidatesTags: ['User']
         })
     })
 });

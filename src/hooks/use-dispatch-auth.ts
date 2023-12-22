@@ -1,7 +1,10 @@
 import { useLoginMutation, useLogoutMutation } from '@/redux/services/auth-api';
 import { useAppDispatch } from './redux-hook';
 import { setCredentials, removeCredentials } from '@/redux/features/auth-slice';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { removeProfile } from '@/redux/features/user-slice';
+import { resetOrderState } from '@/redux/features/order-slice';
+import { resetTableState } from '@/redux/features/table-order-slice';
 
 export const useDispatchLogin = () => {
     const dispatch = useAppDispatch();
@@ -43,9 +46,15 @@ export const useDispatchLogout = () => {
 
     const dispatchLogout = async () => {
         try {
-            await logout({}).unwrap();
-            dispatch(removeCredentials());
-            router.push('/');
+            await logout({})
+                .unwrap()
+                .finally(() => {
+                    dispatch(removeCredentials());
+                    dispatch(removeProfile());
+                    dispatch(resetOrderState());
+                    dispatch(resetTableState());
+                    redirect('/');
+                });
         } catch (err) {
             console.log('sign out fail::::', err);
         }

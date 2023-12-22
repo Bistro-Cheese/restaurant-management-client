@@ -62,8 +62,12 @@ export const tableOrderSlice = createSlice({
 
                 state.tableOrders = filteredTableOrders;
             }
+        },
+        resetTableState: (state) => {
+            state.tableOrders = [];
         }
     }
 });
 
-export const { createTableOrder, deleteTableOrder } = tableOrderSlice.actions;
+export const { createTableOrder, deleteTableOrder, resetTableState } =
+    tableOrderSlice.actions;

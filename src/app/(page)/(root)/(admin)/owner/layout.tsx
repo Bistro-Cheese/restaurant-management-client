@@ -20,7 +20,6 @@ const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
                 <main className='h-full pt-[80px] md:pl-56'>{children}</main>
             </div>
         </UnauthenticateLayout>
-
     );
 };
 

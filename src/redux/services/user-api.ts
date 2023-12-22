@@ -65,7 +65,8 @@ export const usersApi = apiSlice.injectEndpoints({
             ]
         }),
         getProfile: builder.query<{ message: string; data: UserInfo }, void>({
-            query: () => '/users/profile'
+            query: () => '/users/profile',
+            providesTags: ['User']
         })
     })
 });

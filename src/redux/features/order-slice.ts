@@ -115,6 +115,10 @@ export const orderSlice = createSlice({
         ) => {
             state.tableId = action.payload.tableId;
             state.orderLines = action.payload.orderLines;
+        },
+        resetOrderState: (state) => {
+            state.tableId = -1;
+            state.orderLines = [];
         }
     }
 });
@@ -125,5 +129,6 @@ export const {
     decreaseQuantity,
     setQuantity,
     removeOrderLine,
-    setInitialOrder
+    setInitialOrder,
+    resetOrderState
 } = orderSlice.actions;

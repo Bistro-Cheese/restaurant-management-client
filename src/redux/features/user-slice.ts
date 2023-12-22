@@ -62,8 +62,11 @@ export const userSlice = createSlice({
             { payload: { userInfo } }: PayloadAction<IUserState>
         ) => {
             state.userInfo = userInfo;
+        },
+        removeProfile: (state) => {
+            state.userInfo = initialState.userInfo;
         }
     }
 });
 
-export const { setProfile } = userSlice.actions;
+export const { setProfile, removeProfile } = userSlice.actions;
