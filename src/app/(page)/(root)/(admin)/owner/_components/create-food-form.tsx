@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { useForm } from 'react-hook-form';
+import { set, useForm } from 'react-hook-form';
 import { Trash } from 'lucide-react';
 
 import * as z from 'zod';
@@ -41,6 +41,7 @@ import {
 import { EntityId } from '@reduxjs/toolkit';
 import { RootState } from '@/redux/store';
 import { useSelector } from 'react-redux';
+import { FoodType } from '@/types';
 
 const formSchema = z.object({
     name: z.string().min(1),
@@ -58,7 +59,6 @@ interface FoodFormProps {
 }
 
 export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
-    console.log('ID FOOD FORM EDIT:::', foodId);
 
     const router = useRouter();
 
@@ -69,7 +69,10 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
         selectFoodById(state, foodId as EntityId)
     );
 
-    console.log('FOOD FORM EDIT:::', food);
+    useEffect(() => {
+        console.log('FOOD FORM EDIT:::', food);
+    }, [food]);
+
 
     const [
         addNewFood,
@@ -244,6 +247,17 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
                                         <Input
+                                            onChangeCapture={e => {
+                                                const value = e.currentTarget.value;
+                                                console.log('value:::', value);
+                                                // if (value.length === 0 && value === '0') {
+                                                //     e.currentTarget.value = '';
+                                                // }
+                                                if (value[0] === '0') {
+                                                    e.currentTarget.value = e.currentTarget.value.slice(1);
+                                                }
+                                            }}
+                                            inputMode='numeric'
                                             type='number'
                                             disabled={loading}
                                             placeholder='20000'
