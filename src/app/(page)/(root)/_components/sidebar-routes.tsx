@@ -2,8 +2,8 @@
 
 import { usePathname } from 'next/navigation';
 
-import { SidebarItem } from './sidebar-items';
-import { managerRoutes, ownerRoutes } from '@/utils/constants';
+import { SidebarItem } from './SidebarItem';
+import { managerRoutes, ownerRoutes } from '@/constants/routes';
 
 export const SidebarRoutes = () => {
     const pathname = usePathname();

@@ -1,7 +1,9 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { Button } from './ui/button';
+import { Settings, User, UserCircle, LogOutIcon } from 'lucide-react';
+
+// Components
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -10,9 +12,10 @@ import {
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger
-} from './ui/dropdown-menu';
-import { Settings, User, UserCircle, LogOutIcon } from 'lucide-react';
-import { SearchInput } from './search-input';
+} from '@/components/ui/dropdown-menu';
+import { SearchInput } from '@/components/search-input';
+import { Button } from '@/components/ui/button';
+
 import { useDispatchLogout } from '@/hooks/use-dispatch-auth';
 
 export const HeaderContent = () => {

@@ -1,5 +1,5 @@
 
-import { Header } from '@/components/header';
+import { Header } from '@/app/(page)/(root)/_components/Header';
 import Navbar from './_components/Navbar';
 import { UnauthenticateLayout } from '@/hoc/unauthenticate-layout';
 

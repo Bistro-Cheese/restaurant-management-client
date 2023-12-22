@@ -1,8 +1,9 @@
 import { UnauthenticateLayout } from '@/hoc/unauthenticate-layout';
-import { Sidebar } from '../_components/sidebar';
-import { Header } from '@/components/header';
+import { Header } from '../../_components/Header';
+import { Sidebar } from '../../_components/Sidebar';
+import { SidebarRoutes } from '../_components/SidebarRoutes';
 
-const RootLayout = ({ children }: { children: React.ReactNode }) => {
+const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
     return (
         <UnauthenticateLayout>
             <div className='h-full'>
@@ -11,17 +12,18 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
                         <></>
                     </Header>
                 </div>
-
                 <div className='fixed z-50 hidden h-full  w-56 flex-col pt-[80px] md:flex'>
-                    <Sidebar />
-                </div>
+                    <Sidebar>
+                        <SidebarRoutes />
+                    </Sidebar>
 
-                <main className='h-full pt-[80px] md:pl-56'>
-                    {children}
-                </main>
-            </div>
+                    <main className='h-full pt-[80px] md:pl-56'>
+                        {children}
+                    </main>
+                </div>
+           </div>
         </UnauthenticateLayout>
     );
 };
 
-export default RootLayout;
+export default OwnerLayout;
