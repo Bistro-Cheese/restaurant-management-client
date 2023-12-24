@@ -23,7 +23,7 @@ module.exports = {
                 background: '#f5f3f0',
                 foreground: 'rgb(var(--foreground))',
                 primary: {
-                    DEFAULT: '#E7CB7F',
+                    DEFAULT: '#F2CB6D',
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
@@ -85,18 +85,18 @@ module.exports = {
 
                 // Primary brand color shades
                 'harvest-gold': {
-                    DEFAULT: '#E7CB7F',
-                    50: '#F5EACC',
-                    100: '#F4E7C4',
-                    200: '#F1E0B3',
-                    300: '#EDD9A1',
-                    400: '#EAD290',
-                    500: '#E7CB7F',
-                    600: '#E3C26A',
-                    700: '#DFBA54',
-                    800: '#DBB13F',
-                    900: '#D7A829',
-                    950: '#CDA026'
+                    DEFAULT: '#F2CB6D',
+                    50: '#FDF8EB',
+                    100: '#FCF3DD',
+                    200: '#FAE9C1',
+                    300: '#F7DFA5',
+                    400: '#F5D589',
+                    500: '#F2CB6D',
+                    600: '#F0C356',
+                    700: '#EEBA3E',
+                    800: '#ECB227',
+                    900: '#E5A814',
+                    950: '#D99F13'
                 },
 
                 // Secondary brand color shades
@@ -165,7 +165,7 @@ module.exports = {
                 'gradient-background':
                     'linear-gradient(150deg, #ffcc80 40%, #f57c00 90%)',
                 'gradient-primary':
-                    'linear-gradient(140deg, rgba(234,210,144,1) 60%, rgba(231,203,127,1) 75%, rgba(227,194,106,1) 96%)',
+                    'linear-gradient(140deg, rgba(245,213,137,1) 60%, rgba(242,203,109,1) 75%, rgba(240,195,86,1) 90%)',
                 'gradient-destructive':
                     'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)',
                 'gradient-active':
@@ -173,8 +173,8 @@ module.exports = {
             },
             dropShadow: {
                 primary: [
-                    '0 10px 10px rgba(231,203,127, 0.4)',
-                    '0 20px 20px rgba(231,203,127, 0.4)'
+                    '0 10px 10px rgba(242,203,109, 0.4)',
+                    '0 20px 20px rgba(242,203,109, 0.4)'
                 ]
             },
             screens: {
