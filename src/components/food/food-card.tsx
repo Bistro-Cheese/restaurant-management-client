@@ -132,7 +132,7 @@ export const FoodCard = ({
                         <Button
                             onClick={() => handleClickEdit(id)}
                             size='sm'
-                            className='bg-primary px-5 py-[1px] text-sm font-bold text-text hover:bg-harvest-gold-400 active:bg-harvest-gold-300'
+                            className='bg-harvest-gold-500 px-5 py-[1px] text-sm font-bold text-text hover:bg-harvest-gold-400 active:bg-harvest-gold-300'
                         >
                             Edit
                         </Button>

@@ -39,7 +39,7 @@ const OwnerLayout = ({ children }: { children: React.ReactNode }) => {
                     <Header routeContent={routeContent}>
                         <></>
                     </Header>
-                    <div className='min-h-screen w-full px-3'>{children}</div>
+                    <div className='h-full w-full px-3'>{children}</div>
                 </main>
             </div>
         </UnauthenticateLayout>
