@@ -5,13 +5,14 @@ import { SidebarItem } from '../../_components/SidebarItem';
 
 export const SidebarRoutes = () => {
     return (
-        <div className='flex w-full flex-col'>
+        <div className='flex w-full flex-col space-y-2 px-2'>
             {ownerRoutes.map((route) => (
                 <SidebarItem
-                    key={route.href}
+                    key={route.path}
                     icon={route.icon}
-                    label={route.label}
-                    href={route.href}
+                    iconActive={route.iconActive}
+                    name={route.name}
+                    path={route.path}
                 />
             ))}
         </div>

@@ -1,5 +1,12 @@
 import SidebarItemType from '@/types/SidebarItemType';
 import { Layout, Pizza, Users, CreditCard, Store } from 'lucide-react';
+import { MdOutlineSpaceDashboard, MdSpaceDashboard } from 'react-icons/md';
+import { BiSolidFoodMenu, BiFoodMenu } from 'react-icons/bi';
+import { RiGroupFill, RiGroupLine } from 'react-icons/ri';
+import { BsCreditCard2Front, BsCreditCard2FrontFill } from 'react-icons/bs';
+import { IconType } from 'react-icons';
+import { MdOutlineInventory2, MdInventory2 } from 'react-icons/md';
+import { IRoute } from '@/types/navigation';
 
 export const paths = {
     owner: {
@@ -18,38 +25,44 @@ export const paths = {
     }
 };
 
-export const ownerRoutes: SidebarItemType[] = [
+export const ownerRoutes: IRoute[] = [
     {
-        icon: Layout,
-        label: 'Dashboard',
-        href: '/owner'
+        icon: MdOutlineSpaceDashboard,
+        iconActive: MdSpaceDashboard,
+        name: 'Dashboard',
+        path: '/owner'
     },
     {
-        icon: Pizza,
-        label: 'Food Menu',
-        href: '/owner/foods/menu'
+        icon: BiFoodMenu,
+        iconActive: BiSolidFoodMenu,
+        name: 'Food Menu',
+        path: '/owner/foods/menu'
     },
     {
-        icon: Users,
-        label: 'Employee',
-        href: '/owner/employees'
+        icon: RiGroupLine,
+        iconActive: RiGroupFill,
+        name: 'Employee',
+        path: '/owner/employees'
     },
     {
-        icon: CreditCard,
-        label: 'Payments',
-        href: '/owner/payments'
+        icon: BsCreditCard2Front,
+        iconActive: BsCreditCard2FrontFill,
+        name: 'Payments',
+        path: '/owner/payments'
     }
 ];
 
-export const managerRoutes: SidebarItemType[] = [
+export const managerRoutes: IRoute[] = [
     {
-        icon: Users,
-        label: 'Staffs',
-        href: '/manager/timekeeping'
+        icon: RiGroupLine,
+        iconActive: RiGroupFill,
+        name: 'Staffs',
+        path: '/manager/timekeeping'
     },
     {
-        icon: Store,
-        label: 'Inventory',
-        href: '/manager/inventory'
+        icon: MdOutlineInventory2,
+        iconActive: MdInventory2,
+        name: 'Inventory',
+        path: '/manager/inventory'
     }
 ];

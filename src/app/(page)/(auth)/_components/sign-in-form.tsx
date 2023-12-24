@@ -28,7 +28,6 @@ const formSchema = z.object({
 });
 
 const SignInForm = (): JSX.Element => {
-
     const { isLoginLoading, dispatchLogin, loginError } = useDispatchLogin();
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -48,12 +47,12 @@ const SignInForm = (): JSX.Element => {
     };
 
     return (
-        <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
-            <div className='bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10'>
+        <div className='z-10 mx-auto mt-8 block w-full max-w-md rounded-lg bg-white/20  shadow-lg backdrop-blur-2xl'>
+            <div className='h-full w-full p-8'>
                 <Form {...form}>
                     <form
                         onSubmit={form.handleSubmit(onSubmit)}
-                        className='space-y-8'
+                        className='space-y-8 text-tertiary'
                     >
                         {/* Username */}
                         <FormField
@@ -63,14 +62,16 @@ const SignInForm = (): JSX.Element => {
                                 <FormItem>
                                     <FormLabel className='flex items-center'>
                                         <RiUser3Line size={20} />
-                                        <p className='ml-2'>Username</p>
+                                        <span className='ml-2 font-bold'>
+                                            Username
+                                        </span>
                                     </FormLabel>
                                     <FormControl>
                                         <Input
                                             disabled={isLoginLoading}
-                                            placeholder='example@gmail.com'
+                                            placeholder='Email adress'
                                             {...field}
-                                            className='rounded-full'
+                                            className='rounded-full bg-white'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -86,20 +87,22 @@ const SignInForm = (): JSX.Element => {
                                 <FormItem>
                                     <FormLabel className='flex items-center'>
                                         <RiLockPasswordLine size={20} />
-                                        <p className='ml-2'>Password</p>
+                                        <p className='ml-2 font-bold'>
+                                            Password
+                                        </p>
                                     </FormLabel>
                                     <FormControl>
                                         <div className='relative'>
                                             <Input
                                                 disabled={isLoginLoading}
-                                                placeholder='Your password'
+                                                placeholder='Password'
                                                 {...field}
                                                 type={
                                                     isPasswordVisible
                                                         ? 'text'
                                                         : 'password'
                                                 }
-                                                className='rounded-full pr-10'
+                                                className='rounded-full bg-white pr-10'
                                             />
                                             <div
                                                 className='absolute right-[5%] top-[35%]'
@@ -128,10 +131,10 @@ const SignInForm = (): JSX.Element => {
                         {/* Submit button */}
                         <Button
                             disabled={isLoginLoading}
-                            className='w-full'
+                            className='w-full bg-gradient-primary text-xl font-bold text-tertiary'
                             type='submit'
                         >
-                            {isLoginLoading ? 'Loading...' : 'Submit'}
+                            {isLoginLoading ? 'Loading...' : 'Log in'}
                         </Button>
                     </form>
                 </Form>

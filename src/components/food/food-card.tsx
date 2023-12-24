@@ -85,7 +85,7 @@ export const FoodCard = ({
                 onConfirm={() => onDelete(id)}
                 loading={isLoading}
             />
-            <div className='group h-full overflow-hidden rounded-lg border transition hover:shadow-sm bg-white'>
+            <div className='group h-full overflow-hidden rounded-lg border bg-white transition hover:shadow-sm'>
                 <div className='relative aspect-video w-full overflow-hidden '>
                     <Image
                         fill
@@ -100,11 +100,9 @@ export const FoodCard = ({
                         <p className='line-clamp-2  font-semibold text-text'>
                             {name}
                         </p>
-
                     </div>
 
-                    <div className='flex flex-row text-text-subtle justify-between'>
-
+                    <div className='flex flex-row justify-between text-text-subtle'>
                         <p className='text-xs text-muted-foreground'>
                             {category}
                         </p>
@@ -134,7 +132,7 @@ export const FoodCard = ({
                         <Button
                             onClick={() => handleClickEdit(id)}
                             size='sm'
-                            className='bg-primary px-5 py-[1px] text-xs font-semibold text-text hover:bg-yellow-500 '
+                            className='bg-primary px-5 py-[1px] text-sm font-bold text-text hover:bg-harvest-gold-400 active:bg-harvest-gold-300'
                         >
                             Edit
                         </Button>
