@@ -20,18 +20,20 @@ module.exports = {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
-                background: 'hsl(var(--background))',
+                background: '#f5f3f0',
                 foreground: 'rgb(var(--foreground))',
                 primary: {
-                    DEFAULT: '#ECCB86',
+                    DEFAULT: '#E7CB7F',
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
                     DEFAULT: '#F4DDA1',
+                    subtitle: '#70798a',
                     foreground: 'hsl(var(--secondary-foreground))'
                 },
                 tertiary: {
                     DEFAULT: '#253C64',
+                    subtitle: '#70798a',
                     foreground: '#ECF1F4' // === on tertiary color
                 },
                 surface: {
@@ -83,18 +85,18 @@ module.exports = {
 
                 // Primary brand color shades
                 'harvest-gold': {
-                    DEFAULT: '#ECCB86',
-                    50: '#FCF6E9',
-                    100: '#FAF1DE',
-                    200: '#F6E7C8',
-                    300: '#F3DEB2',
-                    400: '#EFD49C',
-                    500: '#ECCB86',
-                    600: '#E6BC63',
-                    700: '#E1AD3F',
-                    800: '#D69C22',
-                    900: '#B3821C',
-                    950: '#A17519'
+                    DEFAULT: '#E7CB7F',
+                    50: '#F5EACC',
+                    100: '#F4E7C4',
+                    200: '#F1E0B3',
+                    300: '#EDD9A1',
+                    400: '#EAD290',
+                    500: '#E7CB7F',
+                    600: '#E3C26A',
+                    700: '#DFBA54',
+                    800: '#DBB13F',
+                    900: '#D7A829',
+                    950: '#CDA026'
                 },
 
                 // Secondary brand color shades
@@ -116,14 +118,14 @@ module.exports = {
                 // Tertiary brand color shades
                 'dark-navy': {
                     DEFAULT: '#253C64',
-                    50: '#CED9ED',
-                    100: '#BFCEE7',
-                    200: '#A1B7DC',
-                    300: '#84A0D1',
-                    400: '#6689C6',
-                    500: '#4872BB',
-                    600: '#3B60A0',
-                    700: '#304E82',
+                    50: '#96AED8',
+                    100: '#8BA6D4',
+                    200: '#7595CC',
+                    300: '#5E83C4',
+                    400: '#4872BB',
+                    500: '#3E64A7',
+                    600: '#365791',
+                    700: '#2D497A',
                     800: '#253C64',
                     900: '#1B2C4A',
                     950: '#17253D'
@@ -163,7 +165,7 @@ module.exports = {
                 'gradient-background':
                     'linear-gradient(150deg, #ffcc80 40%, #f57c00 90%)',
                 'gradient-primary':
-                    'linear-gradient(140deg, rgba(225,196,144,1) 60%, rgba(219,183,120,1) 80%, rgba(215,174,104,1) 96%)',
+                    'linear-gradient(140deg, rgba(234,210,144,1) 60%, rgba(231,203,127,1) 75%, rgba(227,194,106,1) 96%)',
                 'gradient-destructive':
                     'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)',
                 'gradient-active':
@@ -171,8 +173,8 @@ module.exports = {
             },
             dropShadow: {
                 primary: [
-                    '0 10px 10px rgba(219, 183, 120, 0.3)',
-                    '0 20px 20px rgba(219, 183, 120, 0.3)'
+                    '0 10px 10px rgba(231,203,127, 0.4)',
+                    '0 20px 20px rgba(231,203,127, 0.4)'
                 ]
             },
             screens: {
@@ -180,7 +182,7 @@ module.exports = {
                 sm: '425px',
                 sml: '500px',
                 md: '667px',
-                mdl: '769px',
+                mdl: '768px',
                 xmdl: '890px',
                 lg: '960px',
                 lgl: '1024px',

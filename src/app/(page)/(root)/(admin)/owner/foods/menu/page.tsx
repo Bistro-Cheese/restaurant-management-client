@@ -32,7 +32,7 @@ const FoodMenu = () => {
                             href='/owner/foods/create'
                             className='ml-4 hidden justify-end md:block'
                         >
-                            <Button className='bg-[rgba(249,192,20,1)] '>
+                            <Button className='bg-harvest-gold-500 '>
                                 Add Food
                             </Button>
                         </Link>
@@ -54,7 +54,7 @@ const FoodMenu = () => {
                             href='/owner/foods/create'
                             className='ml-4 hidden justify-end md:block'
                         >
-                            <Button className='bg-[rgba(249,192,20,1)] '>
+                            <Button className='bg-harvest-gold-500 '>
                                 Add Food
                             </Button>
                         </Link>

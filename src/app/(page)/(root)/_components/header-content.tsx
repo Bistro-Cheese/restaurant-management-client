@@ -31,8 +31,8 @@ export const HeaderContent = () => {
         dispatchLogout();
     };
     return (
-        <>
-            <div className='ml-auto flex gap-x-2'>
+        <div className='ml-auto inline-block rounded-full bg-white p-2'>
+            <div className='flex gap-x-2'>
                 {isSearchPage && (
                     <div className='hidden md:block'>
                         <SearchInput />
@@ -41,7 +41,7 @@ export const HeaderContent = () => {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button size='icon' variant='link'>
-                            <UserCircle className='h-8 w-8' />
+                            <UserCircle className='h-8 w-8 text-tertiary' />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='mr-2 w-56'>
@@ -69,6 +69,6 @@ export const HeaderContent = () => {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-        </>
+        </div>
     );
 };

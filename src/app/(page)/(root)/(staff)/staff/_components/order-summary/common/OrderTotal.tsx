@@ -158,7 +158,7 @@ const OrderTotal = () => {
                 <div className='group mt-4 cursor-pointer'>
                     <button
                         onClick={() => handleCreateNewOrder()}
-                        className=' inline-flex min-w-full items-center justify-center rounded-md bg-harvest-gold-600 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-harvest-gold-500 group-active:scale-95 group-active:opacity-70'
+                        className=' inline-flex min-w-full items-center justify-center rounded-md bg-harvest-gold-500 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-harvest-gold-400 group-active:scale-95 group-active:opacity-70'
                     >
                         <span className='flex items-center justify-center gap-4 text-lg '>
                             <TbShoppingCartCheck className='h-7 w-7 text-white' />
