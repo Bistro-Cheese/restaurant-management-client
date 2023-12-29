@@ -12,7 +12,7 @@ export const SidebarItem = ({
     const pathname = usePathname();
     const router = useRouter();
 
-    const isActive = pathname === path;
+    const isActive = pathname.includes(path);
 
     const onClick = () => {
         router.push(path);
@@ -23,7 +23,7 @@ export const SidebarItem = ({
             onClick={onClick}
             type='button'
             className={cn(
-                'text-tertiary-subtitle group flex items-center gap-x-4 rounded-lg pl-6 font-[500] transition-all duration-200 ease-linear hover:bg-dark-navy-50/10',
+                'group flex items-center space-x-4 rounded-lg pl-6 font-[500] text-tertiary-subtitle transition-all duration-200 ease-linear hover:bg-tertiary/10',
                 isActive && 'text-tertiary'
             )}
         >
@@ -37,18 +37,18 @@ export const SidebarItem = ({
                     <IconActive
                         size={28}
                         className={cn(
-                            'text-tertiary transition-all duration-200 ease-linear group-hover:scale-105'
+                            'shrink-0 text-tertiary transition-all duration-200 ease-linear group-hover:scale-105'
                         )}
                     />
                 ) : (
                     <Icon
                         size={28}
                         className={cn(
-                            'text-tertiary-subtitle transition-all duration-200 ease-linear group-hover:scale-105'
+                            'shrink-0 text-tertiary-subtitle transition-all duration-200 ease-linear group-hover:scale-105'
                         )}
                     />
                 )}
-                {name}
+                <span className='sr-only lgl:not-sr-only'>{name}</span>
             </div>
             {/* <div
                 className={cn(

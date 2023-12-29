@@ -96,7 +96,7 @@ const OrderData = [
     }
 ];
 
-const OrderList = () => {
+const OrderList: React.FC = () => {
     const orderLines = useSelector(
         (state: RootState) => state.reducer.order.orderLines
     );

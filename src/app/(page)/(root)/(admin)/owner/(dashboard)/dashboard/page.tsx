@@ -1,9 +1,9 @@
 'use client';
 
 // components
-import TotalReport from './_components/TotalReport';
+import TotalReport from '../_components/TotalReport';
 
-const DashboardPage = () => {
+const DashboardPage: React.FC = () => {
     return (
         <div className=''>
             {/* Reports */}

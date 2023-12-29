@@ -1,16 +1,13 @@
-import SidebarItemType from '@/types/SidebarItemType';
-import { Layout, Pizza, Users, CreditCard, Store } from 'lucide-react';
 import { MdOutlineSpaceDashboard, MdSpaceDashboard } from 'react-icons/md';
-import { BiSolidFoodMenu, BiFoodMenu } from 'react-icons/bi';
-import { RiGroupFill, RiGroupLine } from 'react-icons/ri';
 import { BsCreditCard2Front, BsCreditCard2FrontFill } from 'react-icons/bs';
-import { IconType } from 'react-icons';
-import { MdOutlineInventory2, MdInventory2 } from 'react-icons/md';
 import { IRoute } from '@/types/navigation';
+import { BiCheese, BiSolidCheese } from 'react-icons/bi';
+import { HiOutlineUserGroup, HiUserGroup } from 'react-icons/hi2';
+import { MdOutlineWarehouse, MdWarehouse } from 'react-icons/md';
 
 export const paths = {
     owner: {
-        dashboard: '/owner',
+        dashboard: '/owner/dashboard',
         foodMenu: '/owner/foods/menu',
         employees: '/owner/employees',
         payments: '/owner/payments'
@@ -30,17 +27,17 @@ export const ownerRoutes: IRoute[] = [
         icon: MdOutlineSpaceDashboard,
         iconActive: MdSpaceDashboard,
         name: 'Dashboard',
-        path: '/owner'
+        path: '/owner/dashboard'
     },
     {
-        icon: BiFoodMenu,
-        iconActive: BiSolidFoodMenu,
+        icon: BiCheese,
+        iconActive: BiSolidCheese,
         name: 'Food Menu',
         path: '/owner/foods/menu'
     },
     {
-        icon: RiGroupLine,
-        iconActive: RiGroupFill,
+        icon: HiOutlineUserGroup,
+        iconActive: HiUserGroup,
         name: 'Employee',
         path: '/owner/employees'
     },
@@ -54,14 +51,14 @@ export const ownerRoutes: IRoute[] = [
 
 export const managerRoutes: IRoute[] = [
     {
-        icon: RiGroupLine,
-        iconActive: RiGroupFill,
+        icon: HiOutlineUserGroup,
+        iconActive: HiUserGroup,
         name: 'Staffs',
         path: '/manager/timekeeping'
     },
     {
-        icon: MdOutlineInventory2,
-        iconActive: MdInventory2,
+        icon: MdOutlineWarehouse,
+        iconActive: MdWarehouse,
         name: 'Inventory',
         path: '/manager/inventory'
     }

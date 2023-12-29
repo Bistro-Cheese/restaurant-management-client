@@ -5,6 +5,7 @@ import OrderMenu from './order-menu/OrderMenu';
 import OrderSummary from './order-summary/OrderSummary';
 import { useGetAllFoods } from '@/hooks/food/use-get-foods';
 import { RootState } from '@/redux/store';
+import React from 'react';
 
 const OrderData = [
     {
@@ -299,11 +300,7 @@ const FoodData = [
     }
 ];
 
-interface OrderPageProps {
-    tableId: number | null;
-}
-
-const OrderPage = () => {
+const OrderPage: React.FC = () => {
     const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
     const order = useSelector((state: RootState) => state.reducer.order);
 

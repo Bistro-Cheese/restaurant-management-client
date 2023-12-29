@@ -43,7 +43,7 @@ const getCountTableStatus = (tables: any) => {
     return { numberOfEmptyTable, numberOfOccupiedTable };
 };
 
-const TablePage = () => {
+const TablePage: React.FC = () => {
     const { tables, isTablesLoading, isTablesSuccess } = useGetAllTables();
 
     if (isTablesLoading) {

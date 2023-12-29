@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 
-const OrderHeader = () => {
+const OrderHeader: React.FC = () => {
     return (
         <div className='block w-full flex-shrink-0'>
             <div className='relative flex items-center justify-center'>
