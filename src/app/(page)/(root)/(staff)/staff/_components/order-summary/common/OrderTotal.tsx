@@ -3,17 +3,11 @@ import { TbShoppingCartCheck } from 'react-icons/tb';
 import { MdOutlineDiscount } from 'react-icons/md';
 import { useDispatch, useSelector } from 'react-redux';
 import { OrderLineType, OrderType } from '@/types';
-import { setInitialOrder } from '@/redux/features/order-slice';
 import { RootState } from '@/redux/store';
 import { convertPriceToString } from '@/utils';
-import {
-    useCreateOrderMutation,
-    useUpdateOrderMutation
-} from '@/redux/services/order-api';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
-import { create } from 'domain';
 import { createTableOrder } from '@/redux/features/table-order-slice';
 import { useCreateOrder } from '@/hooks/order/use-create-order';
 import { useUpdateOrder } from '@/hooks/order/use-update-order';
@@ -48,7 +42,7 @@ const convertToOrderLinesRequestType = (orderLines: OrderLineType[]) => {
     return orderLinesRequest;
 };
 
-const OrderTotal = () => {
+const OrderTotal: React.FC = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const tableOrders = useSelector(

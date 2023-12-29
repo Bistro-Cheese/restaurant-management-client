@@ -20,10 +20,10 @@ module.exports = {
                 border: 'hsl(var(--border))',
                 input: 'hsl(var(--input))',
                 ring: 'hsl(var(--ring))',
-                background: '#f5f3f0',
+                background: '#f5f4f2',
                 foreground: 'rgb(var(--foreground))',
                 primary: {
-                    DEFAULT: '#F2CB6D',
+                    DEFAULT: '#D9BB65',
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
@@ -32,7 +32,7 @@ module.exports = {
                     foreground: 'hsl(var(--secondary-foreground))'
                 },
                 tertiary: {
-                    DEFAULT: '#253C64',
+                    DEFAULT: '#0F1C40',
                     subtitle: '#70798a',
                     foreground: '#ECF1F4' // === on tertiary color
                 },
@@ -85,18 +85,18 @@ module.exports = {
 
                 // Primary brand color shades
                 'harvest-gold': {
-                    DEFAULT: '#F2CB6D',
-                    50: '#FDF8EB',
-                    100: '#FCF3DD',
-                    200: '#FAE9C1',
-                    300: '#F7DFA5',
-                    400: '#F5D589',
-                    500: '#F2CB6D',
-                    600: '#F0C356',
-                    700: '#EEBA3E',
-                    800: '#ECB227',
-                    900: '#E5A814',
-                    950: '#D99F13'
+                    DEFAULT: '#D9BB65',
+                    50: '#F0E4C1',
+                    100: '#EDDFB7',
+                    200: '#E8D6A2',
+                    300: '#E3CD8E',
+                    400: '#DEC479',
+                    500: '#D9BB65',
+                    600: '#D6B659',
+                    700: '#D3B04C',
+                    800: '#D0AB40',
+                    900: '#CDA534',
+                    950: '#C8A131'
                 },
 
                 // Secondary brand color shades
@@ -117,18 +117,18 @@ module.exports = {
 
                 // Tertiary brand color shades
                 'dark-navy': {
-                    DEFAULT: '#253C64',
-                    50: '#96AED8',
-                    100: '#8BA6D4',
-                    200: '#7595CC',
-                    300: '#5E83C4',
-                    400: '#4872BB',
-                    500: '#3E64A7',
-                    600: '#365791',
-                    700: '#2D497A',
-                    800: '#253C64',
-                    900: '#1B2C4A',
-                    950: '#17253D'
+                    DEFAULT: '#0F1C40',
+                    50: '#3059CC',
+                    100: '#2E56C4',
+                    200: '#2A4FB4',
+                    300: '#2647A3',
+                    400: '#224093',
+                    500: '#1E3982',
+                    600: '#1B3272',
+                    700: '#172A61',
+                    800: '#132351',
+                    900: '#0F1C40',
+                    950: '#0C1734'
                 }
             },
             borderRadius: {
@@ -151,7 +151,7 @@ module.exports = {
                 'accordion-up': 'accordion-up 0.2s ease-out'
             },
             fontFamily: {
-                default: ['"Nunito Sans"', 'sans-serif'],
+                default: ['Lato', 'sans-serif'],
                 primary: ['"Playfair Display"', 'serif']
             },
             backgroundSize: {
@@ -165,7 +165,7 @@ module.exports = {
                 'gradient-background':
                     'linear-gradient(150deg, #ffcc80 40%, #f57c00 90%)',
                 'gradient-primary':
-                    'linear-gradient(140deg, rgba(245,213,137,1) 60%, rgba(242,203,109,1) 75%, rgba(240,195,86,1) 90%)',
+                    'linear-gradient(140deg, rgba(222,196,121,1) 60%, rgba(217,187,101,1) 75%, rgba(214,182,89,1) 90%)',
                 'gradient-destructive':
                     'linear-gradient(135deg, rgba(255,65,34,1) 60%, rgba(237,53,26,1) 85%, rgba(198,26,9,1) 100%)',
                 'gradient-active':
@@ -173,16 +173,16 @@ module.exports = {
             },
             dropShadow: {
                 primary: [
-                    '0 10px 10px rgba(242,203,109, 0.4)',
-                    '0 20px 20px rgba(242,203,109, 0.4)'
+                    '0 10px 10px rgba(217,187,101, 0.4)',
+                    '0 20px 20px rgba(217,187,101, 0.4)'
                 ]
             },
             screens: {
                 xs: '320px',
-                sm: '425px',
+                sm: '426px',
                 sml: '500px',
                 md: '667px',
-                mdl: '768px',
+                mdl: '769px',
                 xmdl: '890px',
                 lg: '960px',
                 lgl: '1024px',

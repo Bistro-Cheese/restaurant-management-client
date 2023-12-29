@@ -17,6 +17,7 @@ import { SearchInput } from '@/components/search-input';
 import { Button } from '@/components/ui/button';
 
 import { useDispatchLogout } from '@/hooks/use-dispatch-auth';
+import { cn } from '@/lib/utils';
 
 export const HeaderContent = () => {
     const pathname = usePathname();
@@ -31,7 +32,12 @@ export const HeaderContent = () => {
         dispatchLogout();
     };
     return (
-        <div className='ml-auto inline-block rounded-full bg-white p-2'>
+        <div
+            className={cn(
+                'ml-auto inline-block rounded-full p-2',
+                isSearchPage && 'bg-white'
+            )}
+        >
             <div className='flex gap-x-2'>
                 {isSearchPage && (
                     <div className='hidden md:block'>

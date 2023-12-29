@@ -9,6 +9,11 @@ import { managerRoutes, ownerRoutes } from '@/constants/routes';
 import { get } from 'http';
 import NavLink from '@/components/link/nav-link';
 
+interface HeaderProps {
+    children: React.ReactNode;
+    routeContent?: string | undefined;
+}
+
 const getRouteContent = (pathname: string) => {
     if (pathname.includes('/staff')) return;
 
@@ -22,20 +27,15 @@ const getRouteContent = (pathname: string) => {
     }
 };
 
-export const Header = ({
-    children,
-    routeContent
-}: {
-    children: React.ReactNode;
-    routeContent?: string | undefined;
-}) => {
+export const Header: React.FC<HeaderProps> = ({ children, routeContent }) => {
     const pathname = usePathname();
 
     return (
         <div className='sticky inset-x-0 top-0 z-50 block h-[100px] w-full overflow-hidden px-3 py-2 transition-all duration-200 ease-linear'>
             <div className='flex h-full w-full overflow-hidden rounded-2xl bg-white/20 px-5 backdrop-blur-xl'>
                 <div className='flex grow flex-row items-center'>
-                    {pathname.includes('/owner') && (
+                    {(pathname.includes('/owner') ||
+                        pathname.includes('/manager')) && (
                         <div>
                             <div className='h-6 pt-1'>
                                 <a

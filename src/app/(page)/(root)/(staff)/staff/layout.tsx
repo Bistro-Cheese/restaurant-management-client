@@ -2,7 +2,9 @@ import { Header } from '@/app/(page)/(root)/_components/Header';
 import Navbar from './_components/Navbar';
 import { UnauthenticateLayout } from '@/hoc/unauthenticate-layout';
 
-const StaffLayout = ({ children }: { children: React.ReactNode }) => {
+const StaffLayout: React.FC<{
+    children: React.ReactNode;
+}> = ({ children }) => {
     return (
         <UnauthenticateLayout>
             <div className='flex h-full w-full flex-col'>

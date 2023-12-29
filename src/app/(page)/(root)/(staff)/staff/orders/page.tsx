@@ -1,6 +1,6 @@
 'use client';
 
-const OrderListPage = () => {
+const OrderListPage: React.FC = () => {
     return <div>List of Orders</div>;
 };
 

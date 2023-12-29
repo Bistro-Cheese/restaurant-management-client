@@ -3,7 +3,7 @@
 import { ownerRoutes } from '@/constants/routes';
 import { SidebarItem } from '../../_components/SidebarItem';
 
-export const SidebarRoutes = () => {
+export const SidebarRoutes: React.FC = () => {
     return (
         <div className='flex w-full flex-col space-y-2 px-2'>
             {ownerRoutes.map((route) => (

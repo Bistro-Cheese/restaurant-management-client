@@ -27,7 +27,7 @@ const formSchema = z.object({
         .min(8, 'Password must have than 8 characters')
 });
 
-const SignInForm = (): JSX.Element => {
+const SignInForm: React.FC = () => {
     const { isLoginLoading, dispatchLogin, loginError } = useDispatchLogin();
 
     const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -60,8 +60,8 @@ const SignInForm = (): JSX.Element => {
                             name='username'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='flex items-center'>
-                                        <RiUser3Line size={20} />
+                                    <FormLabel className='flex items-center sm:text-lg'>
+                                        <RiUser3Line className='text-[1.25em]' />
                                         <span className='ml-2 font-bold'>
                                             Username
                                         </span>
@@ -85,8 +85,8 @@ const SignInForm = (): JSX.Element => {
                             name='password'
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='flex items-center'>
-                                        <RiLockPasswordLine size={20} />
+                                    <FormLabel className='flex items-center sm:text-lg'>
+                                        <RiLockPasswordLine className='text-[1.25em]' />
                                         <p className='ml-2 font-bold'>
                                             Password
                                         </p>
@@ -131,7 +131,7 @@ const SignInForm = (): JSX.Element => {
                         {/* Submit button */}
                         <Button
                             disabled={isLoginLoading}
-                            className='w-full bg-gradient-primary text-xl font-bold text-tertiary'
+                            className='w-full bg-gradient-primary text-lg font-bold text-tertiary sm:text-xl'
                             type='submit'
                         >
                             {isLoginLoading ? 'Loading...' : 'Log in'}
