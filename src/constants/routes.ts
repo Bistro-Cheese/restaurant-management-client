@@ -1,9 +1,16 @@
-import { MdOutlineSpaceDashboard, MdSpaceDashboard } from 'react-icons/md';
-import { BsCreditCard2Front, BsCreditCard2FrontFill } from 'react-icons/bs';
 import { IRoute } from '@/types/navigation';
+
+import {
+    MdOutlineSpaceDashboard,
+    MdOutlineTableRestaurant,
+    MdSpaceDashboard,
+    MdTableRestaurant
+} from 'react-icons/md';
+import { BsCreditCard2Front, BsCreditCard2FrontFill } from 'react-icons/bs';
 import { BiCheese, BiSolidCheese } from 'react-icons/bi';
 import { HiOutlineUserGroup, HiUserGroup } from 'react-icons/hi2';
 import { MdOutlineWarehouse, MdWarehouse } from 'react-icons/md';
+import { TbMushroom, TbMushroomFilled } from 'react-icons/tb';
 
 export const paths = {
     owner: {
@@ -57,9 +64,21 @@ export const managerRoutes: IRoute[] = [
         path: '/manager/timekeeping'
     },
     {
+        icon: TbMushroom,
+        iconActive: TbMushroomFilled,
+        name: 'Ingredients',
+        path: '/manager/ingredients'
+    },
+    {
         icon: MdOutlineWarehouse,
         iconActive: MdWarehouse,
         name: 'Inventory',
         path: '/manager/inventory'
+    },
+    {
+        icon: MdOutlineTableRestaurant,
+        iconActive: MdTableRestaurant,
+        name: 'Tables',
+        path: '/manager/tables'
     }
 ];
