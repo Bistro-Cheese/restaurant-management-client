@@ -40,7 +40,7 @@ export const HeaderContent = () => {
         >
             <div className='flex gap-x-2'>
                 {isSearchPage && (
-                    <div className='hidden md:block'>
+                    <div className='hidden sml:block'>
                         <SearchInput />
                     </div>
                 )}

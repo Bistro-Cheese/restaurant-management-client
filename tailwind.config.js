@@ -151,7 +151,7 @@ module.exports = {
                 'accordion-up': 'accordion-up 0.2s ease-out'
             },
             fontFamily: {
-                default: ['Lato', 'sans-serif'],
+                default: ['"Noto Sans JP"', 'sans-serif'],
                 primary: ['"Playfair Display"', 'serif']
             },
             backgroundSize: {
