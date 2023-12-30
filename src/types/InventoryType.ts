@@ -6,8 +6,10 @@ export type Ingredient = {
 
 type Inventory = {
     id: string;
-    ingredient: Ingredient;
-    quantity: number;
+    ingredientName: string;
+    supplier: string;
+    totalQuantity: number;
+    unit: string;
 };
 
 export default Inventory;

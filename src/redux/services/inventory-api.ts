@@ -10,7 +10,7 @@ const inventoryAdapter = createEntityAdapter<InventoryType>({
     // Assume IDs are stored in a field other than `book.id`
     selectId: (Inventory) => Inventory.id,
     // Keep the "all IDs" array sorted based on book titles
-    sortComparer: (a, b) => a.ingredient.name.localeCompare(b.ingredient.name)
+    sortComparer: (a, b) => a.ingredientName.localeCompare(b.ingredientName)
 });
 
 const initialState = inventoryAdapter.getInitialState();
@@ -20,14 +20,14 @@ export const inventoryApi = apiSlice.injectEndpoints({
         getInventory: builder.query<EntityState<InventoryType>, void>({
             query: () => '/inventory',
             transformResponse(response: {
-                message: string;
-                data: InventoryType[];
+                pageable: Object;
+                content: InventoryType[];
             }) {
-                return inventoryAdapter.setAll(initialState, response.data);
+                return inventoryAdapter.setAll(initialState, response.content);
             },
             // highlight-start
-            providesTags: (result) =>
-                result
+            providesTags: (result) => {
+                return result
                     ? [
                           ...result.ids.map((id) => ({
                               type: 'Inventory' as const,
@@ -35,7 +35,9 @@ export const inventoryApi = apiSlice.injectEndpoints({
                           })),
                           { type: 'Inventory', id: 'LIST' }
                       ]
-                    : [{ type: 'Inventory', id: 'LIST' }]
+                    : [{ type: 'Inventory', id: 'LIST' }];
+            }
+
             // highlight-end
         }),
         importInventory: builder.mutation<
