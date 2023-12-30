@@ -17,15 +17,9 @@ export const Logo = () => {
                     className=' object-cover object-center'
                 />
             </div>
-            {pathname.includes('/staff') ? (
-                <span className='ml-2 line-clamp-1 hidden truncate font-primary text-xl font-bold text-tertiary sml:inline-block'>
-                    Cheese Bistro
-                </span>
-            ) : (
-                <span className='ml-2 line-clamp-1 hidden font-primary text-xl font-bold text-tertiary lgl:inline-block'>
-                    Cheese Bistro
-                </span>
-            )}
+            <span className='ml-2 line-clamp-1 hidden truncate font-primary text-xl font-bold text-tertiary sml:inline-block'>
+                Cheese Bistro
+            </span>
         </Link>
     );
 };

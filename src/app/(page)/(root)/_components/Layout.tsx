@@ -5,6 +5,10 @@ import { SidebarRoutes as ManagerSidebarRoutes } from '../(manager)/_components/
 import { Header } from './Header';
 import { getActiveRoute } from '@/utils/navigation';
 import { managerRoutes, ownerRoutes } from '@/constants/routes';
+import { useEffect, useState } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+import useWindowDimensions from '@/hooks/use-window-dimensions';
+import { cn } from '@/lib/utils';
 
 const getRouteContent = (pathname: string) => {
     if (pathname.includes('/staff')) return 'staff';
@@ -22,25 +26,90 @@ const getRouteContent = (pathname: string) => {
 const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const pathname = usePathname();
 
+    const { height, width } = useWindowDimensions();
+
+    const [isCollapseSideBar, setIsCollapseSideBar] = useState(false);
+    const controlSidebar = useAnimation();
+    const controlText = useAnimation();
+
+    // useEffect(() => {
+
+    // }, [width])
+
+    const hanldeExpandSideBar = () => {
+        setIsCollapseSideBar(false);
+        controlSidebar.start({
+            width: '210px',
+            transition: { duration: 0.002 }
+        });
+
+        controlText.start({
+            opacity: 1,
+            display: 'block',
+            transition: { duration: 0.15, delay: 0.35 }
+        });
+    };
+
+    const hanldeCollapseSideBar = () => {
+        setIsCollapseSideBar(true);
+
+        controlText.start({
+            opacity: 0,
+            display: 'none',
+            transition: { duration: 0.002 }
+        });
+
+        controlSidebar.start({
+            width: '74px',
+            transition: { duration: 0.002 }
+        });
+    };
+
     const routeContent = getRouteContent(pathname);
     console.log('routeContent', routeContent);
 
     return (
         <div className='flex h-full w-full'>
-            <Sidebar>
+            <Sidebar
+                isCollapseSideBar={isCollapseSideBar}
+                controlSidebar={controlSidebar}
+                controlText={controlText}
+                hanldeExpandSideBar={hanldeExpandSideBar}
+                hanldeCollapseSideBar={hanldeCollapseSideBar}
+            >
                 {pathname.includes('/owner') ? (
-                    <OwnerSidebarRoutes />
+                    <OwnerSidebarRoutes controlText={controlText} />
+                ) : pathname.includes('/manager') ? (
+                    <ManagerSidebarRoutes controlText={controlText} />
                 ) : (
-                    <ManagerSidebarRoutes />
+                    <span>i don't know who you are</span>
                 )}
             </Sidebar>
 
-            <main className='h-full w-full transition-all duration-200 ease-linear md:pl-[94px] lgl:pl-56'>
-                <Header routeContent={routeContent}>
-                    <></>
-                </Header>
-                <div className='h-full w-full px-3'>{children}</div>
-            </main>
+            {width >= 960 ? (
+                <main
+                    className={cn(
+                        'flex h-full w-full flex-col transition-all duration-200 ease-linear',
+                        !isCollapseSideBar ? ' pl-[210px]' : 'pl-[74px]'
+                    )}
+                >
+                    <Header routeContent={routeContent}>
+                        <></>
+                    </Header>
+                    <div className='h-full w-full px-3'>{children}</div>
+                </main>
+            ) : (
+                <main
+                    className={cn(
+                        'flex h-full w-full flex-col pl-0 transition-all duration-200 ease-linear'
+                    )}
+                >
+                    <Header routeContent={routeContent}>
+                        <></>
+                    </Header>
+                    <div className='h-full w-full px-3'>{children}</div>
+                </main>
+            )}
         </div>
     );
 };

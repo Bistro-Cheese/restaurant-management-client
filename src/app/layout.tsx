@@ -20,7 +20,7 @@ export default function RootLayout({
     return (
         <html lang='en' className='scroll-smooth'>
             <head>
-                <link rel='icon' href='/cheese-logo.png' />
+                <link rel='icon' href='/images/cheese-logo.png' />
             </head>
             <body className={inter.className}>
                 <ReduxProvider>

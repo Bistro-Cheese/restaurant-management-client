@@ -12,12 +12,12 @@ function Header() {
                 {/* Logo */}
                 <div className='flex items-start'>
                     <Image
-                        src='/cheese-logo.png'
+                        src='/images/cheese-logo.png'
                         alt='cheese-logo'
                         width={40}
                         height={40}
                     />
-                    <p className='ml-2 text-4xl font-bold italic'>
+                    <p className='ml-2 font-primary text-4xl font-bold'>
                         Cheese Bistro
                     </p>
                 </div>
