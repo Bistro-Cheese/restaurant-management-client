@@ -33,7 +33,7 @@ export const Header: React.FC<HeaderProps> = ({ children, routeContent }) => {
     const pathname = usePathname();
 
     return (
-        <div className='sticky inset-x-0 top-0 z-50 block h-[100px] w-full overflow-hidden px-3 py-2 transition-all duration-200 ease-linear'>
+        <div className='sticky inset-x-0 top-0 z-50 block h-[100px] w-full overflow-hidden px-3 py-2 transition-all duration-300 ease-in-out'>
             <div className='flex h-full w-full overflow-hidden rounded-2xl bg-white/20 px-5 backdrop-blur-xl'>
                 <div className='flex grow flex-row items-center'>
                     {width >= 960 &&

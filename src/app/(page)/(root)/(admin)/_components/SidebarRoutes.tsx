@@ -5,18 +5,18 @@ import { SidebarItem } from '../../_components/SidebarItem';
 import { AnimationControls } from 'framer-motion';
 
 interface SidebarRoutesProps {
-    controlText?: AnimationControls;
+    isSidebarOpen?: boolean;
 }
 
 export const SidebarRoutes: React.FC<SidebarRoutesProps> = ({
-    controlText
+    isSidebarOpen
 }) => {
     return (
         <div className='flex w-full flex-col space-y-2 px-2'>
             {ownerRoutes.map((route) => (
                 <SidebarItem
                     key={route.path}
-                    controlText={controlText}
+                    isSidebarOpen={isSidebarOpen}
                     icon={route.icon}
                     iconActive={route.iconActive}
                     name={route.name}

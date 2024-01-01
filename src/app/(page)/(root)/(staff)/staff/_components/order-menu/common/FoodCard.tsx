@@ -23,7 +23,7 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
     return (
         <div
             key={food.id}
-            className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl transition-all duration-200 ease-linear md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'
+            className='mt-1 flex h-full rounded-3xl bg-white drop-shadow-xl transition-all duration-300 ease-in-out md:flex-col mdl:hover:-translate-y-1 mdl:hover:drop-shadow-primary'
         >
             {/* Image */}
             {food.image && (
@@ -61,14 +61,14 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
                     </div>
 
                     <div className='flex items-center justify-between md:mt-1'>
-                        <span className='group grow transition-all duration-100 ease-linear active:scale-95 active:opacity-70'>
+                        <span className='group grow transition-all duration-300 ease-in-out active:scale-95 active:opacity-70'>
                             <button
                                 onClick={() => handleAddToOrder()}
-                                className='inline-flex w-full items-center justify-center gap-4 rounded-xl bg-gradient-primary bg-size-200 bg-pos-100 px-4 py-2 font-primary transition-all duration-300 ease-linear group-hover:bg-pos-0'
+                                className='inline-flex w-full items-center justify-center gap-4 rounded-xl bg-gradient-primary bg-size-200 bg-pos-100 px-4 py-2 font-primary transition-all duration-300 ease-in-out group-hover:bg-pos-0'
                             >
-                                <TbShoppingCartPlus className='text-base text-white duration-100 ease-linear md:text-2xl' />
+                                <TbShoppingCartPlus className='text-base text-white duration-300 ease-in-out md:text-2xl' />
 
-                                <span className='hidden font-primary text-sm font-semibold uppercase text-white duration-100 ease-linear md:inline-block lg:text-base'>
+                                <span className='hidden font-primary text-sm font-semibold uppercase text-white duration-300 ease-in-out md:inline-block lg:text-base'>
                                     ADD TO ORDER
                                 </span>
                             </button>
@@ -78,9 +78,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
                             <li className='inline-flex '>
                                 <button
                                     onClick={() => {}}
-                                    className='group inline-flex cursor-pointer items-center justify-center rounded-md bg-white p-1 drop-shadow-md duration-100 ease-linear hover:bg-gray-200 active:scale-95 active:opacity-70'
+                                    className='group inline-flex cursor-pointer items-center justify-center rounded-md bg-white p-1 drop-shadow-md duration-300 ease-in-out hover:bg-gray-200 active:scale-95 active:opacity-70'
                                 >
-                                    <TiMinus className='text-lg duration-100 ease-linear' />
+                                    <TiMinus className='text-lg duration-300 ease-in-out' />
                                 </button>
                             </li>
     
@@ -94,9 +94,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
                             <li className='inline-flex'>
                                 <button
                                     onClick={() => {}}
-                                    className='group inline-flex cursor-pointer items-center justify-center rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 drop-shadow-md duration-100 ease-linear hover:bg-pos-0 active:scale-95 active:opacity-70'
+                                    className='group inline-flex cursor-pointer items-center justify-center rounded-md bg-gradient-primary bg-size-200 bg-pos-100 p-1 drop-shadow-md duration-300 ease-in-out hover:bg-pos-0 active:scale-95 active:opacity-70'
                                 >
-                                    <TiPlus className='text-lg duration-100 ease-linear' />
+                                    <TiPlus className='text-lg duration-300 ease-in-out' />
                                 </button>
                             </li>
                         </ul> */}
