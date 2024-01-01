@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 
 interface SidebarItemProps extends IRoute {
-    controlText?: AnimationControls;
+    isSidebarOpen?: boolean;
 }
 
 export const SidebarItem: React.FC<SidebarItemProps> = ({
@@ -14,7 +14,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
     iconActive: IconActive,
     name,
     path,
-    controlText
+    isSidebarOpen
 }) => {
     const pathname = usePathname();
     const router = useRouter();
@@ -30,7 +30,7 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
             onClick={onClick}
             type='button'
             className={cn(
-                'group/item flex items-center space-x-4 rounded-lg pl-4 transition-all duration-200 ease-linear hover:bg-tertiary/10'
+                'group/item flex items-center space-x-4 rounded-lg pl-4 transition-all ease-in-out hover:bg-tertiary/10'
             )}
         >
             <div className={cn('flex items-center gap-x-4 py-4')}>
@@ -38,22 +38,24 @@ export const SidebarItem: React.FC<SidebarItemProps> = ({
                     <IconActive
                         size={24}
                         className={cn(
-                            'shrink-0 text-tertiary transition-all duration-200 ease-linear group-hover/item:scale-105'
+                            'shrink-0 text-tertiary transition-all duration-300 ease-in-out group-hover/item:scale-105'
                         )}
                     />
                 ) : (
                     <Icon
                         size={24}
                         className={cn(
-                            'shrink-0 text-tertiary-subtitle transition-all duration-200 ease-linear group-hover/item:scale-105'
+                            'shrink-0 text-tertiary-subtitle transition-all duration-300 ease-in-out group-hover/item:scale-105'
                         )}
                     />
                 )}
                 <motion.span
-                    animate={controlText}
                     className={cn(
-                        'inline-block text-tertiary',
-                        isActive && 'font-bold'
+                        'inline-block truncate text-tertiary transition-all ease-in-out',
+                        isActive && 'font-bold',
+                        isSidebarOpen
+                            ? 'visible opacity-100 delay-300 duration-300'
+                            : 'invisble opacity-0 duration-0'
                     )}
                 >
                     {name}

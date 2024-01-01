@@ -28,30 +28,27 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const { height, width } = useWindowDimensions();
 
-    const [isCollapseSideBar, setIsCollapseSideBar] = useState(false);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const controlSidebar = useAnimation();
     const controlText = useAnimation();
 
-    // useEffect(() => {
+    const handleOpenSidebar = async () => {
+        setIsSidebarOpen(true);
 
-    // }, [width])
-
-    const hanldeExpandSideBar = () => {
-        setIsCollapseSideBar(false);
-        controlSidebar.start({
+        await controlSidebar.start({
             width: '210px',
             transition: { duration: 0.002 }
         });
 
-        controlText.start({
+        await controlText.start({
             opacity: 1,
             display: 'block',
-            transition: { duration: 0.15, delay: 0.35 }
+            transition: { duration: 0.15 }
         });
     };
 
-    const hanldeCollapseSideBar = () => {
-        setIsCollapseSideBar(true);
+    const handleCloseSidebar = () => {
+        setIsSidebarOpen(false);
 
         controlText.start({
             opacity: 0,
@@ -71,16 +68,14 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div className='flex h-full w-full'>
             <Sidebar
-                isCollapseSideBar={isCollapseSideBar}
-                controlSidebar={controlSidebar}
-                controlText={controlText}
-                hanldeExpandSideBar={hanldeExpandSideBar}
-                hanldeCollapseSideBar={hanldeCollapseSideBar}
+                isSidebarOpen={isSidebarOpen}
+                handleOpenSidebar={handleOpenSidebar}
+                handleCloseSidebar={handleCloseSidebar}
             >
                 {pathname.includes('/owner') ? (
-                    <OwnerSidebarRoutes controlText={controlText} />
+                    <OwnerSidebarRoutes isSidebarOpen={isSidebarOpen} />
                 ) : pathname.includes('/manager') ? (
-                    <ManagerSidebarRoutes controlText={controlText} />
+                    <ManagerSidebarRoutes isSidebarOpen={isSidebarOpen} />
                 ) : (
                     <span>i don't know who you are</span>
                 )}
@@ -89,8 +84,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             {width >= 960 ? (
                 <main
                     className={cn(
-                        'flex h-full w-full flex-col transition-all duration-200 ease-linear',
-                        !isCollapseSideBar ? ' pl-[210px]' : 'pl-[74px]'
+                        'flex h-full w-full flex-col transition-all duration-300 ease-in-out',
+                        isSidebarOpen ? ' pl-[210px]' : 'pl-[74px]'
                     )}
                 >
                     <Header routeContent={routeContent}>
@@ -101,7 +96,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             ) : (
                 <main
                     className={cn(
-                        'flex h-full w-full flex-col pl-0 transition-all duration-200 ease-linear'
+                        'flex h-full w-full flex-col pl-0 transition-all duration-300 ease-in-out'
                     )}
                 >
                     <Header routeContent={routeContent}>

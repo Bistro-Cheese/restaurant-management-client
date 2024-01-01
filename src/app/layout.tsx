@@ -9,7 +9,8 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
     title: 'Cheese Bistro | Restaurant Management',
-    description: 'A Restaurant Management System for Cheese Bistro'
+    description: 'A Restaurant Management System for Cheese Bistro',
+    icons: '/images/cheese-logo.png'
 };
 
 export default function RootLayout({
