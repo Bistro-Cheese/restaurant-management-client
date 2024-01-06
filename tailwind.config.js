@@ -27,7 +27,7 @@ module.exports = {
                     foreground: 'hsl(var(--primary-foreground))'
                 },
                 secondary: {
-                    DEFAULT: '#F4DDA1',
+                    DEFAULT: '#e8d4a5',
                     subtitle: '#70798a',
                     foreground: 'hsl(var(--secondary-foreground))'
                 },
@@ -101,18 +101,18 @@ module.exports = {
 
                 // Secondary brand color shades
                 'light-gold': {
-                    DEFAULT: '#F4DDA1',
-                    50: '#FEFBF3',
-                    100: '#FDF7EA',
-                    200: '#FAF1D8',
-                    300: '#F8EAC6',
-                    400: '#F6E4B3',
-                    500: '#F4DDA1',
-                    600: '#EFCC73',
-                    700: '#E9BC46',
-                    800: '#E2AA1A',
-                    900: '#B48815',
-                    950: '#9D7712'
+                    DEFAULT: '#E8D4A5',
+                    50: '#FBF7EE',
+                    100: '#F9F3E6',
+                    200: '#F4EBD6',
+                    300: '#F0E4C5',
+                    400: '#ECDCB5',
+                    500: '#E8D4A5',
+                    600: '#E2C88D',
+                    700: '#DCBD74',
+                    800: '#D5B15C',
+                    900: '#CFA544',
+                    950: '#CCA037'
                 },
 
                 // Tertiary brand color shades
@@ -174,15 +174,19 @@ module.exports = {
             dropShadow: {
                 primary: [
                     '0 10px 10px rgba(217,187,101, 0.4)',
-                    '0 20px 20px rgba(217,187,101, 0.4)'
+                    '0 20px 20px rgba(217,187,101, 0.3)'
+                ],
+                secondary: [
+                    '0 5px 3px rgba(126, 102, 31, 0.1)',
+                    '0 10px 6px rgba(126, 102, 31, 0.05)'
                 ]
             },
             screens: {
                 xs: '320px',
-                sm: '426px',
+                sm: '425px',
                 sml: '500px',
                 md: '667px',
-                mdl: '769px',
+                mdl: '768px',
                 xmdl: '890px',
                 lg: '960px',
                 lgl: '1024px',

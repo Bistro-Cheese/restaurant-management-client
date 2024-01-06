@@ -91,7 +91,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Header routeContent={routeContent}>
                         <></>
                     </Header>
-                    <div className='h-full w-full px-3'>{children}</div>
+                    <div className='h-full w-full px-4'>{children}</div>
                 </main>
             ) : (
                 <main
@@ -102,7 +102,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                     <Header routeContent={routeContent}>
                         <></>
                     </Header>
-                    <div className='h-full w-full px-3'>{children}</div>
+                    <div className='h-full w-full px-4'>{children}</div>
                 </main>
             )}
         </div>

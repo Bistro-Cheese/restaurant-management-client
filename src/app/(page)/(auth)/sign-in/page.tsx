@@ -10,7 +10,7 @@ const SignIn: React.FC = () => {
             <div className='flex items-center justify-center'>
                 <div className='relative h-11 w-11 sm:h-12 sm:w-12 mdl:h-14 mdl:w-14'>
                     <Image
-                        src='/cheese-logo.png'
+                        src='/images/cheese-logo.png'
                         alt='cheese logo'
                         fill
                         className='object-contain object-center'

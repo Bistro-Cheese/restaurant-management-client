@@ -1,0 +1,26 @@
+'use client';
+import dynamic from 'next/dynamic';
+// import Chart from 'react-apexcharts';
+const Chart = dynamic(() => import('react-apexcharts'), {
+    ssr: false
+});
+
+const LineChart: React.FC<{
+    chartData: any;
+    chartOptions: any;
+    [x: string]: any;
+}> = (props) => {
+    const { chartData, chartOptions } = props;
+
+    return (
+        <Chart
+            options={chartOptions}
+            type='line'
+            width='100%'
+            height='100%'
+            series={chartData}
+        />
+    );
+};
+
+export default LineChart;

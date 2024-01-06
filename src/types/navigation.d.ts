@@ -1,10 +1,12 @@
 import { ComponentType, Element } from 'react';
 
+type CommonIconType = LucideIcon | IconType;
+
 export interface IRoute {
     name: string;
     layout?: string;
-    icon: LucideIcon | IconType;
-    iconActive: LucideIcon | IconType;
+    icon: CommonIconType;
+    iconActive: CommonIconType;
     items?: any;
     path: string;
     secondary?: boolean | undefined;
@@ -12,7 +14,7 @@ export interface IRoute {
 interface RoutesType {
     name: string;
     layout: string;
-    icon: LucideIcon | IconType;
+    icon: CommonIconType;
     path: string;
     secondary?: boolean | undefined;
 }

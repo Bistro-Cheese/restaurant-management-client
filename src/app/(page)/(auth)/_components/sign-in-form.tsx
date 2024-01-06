@@ -47,7 +47,7 @@ const SignInForm: React.FC = () => {
     };
 
     return (
-        <div className='z-10 mx-auto mt-8 block w-full max-w-md rounded-lg bg-white/20  shadow-lg backdrop-blur-2xl'>
+        <div className='z-10 mx-auto mt-8 block w-full max-w-md rounded-lg bg-white/90 drop-shadow-secondary'>
             <div className='h-full w-full p-8'>
                 <Form {...form}>
                     <form

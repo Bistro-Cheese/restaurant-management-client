@@ -1,27 +1,43 @@
+import {
+    radialBarChartDataTotalCustomers,
+    radialBarChartOptionsTotalCustomers
+} from '@/constants/charts';
+import RadialBarChart from '../charts/RadialBarChart';
+import Card from '../common/Card';
+
 interface IProps {
     icon: React.ReactNode;
     title: string;
     value: string;
+    children?: React.ReactNode;
 }
 
-export default function Widget({ icon, title, value }: IProps) {
+const Widget: React.FC<IProps> = ({ icon, title, value, children }) => {
     return (
-        <div className='flex w-full items-center rounded-3xl bg-white p-4'>
+        <Card className='flex flex-grow items-center bg-white p-4'>
             {/* icon */}
-            <div className='rounded-full bg-harvest-gold-100 p-3'>{icon}</div>
+            <div className='inline-flex flex-shrink items-center justify-center rounded-lg bg-harvest-gold-100 p-2'>
+                <span className='text-harvest-gold-900'>{icon}</span>
+            </div>
 
             {/* content */}
-            <div className='ml-4'>
+            <div className='ml-4 flex w-auto flex-col'>
                 {/* title */}
                 <div className=''>
-                    <span className='text-gray-400'>{title}</span>
+                    <span className='text-sm text-tertiary-subtitle'>
+                        {title}
+                    </span>
                 </div>
 
                 {/* value */}
                 <div className=''>
-                    <span className='text-lg font-bold'>{value}</span>
+                    <span className='text-lg font-bold text-tertiary'>
+                        {value}
+                    </span>
                 </div>
             </div>
-        </div>
+        </Card>
     );
-}
+};
+
+export default Widget;
