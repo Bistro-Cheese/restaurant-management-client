@@ -53,13 +53,7 @@ interface InventoryFormProps {
 export const InventoryForm: React.FC<InventoryFormProps> = ({
     inventoryId
 }) => {
-    const [ingredients, setIngredients] = useState<IngredientType[]>(
-        useSelector(selectIngredients)
-    );
-
-    console.log('INGREDIENTS:::', ingredients);
-
-    console.log('ID INVENTORY FORM EDIT:::', inventoryId);
+    const [ingredients, setIngredients] = useState<IngredientType[]>();
 
     const router = useRouter();
 
@@ -98,8 +92,8 @@ export const InventoryForm: React.FC<InventoryFormProps> = ({
 
     const defaultValues = isCreate
         ? {
-              ingredient_id: inventory?.ingredient.id,
-              quantity: inventory?.quantity
+              //   ingredient_id: inventory?.ingredient.id,
+              //   quantity: inventory?.quantity
           }
         : {
               inventory_id: 0,

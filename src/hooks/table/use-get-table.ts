@@ -5,7 +5,8 @@ export const useGetAllTables = () => {
     const {
         data: tables,
         isLoading: isTablesLoading,
-        isSuccess: isTablesSuccess
+        isSuccess: isTablesSuccess,
+        isError: isTablesError
     } = useGetTablesQuery(undefined, {
         pollingInterval: 60000,
         refetchOnFocus: true,
@@ -15,6 +16,7 @@ export const useGetAllTables = () => {
     return {
         tables,
         isTablesLoading,
-        isTablesSuccess
+        isTablesSuccess,
+        isTablesError
     };
 };

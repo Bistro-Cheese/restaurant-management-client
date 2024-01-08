@@ -63,7 +63,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
 
     const routeContent = getRouteContent(pathname);
-    console.log('routeContent', routeContent);
 
     return (
         <div className='flex h-full w-full'>
