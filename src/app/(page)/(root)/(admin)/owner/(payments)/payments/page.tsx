@@ -7,12 +7,14 @@ import { CreditCard } from 'lucide-react';
 // components
 import MethodCard from '../_components/MethodCard';
 import CreateMethodModal from '../_components/CreateMethodModal';
-import ConfirmDialog from '@/components/common/ConfirmDialog';
-import Button from '@/components/common/DialogButton';
 
+// types
 import PaymentType from '@/types/PaymentType';
+
+// constants
 import { accountImages } from '@/constants/image';
 
+// hooks
 import { useGetAllPayments } from '@/hooks/payment/use-get-payments';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
 import {

@@ -11,12 +11,17 @@ const Inventory = () => {
         <div className='px-6 py-4'>
             <div className='mb-4 flex justify-between'>
                 <Heading title='Inventory' description='' />
-                <Link
-                    href='/manager/inventory/update'
-                    className='hidden justify-end md:block'
-                >
-                    <Button>Update</Button>
-                </Link>
+                <div className='flex items-center justify-between gap-4'>
+                    <Link href='/manager/inventory/create'>
+                        <Button>Add</Button>
+                    </Link>
+                    <Link
+                        href='/manager/inventory/update'
+                        className='hidden justify-end md:block'
+                    >
+                        <Button>Update</Button>
+                    </Link>
+                </div>
             </div>
 
             <InventoryList />
