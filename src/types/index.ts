@@ -6,3 +6,4 @@ export type {
 } from './InventoryType';
 export type { default as TableType } from './TableType';
 export type { default as OrderType } from './OrderType';
+export type { default as DiscountType } from './DiscountType';

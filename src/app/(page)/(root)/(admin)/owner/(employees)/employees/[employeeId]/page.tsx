@@ -9,13 +9,7 @@ interface UserPageProps {
 }
 
 const UserPage: React.FC<UserPageProps> = ({ params }) => {
-    return (
-        <div className='flex-col'>
-            <div className='flex-1 space-y-4 p-8 pt-6'>
-                <UserForm userId={params.employeeId} />
-            </div>
-        </div>
-    );
+    return <UserForm userId={params.employeeId} />;
 };
 
 export default UserPage;

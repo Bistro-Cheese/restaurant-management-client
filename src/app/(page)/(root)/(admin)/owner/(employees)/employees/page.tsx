@@ -28,7 +28,7 @@ const Employees = () => {
         const { entities } = users;
         console.log('entities:::', entities);
         return (
-            <div className='max-h-full overflow-hidden px-6 py-4'>
+            <div className='max-h-full overflow-hidden pb-4'>
                 <div className='mb-4 flex justify-between'>
                     <Heading title='List of Employees' description='' />
                     <Link

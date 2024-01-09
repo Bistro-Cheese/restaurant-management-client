@@ -22,7 +22,9 @@ export default function ConfirmDialog({
 }: IProps) {
     return (
         <Dialog open={open} onClose={handleClose}>
-            <DialogTitle className='font-semibold'>{title}</DialogTitle>
+            <DialogTitle className='!font-default text-lg !font-bold text-tertiary'>
+                {title}
+            </DialogTitle>
             <DialogContent>{content}</DialogContent>
             <DialogActions className='flex h-16 justify-center pb-4'>
                 {children}

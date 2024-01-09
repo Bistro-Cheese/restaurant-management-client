@@ -35,31 +35,31 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const handleOpenSidebar = async () => {
         setIsSidebarOpen(true);
 
-        await controlSidebar.start({
-            width: '210px',
-            transition: { duration: 0.002 }
-        });
+        // await controlSidebar.start({
+        //     width: '210px',
+        //     transition: { duration: 0.002 }
+        // });
 
-        await controlText.start({
-            opacity: 1,
-            display: 'block',
-            transition: { duration: 0.15 }
-        });
+        // await controlText.start({
+        //     opacity: 1,
+        //     display: 'block',
+        //     transition: { duration: 0.15 }
+        // });
     };
 
     const handleCloseSidebar = () => {
         setIsSidebarOpen(false);
 
-        controlText.start({
-            opacity: 0,
-            display: 'none',
-            transition: { duration: 0.002 }
-        });
+        // controlText.start({
+        //     opacity: 0,
+        //     display: 'none',
+        //     transition: { duration: 0.002 }
+        // });
 
-        controlSidebar.start({
-            width: '74px',
-            transition: { duration: 0.002 }
-        });
+        // controlSidebar.start({
+        //     width: '74px',
+        //     transition: { duration: 0.002 }
+        // });
     };
 
     const routeContent = getRouteContent(pathname);

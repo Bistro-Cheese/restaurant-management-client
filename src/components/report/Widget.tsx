@@ -1,8 +1,3 @@
-import {
-    radialBarChartDataTotalCustomers,
-    radialBarChartOptionsTotalCustomers
-} from '@/constants/charts';
-import RadialBarChart from '../charts/RadialBarChart';
 import Card from '../common/Card';
 
 interface IProps {
@@ -16,7 +11,7 @@ const Widget: React.FC<IProps> = ({ icon, title, value, children }) => {
     return (
         <Card className='flex flex-grow items-center bg-white p-4'>
             {/* icon */}
-            <div className='inline-flex flex-shrink items-center justify-center rounded-lg bg-harvest-gold-100 p-2'>
+            <div className='inline-flex flex-shrink items-center justify-center rounded-md bg-harvest-gold-100 p-2'>
                 <span className='text-harvest-gold-900'>{icon}</span>
             </div>
 
