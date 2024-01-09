@@ -19,7 +19,7 @@ const AuthScreen = () => {
                     router.push(paths.owner.dashboard);
                     break;
                 case 'manager':
-                    router.push(paths.manager.timekeeping);
+                    router.push(paths.manager.inventory);
                     break;
                 case 'staff':
                     router.push(paths.staff.tables);

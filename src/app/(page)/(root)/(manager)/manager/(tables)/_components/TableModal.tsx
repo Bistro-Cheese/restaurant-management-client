@@ -11,102 +11,25 @@ import { useCreateTable } from '@/hooks/table/use-create-table';
 
 // constants
 import { CustomToastOptions } from '@/constants/toast';
+import { ModalStyles } from '@/constants/modalStyle';
 
 // modal
 import { ModalType, initialModalState } from '../tables/page';
 import { useUpdateTable } from '@/hooks/table/use-update-table';
 
-const customModalStyles: Styles = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        zIndex: 100,
-        cursor: ''
-    },
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        borderRadius: '10px',
-        padding: '0',
-        border: 'none',
-        outline: 'none',
-        zIndex: 101
-    }
-};
-
 interface IProps {
-    // isOpen: boolean;
-    // setIsOpen: Dispatch<SetStateAction<boolean>>;
     modalState: ModalType;
     setModalState: Dispatch<SetStateAction<ModalType>>;
 }
 
-export default function TableModal({
-    // isOpen,
-    // setIsOpen,
-    modalState,
-    setModalState
-}: IProps) {
-    const {
-        createTable,
-        isCreateTableLoading,
-        isCreateTableSuccess,
-        isCreateTableError,
-        createTableData,
-        createTableError
-    } = useCreateTable();
+export default function TableModal({ modalState, setModalState }: IProps) {
+    const { createTable, isCreateTableLoading } = useCreateTable();
 
-    const {
-        updateTable,
-        isUpdateTableLoading,
-        isUpdateTableSuccess,
-        isUpdateTableError,
-        updateTableData,
-        updateTableError
-    } = useUpdateTable();
+    const { updateTable, isUpdateTableLoading } = useUpdateTable();
 
     const handleClose = () => {
         setModalState(initialModalState);
     };
-
-    useEffect(() => {
-        if (isCreateTableSuccess) {
-            toast.success(createTableData.message, CustomToastOptions);
-            setModalState(initialModalState);
-        }
-    }, [isCreateTableSuccess]);
-
-    useEffect(() => {
-        if (isCreateTableError) {
-            toast.error(
-                (createTableError as any).data.message,
-                CustomToastOptions
-            );
-        }
-    }, [isCreateTableError]);
-
-    useEffect(() => {
-        if (isUpdateTableSuccess) {
-            toast.success(updateTableData.message, CustomToastOptions);
-            setModalState(initialModalState);
-        }
-    }, [isUpdateTableSuccess]);
-
-    useEffect(() => {
-        if (isUpdateTableError) {
-            toast.error(
-                (updateTableError as any).data.message,
-                CustomToastOptions
-            );
-        }
-    }, [isUpdateTableError]);
 
     const handleChangeTableNumber = (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.value === '') {
@@ -150,21 +73,37 @@ export default function TableModal({
         createTable({
             tableNumber: parseInt(modalState.tableNumber),
             seats: parseInt(modalState.seats)
-        });
+        })
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message, CustomToastOptions);
+                setModalState(initialModalState);
+            })
+            .catch((err) => {
+                toast.error(err.data.message, CustomToastOptions);
+            });
     };
 
     const handleUpdateTable = () => {
         updateTable({
             id: modalState.tableId,
             seats: parseInt(modalState.seats)
-        });
+        })
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message, CustomToastOptions);
+                setModalState(initialModalState);
+            })
+            .catch((err) => {
+                toast.error(err.data.message, CustomToastOptions);
+            });
     };
 
     return (
         <Modal
             isOpen={modalState.isOpen}
             onRequestClose={handleClose}
-            style={customModalStyles}
+            style={ModalStyles}
         >
             <div className='p-5'>
                 <Heading
