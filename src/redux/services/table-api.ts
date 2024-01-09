@@ -38,28 +38,32 @@ export const tablesApi = apiSlice.injectEndpoints({
                     : [{ type: 'Table', id: 'LIST' }]
             // highlight-end
         }),
-        createNewTable: builder.mutation({
-            query: (initialTableData) => ({
+
+        createTable: builder.mutation({
+            query: ({ tableNumber, seats }) => ({
                 url: '/tables',
                 method: 'POST',
                 body: {
-                    ...initialTableData
+                    number: tableNumber,
+                    seats
                 }
             }),
-            invalidatesTags: [{ type: 'Table', id: 'LIST' }]
+            invalidatesTags: ['Table']
         }),
+
         updateTable: builder.mutation({
-            query: ({ table_id, data }) => ({
-                url: `/tables/${table_id}`, // pass the id parameter into the URL
+            query: ({ id, seats }) => ({
+                url: `/tables/${id}`, // pass the id parameter into the URL
                 method: 'PUT',
                 body: {
-                    ...data
+                    seats
                 }
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Table', id: arg.id }
             ]
         }),
+
         deleteTable: builder.mutation({
             query: ({ table_id }) => ({
                 url: `/tables/${table_id}`,
@@ -74,7 +78,7 @@ export const tablesApi = apiSlice.injectEndpoints({
 
 export const {
     useGetTablesQuery,
-    useCreateNewTableMutation,
+    useCreateTableMutation,
     useUpdateTableMutation,
     useDeleteTableMutation
 } = tablesApi;

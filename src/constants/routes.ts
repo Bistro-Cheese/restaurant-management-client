@@ -65,18 +65,18 @@ export const ownerRoutes: IRoute[] = [
 ];
 
 export const managerRoutes: IRoute[] = [
-    {
-        icon: HiOutlineUserGroup,
-        iconActive: HiUserGroup,
-        name: 'Staffs',
-        path: '/manager/timekeeping'
-    },
-    {
-        icon: TbMushroom,
-        iconActive: TbMushroomFilled,
-        name: 'Ingredients',
-        path: '/manager/ingredients'
-    },
+    // {
+    //     icon: HiOutlineUserGroup,
+    //     iconActive: HiUserGroup,
+    //     name: 'Staffs',
+    //     path: '/manager/timekeeping'
+    // },
+    // {
+    //     icon: TbMushroom,
+    //     iconActive: TbMushroomFilled,
+    //     name: 'Ingredients',
+    //     path: '/manager/ingredients'
+    // },
     {
         icon: MdOutlineWarehouse,
         iconActive: MdWarehouse,

@@ -14,6 +14,7 @@ interface RefreshResult {
         access_token: string;
     };
 }
+
 const mutex = new Mutex();
 const baseQuery = fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_BASE_URL,
