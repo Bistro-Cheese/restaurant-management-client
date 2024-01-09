@@ -41,6 +41,7 @@ import {
 } from '@/redux/services/user-api';
 import { useUpdateFoodMutation } from '@/redux/services/food-api';
 import { removeUnwantedKeys } from '@/utils';
+import Card from '@/components/common/Card';
 
 const formSchema = z.object({
     username: z.string().min(1),
@@ -185,6 +186,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
     const onSubmit = async (data: UserFormValues) => {
         if (data) {
             let removedKeysData = removeUnwantedKeys(data, unwantedKeys);
+            console.log('data user submitted:::', removedKeysData);
 
             isCreate
                 ? await updateUser({
@@ -195,7 +197,6 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
         } else {
             console.log('create user:::', data);
         }
-        console.log('data user submitted:::', data);
     };
 
     const onDelete = async () => {
@@ -229,377 +230,408 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
     };
 
     return (
-        <>
+        <div className='pb-4'>
             <AlertModal
                 isOpen={open}
                 onClose={() => setOpen(false)}
                 onConfirm={onDelete}
                 loading={loading}
             />
-            <div className='flex items-center justify-between'>
-                <Heading title={title} description={description} />
-                {user && (
-                    <Button
-                        disabled={loading}
-                        variant='destructive'
-                        size='sm'
-                        onClick={() => setOpen(true)}
+
+            <Card className='flex-col bg-transparent px-4'>
+                <div className='flex items-center justify-between'>
+                    <Heading
+                        classNameDescription='mt-4'
+                        title={title}
+                        description={description}
+                    />
+                    {user && (
+                        <Button
+                            disabled={loading}
+                            variant='destructive'
+                            size='sm'
+                            onClick={() => setOpen(true)}
+                        >
+                            <Trash className='h-4 w-4' />
+                        </Button>
+                    )}
+                </div>
+
+                <Separator className='mb-3 mt-3' />
+
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className='w-full space-y-8'
                     >
-                        <Trash className='h-4 w-4' />
-                    </Button>
-                )}
-            </div>
-            <Separator />
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className='w-full space-y-8'
-                >
-                    <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
-                        <FormField
-                            control={form.control}
-                            name='first_name'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>First name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='First name'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='last_name'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Last name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Last name'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='email'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Email</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='example@gmail.com'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='username'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Username</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Username'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='password'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Password</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Password'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='phone_number'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Phone number</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Phone number'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='date_of_birth'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Date of birth</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Birthday'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name='role'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Role</FormLabel>
-                                    <Select
-                                        disabled={loading}
-                                        onValueChange={(value) => {
-                                            field.onChange(value);
-                                            handleChangeRole(value);
-                                        }}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
+                        <div className='grid-cols-1 gap-8 md:grid md:grid-cols-2'>
+                            <FormField
+                                control={form.control}
+                                name='first_name'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>First name</FormLabel>
                                         <FormControl>
-                                            <SelectTrigger className='w-[180px]'>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder='Select a role'
-                                                />
-                                            </SelectTrigger>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='First name'
+                                                {...field}
+                                                className='bg-white'
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {userRoles.map((role) => (
-                                                    <SelectItem
-                                                        key={role.id}
-                                                        value={role.id}
-                                                    >
-                                                        {role.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        {role === '2' && (
-                            <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
-                                <FormField
-                                    control={form.control}
-                                    name='foreign_language'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Foreign language
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={loading}
-                                                    placeholder='Foreign language'
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='academic_level'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Academic level
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={loading}
-                                                    placeholder='Academic level'
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        )}
-                        {role === '1' && (
-                            <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
-                                <FormField
-                                    control={form.control}
-                                    name='experienced_year'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Experienced year
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={loading}
-                                                    placeholder='Experienced year'
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name='certification_management'
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>
-                                                Certification management
-                                            </FormLabel>
-                                            <FormControl>
-                                                <Input
-                                                    disabled={loading}
-                                                    placeholder='Certification management'
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        )}
-
-                        <FormField
-                            control={form.control}
-                            name='address_line'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Address line</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Address line'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='city'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>City</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='City'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='region'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Region</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={loading}
-                                            placeholder='Region'
-                                            {...field}
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='status'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Status</FormLabel>
-                                    <Select
-                                        disabled={loading}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='last_name'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Last name</FormLabel>
                                         <FormControl>
-                                            <SelectTrigger className='w-[180px]'>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder='Select a status'
-                                                />
-                                            </SelectTrigger>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Last name'
+                                                {...field}
+                                                className='bg-white'
+                                            />
                                         </FormControl>
-                                        <SelectContent>
-                                            <SelectGroup>
-                                                {userStatus.map((status) => (
-                                                    <SelectItem
-                                                        key={status.id}
-                                                        value={status.id}
-                                                    >
-                                                        {status.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='email'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='example@gmail.com'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='username'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Username</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Username'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='password'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Password'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='phone_number'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Phone number</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Phone number'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='date_of_birth'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Date of birth</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Birthday'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name='role'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Role</FormLabel>
+                                        <Select
+                                            disabled={loading}
+                                            onValueChange={(value) => {
+                                                field.onChange(value);
+                                                handleChangeRole(value);
+                                            }}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className='w-[180px] bg-white'>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        placeholder='Select a role'
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {userRoles.map((role) => (
+                                                        <SelectItem
+                                                            key={role.id}
+                                                            value={role.id}
+                                                        >
+                                                            {role.name}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {role === '2' && (
+                                <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
+                                    <FormField
+                                        control={form.control}
+                                        name='foreign_language'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Foreign language
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        disabled={loading}
+                                                        placeholder='Foreign language'
+                                                        {...field}
+                                                        className='bg-white'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name='academic_level'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Academic level
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        disabled={loading}
+                                                        placeholder='Academic level'
+                                                        {...field}
+                                                        className='bg-white'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                             )}
-                        />
-                    </div>
-                    <Button
-                        disabled={loading}
-                        className='ml-auto'
-                        type='submit'
-                    >
-                        {action}
-                    </Button>
-                </form>
-            </Form>
-        </>
+                            {role === '1' && (
+                                <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
+                                    <FormField
+                                        control={form.control}
+                                        name='experienced_year'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Experienced year
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        disabled={loading}
+                                                        placeholder='Experienced year'
+                                                        {...field}
+                                                        className='bg-white'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name='certification_management'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Certification management
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        disabled={loading}
+                                                        placeholder='Certification management'
+                                                        {...field}
+                                                        className='bg-white'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                            )}
+
+                            <FormField
+                                control={form.control}
+                                name='address_line'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Address line</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Address line'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='city'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>City</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='City'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='region'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Region</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={loading}
+                                                placeholder='Region'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='status'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Status</FormLabel>
+                                        <Select
+                                            disabled={loading}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className='w-[180px] bg-white'>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        placeholder='Select a status'
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectGroup>
+                                                    {userStatus.map(
+                                                        (status) => (
+                                                            <SelectItem
+                                                                key={status.id}
+                                                                value={
+                                                                    status.id
+                                                                }
+                                                            >
+                                                                {status.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </div>
+                        <Button
+                            disabled={loading}
+                            className='ml-auto bg-primary transition-all duration-200 ease-in-out hover:bg-harvest-gold-600 active:bg-harvest-gold-700'
+                            type='submit'
+                        >
+                            {action}
+                        </Button>
+                    </form>
+                </Form>
+            </Card>
+        </div>
     );
 };

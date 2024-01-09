@@ -26,3 +26,13 @@ export enum EWallet {
     ZaloPay = 'ZaloPay',
     VNPay = 'VNPay'
 }
+
+export enum DiscountTypeEnum {
+    PERCENTAGE = 'Percentage',
+    FIXED = 'Fixed'
+}
+
+export enum DiscountTypeEnumValue {
+    PERCENTAGE = 0,
+    FIXED = 1
+}

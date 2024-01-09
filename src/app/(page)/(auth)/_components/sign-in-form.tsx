@@ -47,7 +47,7 @@ const SignInForm: React.FC = () => {
     };
 
     return (
-        <div className='z-10 mx-auto mt-8 block w-full max-w-md rounded-lg bg-white/90 drop-shadow-secondary'>
+        <div className='z-10 mx-auto mt-8 block w-full max-w-md bg-white/90 drop-shadow-secondary'>
             <div className='h-full w-full p-8'>
                 <Form {...form}>
                     <form
@@ -71,7 +71,7 @@ const SignInForm: React.FC = () => {
                                             disabled={isLoginLoading}
                                             placeholder='Email adress'
                                             {...field}
-                                            className='rounded-full bg-white'
+                                            className='rounded-sm bg-white'
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -102,7 +102,7 @@ const SignInForm: React.FC = () => {
                                                         ? 'text'
                                                         : 'password'
                                                 }
-                                                className='rounded-full bg-white pr-10'
+                                                className='rounded-sm bg-white pr-10'
                                             />
                                             <div
                                                 className='absolute right-[5%] top-[35%]'
@@ -131,7 +131,7 @@ const SignInForm: React.FC = () => {
                         {/* Submit button */}
                         <Button
                             disabled={isLoginLoading}
-                            className='w-full bg-gradient-primary text-lg font-bold text-tertiary sm:text-xl'
+                            className='w-full rounded-sm text-lg font-bold text-tertiary sm:text-xl'
                             type='submit'
                         >
                             {isLoginLoading ? 'Loading...' : 'Log in'}

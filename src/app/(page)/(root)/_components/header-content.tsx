@@ -34,20 +34,20 @@ export const HeaderContent = () => {
     return (
         <div
             className={cn(
-                'ml-auto inline-block rounded-full p-2',
-                isSearchPage && 'bg-white'
+                'ml-auto inline-block rounded-full',
+                isSearchPage && 'bg-white p-2'
             )}
         >
             <div className='flex gap-x-2'>
                 {isSearchPage && (
-                    <div className='hidden sml:block'>
+                    <div className='hidden text-tertiary sml:block'>
                         <SearchInput />
                     </div>
                 )}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button size='icon' variant='link'>
-                            <UserCircle className='h-8 w-8 text-tertiary' />
+                            <UserCircle className='h-6 w-6 text-tertiary lg:h-8 lg:w-8' />
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className='mr-2 w-56'>

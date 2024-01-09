@@ -9,3 +9,4 @@ export type {
     TableStatus as TableStatusType
 } from './TableType';
 export type { default as OrderType } from './OrderType';
+export type { default as DiscountType } from './DiscountType';

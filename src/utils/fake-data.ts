@@ -72,6 +72,28 @@ export const tableStatus = [
     }
 ];
 
+export const discountType = [
+    {
+        id: '0',
+        name: 'Percentage'
+    },
+    {
+        id: '1',
+        name: 'Fixed'
+    }
+];
+
+export const discountStatus = [
+    {
+        id: '0',
+        name: 'Active'
+    },
+    {
+        id: '1',
+        name: 'Inactive'
+    }
+];
+
 export const foodList = [
     {
         id: '1',

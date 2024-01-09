@@ -11,13 +11,15 @@ import { BiCheese, BiSolidCheese } from 'react-icons/bi';
 import { HiOutlineUserGroup, HiUserGroup } from 'react-icons/hi2';
 import { MdOutlineWarehouse, MdWarehouse } from 'react-icons/md';
 import { TbMushroom, TbMushroomFilled } from 'react-icons/tb';
+import { MdDiscount, MdOutlineDiscount } from 'react-icons/md';
 
 export const paths = {
     owner: {
         dashboard: '/owner/dashboard',
         foodMenu: '/owner/foods/menu',
         employees: '/owner/employees',
-        payments: '/owner/payments'
+        payments: '/owner/payments',
+        discount: '/owner/discounts'
     },
     manager: {
         timekeeping: '/manager/timekeeping',
@@ -45,7 +47,7 @@ export const ownerRoutes: IRoute[] = [
     {
         icon: HiOutlineUserGroup,
         iconActive: HiUserGroup,
-        name: 'Employee',
+        name: 'Employees',
         path: '/owner/employees'
     },
     {
@@ -53,6 +55,12 @@ export const ownerRoutes: IRoute[] = [
         iconActive: BsCreditCard2FrontFill,
         name: 'Payments',
         path: '/owner/payments'
+    },
+    {
+        icon: MdOutlineDiscount,
+        iconActive: MdDiscount,
+        name: 'Discounts',
+        path: '/owner/discounts'
     }
 ];
 
