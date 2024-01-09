@@ -34,7 +34,7 @@ export const ModalHeader: React.FC<{
                         onClick={() => {
                             onCloseModal();
                         }}
-                        className='inline-flex items-center justify-center rounded-sm bg-gray-200 p-1 text-tertiary shadow'
+                        className='inline-flex items-center justify-center rounded-sm bg-gray-200 p-1 text-tertiary shadow transition-all duration-200 ease-in-out active:bg-gray-200/70'
                     >
                         <IoClose className='h-4 w-4 sml:h-5 sml:w-5 lg:h-6 lg:w-6' />
                     </button>
@@ -51,14 +51,18 @@ export const ModalContent: React.FC<{
 }> = (props) => {
     const { children, className } = props;
     return (
-        <div
-            className={cn(
-                'flex grow flex-col space-y-1 overflow-y-auto overflow-x-hidden py-4',
-                className
-            )}
-        >
-            {children}
-        </div>
+        <>
+            <Separator className='w-full bg-mediumSilver' />
+            <div
+                className={cn(
+                    'flex max-h-[70vh] w-full grow flex-col overflow-y-auto overflow-x-hidden py-4',
+                    className
+                )}
+            >
+                {children}
+            </div>
+            <Separator className='w-full bg-mediumSilver' />
+        </>
     );
 };
 

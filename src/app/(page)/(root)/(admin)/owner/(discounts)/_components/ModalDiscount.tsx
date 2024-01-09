@@ -45,6 +45,7 @@ import {
 } from '../discounts/page';
 import { RootState } from '@/redux/store';
 import { CustomToastOptions } from '@/constants/toast';
+import Card from '@/components/common/Card';
 
 const customModalStyles: Styles = {
     overlay: {
@@ -54,8 +55,7 @@ const customModalStyles: Styles = {
         right: 0,
         bottom: 0,
         backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        zIndex: 100,
-        cursor: ''
+        zIndex: 100
     },
     content: {
         top: '50%',
@@ -68,8 +68,6 @@ const customModalStyles: Styles = {
         border: 'none',
         outline: 'none',
         zIndex: 100,
-        minWidth: '80vw',
-        maxHeight: '80vh',
         flexGrow: 1
     }
 };
@@ -225,243 +223,253 @@ const ModalDiscount: React.FC<IProps> = (props) => {
             onRequestClose={handleCloseModal}
             style={customModalStyles}
         >
-            <ModalHeader
-                className=''
-                title={title}
-                onCloseModal={handleCloseModal}
-            />
+            <Card className='flex max-h-[calc(100vh-100px)] min-w-[75vw] flex-col'>
+                <ModalHeader
+                    className=''
+                    title={title}
+                    onCloseModal={handleCloseModal}
+                />
 
-            <Form {...form}>
-                <form
-                    onSubmit={form.handleSubmit(handleSubmit)}
-                    className='block w-full'
-                >
-                    <ModalContent className='grid grid-cols-1 gap-4 px-4 md:grid-cols-2'>
-                        <FormField
-                            control={form.control}
-                            name='name'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Name</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={false}
-                                            placeholder='Enter name of discount'
-                                            {...field}
-                                            className='bg-white'
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='discount_type'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Type</FormLabel>
-                                    <Select
-                                        disabled={false}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(handleSubmit)}
+                        className='block w-full'
+                    >
+                        <ModalContent className='grid grid-cols-1 gap-4 px-4 md:grid-cols-2'>
+                            <FormField
+                                control={form.control}
+                                name='name'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Name</FormLabel>
                                         <FormControl>
-                                            <SelectTrigger className='w-full bg-white'>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder='Select a type of discount'
-                                                />
-                                            </SelectTrigger>
+                                            <Input
+                                                disabled={false}
+                                                placeholder='Enter name of discount'
+                                                {...field}
+                                                className=' bg-white'
+                                            />
                                         </FormControl>
-                                        <SelectContent className='z-[1000]'>
-                                            <SelectGroup>
-                                                {Object.keys(
-                                                    DiscountTypeEnum
-                                                ).map((type) => {
-                                                    return (
-                                                        <SelectItem
-                                                            key={type}
-                                                            value={DiscountTypeEnumValue[
-                                                                type as keyof typeof DiscountTypeEnum
-                                                            ].toString()}
-                                                        >
-                                                            {
-                                                                DiscountTypeEnum[
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='discount_type'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Type</FormLabel>
+                                        <Select
+                                            disabled={false}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className='w-full bg-white'>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        placeholder='Select a type of discount'
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className='z-[1000]'>
+                                                <SelectGroup>
+                                                    {Object.keys(
+                                                        DiscountTypeEnum
+                                                    ).map((type) => {
+                                                        return (
+                                                            <SelectItem
+                                                                key={type}
+                                                                value={DiscountTypeEnumValue[
                                                                     type as keyof typeof DiscountTypeEnum
-                                                                ]
-                                                            }
-                                                        </SelectItem>
-                                                    );
-                                                })}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='value'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Value (VND)</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            onChangeCapture={(e) => {
-                                                const value =
-                                                    e.currentTarget.value;
-
-                                                if (value[0] === '0') {
-                                                    e.currentTarget.value =
-                                                        e.currentTarget.value.slice(
-                                                            1
+                                                                ].toString()}
+                                                            >
+                                                                {
+                                                                    DiscountTypeEnum[
+                                                                        type as keyof typeof DiscountTypeEnum
+                                                                    ]
+                                                                }
+                                                            </SelectItem>
                                                         );
-                                                }
-                                            }}
-                                            inputMode='numeric'
-                                            type='number'
-                                            disabled={false}
-                                            placeholder='Enter value of discount'
-                                            {...field}
-                                            className='bg-white'
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='uses_max'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>
-                                        Times discount can be used
-                                    </FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            onChangeCapture={(e) => {
-                                                const value =
-                                                    e.currentTarget.value;
-
-                                                if (value[0] === '0') {
-                                                    e.currentTarget.value =
-                                                        e.currentTarget.value.slice(
-                                                            1
-                                                        );
-                                                }
-                                            }}
-                                            inputMode='numeric'
-                                            type='number'
-                                            disabled={false}
-                                            placeholder='Enter times discount can be used'
-                                            {...field}
-                                            className='bg-white'
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='start_date'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Date start</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={false}
-                                            placeholder='Enter start date of discount'
-                                            {...field}
-                                            className='bg-white'
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='end_date'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Date end</FormLabel>
-                                    <FormControl>
-                                        <Input
-                                            disabled={false}
-                                            placeholder='Enter end date of discount'
-                                            {...field}
-                                            className='bg-white'
-                                        />
-                                    </FormControl>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name='is_active'
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel>Status</FormLabel>
-                                    <Select
-                                        disabled={false}
-                                        onValueChange={field.onChange}
-                                        value={field.value}
-                                        defaultValue={field.value}
-                                    >
+                                                    })}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='value'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Value (VND)</FormLabel>
                                         <FormControl>
-                                            <SelectTrigger className='w-full bg-white'>
-                                                <SelectValue
-                                                    defaultValue={field.value}
-                                                    placeholder='Select a status of discount'
-                                                />
-                                            </SelectTrigger>
+                                            <Input
+                                                onChangeCapture={(e) => {
+                                                    const value =
+                                                        e.currentTarget.value;
+
+                                                    if (value[0] === '0') {
+                                                        e.currentTarget.value =
+                                                            e.currentTarget.value.slice(
+                                                                1
+                                                            );
+                                                    }
+                                                }}
+                                                inputMode='numeric'
+                                                type='number'
+                                                disabled={false}
+                                                placeholder='Enter value of discount'
+                                                {...field}
+                                                className='bg-white'
+                                            />
                                         </FormControl>
-                                        <SelectContent className='z-[1000]'>
-                                            <SelectGroup>
-                                                {discountStatus.map(
-                                                    (status) => (
-                                                        <SelectItem
-                                                            key={status.id}
-                                                            value={status.id}
-                                                        >
-                                                            {status.name}
-                                                        </SelectItem>
-                                                    )
-                                                )}
-                                            </SelectGroup>
-                                        </SelectContent>
-                                    </Select>
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </ModalContent>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='uses_max'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                            Times discount can be used
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                onChangeCapture={(e) => {
+                                                    const value =
+                                                        e.currentTarget.value;
 
-                    <ModalFooter className=''>
-                        <button
-                            disabled={false}
-                            className='rounded-md bg-gray-300 px-4 py-2 text-white transition-all duration-200 ease-in-out hover:bg-gray-400 active:bg-gray-500'
-                            onClick={handleCloseModal}
-                        >
-                            Cancel
-                        </button>
+                                                    if (value[0] === '0') {
+                                                        e.currentTarget.value =
+                                                            e.currentTarget.value.slice(
+                                                                1
+                                                            );
+                                                    }
+                                                }}
+                                                inputMode='numeric'
+                                                type='number'
+                                                disabled={false}
+                                                placeholder='Enter times discount can be used'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='start_date'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Date start</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={false}
+                                                placeholder='Enter start date of discount'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='end_date'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Date end</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                disabled={false}
+                                                placeholder='Enter end date of discount'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name='is_active'
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Status</FormLabel>
+                                        <Select
+                                            disabled={false}
+                                            onValueChange={field.onChange}
+                                            value={field.value}
+                                            defaultValue={field.value}
+                                        >
+                                            <FormControl>
+                                                <SelectTrigger className='w-full bg-white'>
+                                                    <SelectValue
+                                                        defaultValue={
+                                                            field.value
+                                                        }
+                                                        placeholder='Select a status of discount'
+                                                    />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent className='z-[1000]'>
+                                                <SelectGroup>
+                                                    {discountStatus.map(
+                                                        (status) => (
+                                                            <SelectItem
+                                                                key={status.id}
+                                                                value={
+                                                                    status.id
+                                                                }
+                                                            >
+                                                                {status.name}
+                                                            </SelectItem>
+                                                        )
+                                                    )}
+                                                </SelectGroup>
+                                            </SelectContent>
+                                        </Select>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                        </ModalContent>
 
-                        <button
-                            disabled={false}
-                            className='rounded-md bg-primary px-4 py-2 text-white transition-all duration-200 ease-in-out hover:bg-harvest-gold-600 active:bg-harvest-gold-700'
-                            type='submit'
-                        >
-                            {modalDiscountState.isUpdate ? 'Update' : 'Create'}
-                        </button>
-                    </ModalFooter>
-                </form>
-            </Form>
+                        <ModalFooter className=''>
+                            <button
+                                disabled={false}
+                                className='rounded-md bg-gray-300 px-4 py-2 text-white transition-all duration-200 ease-in-out hover:bg-gray-400 active:bg-gray-500'
+                                onClick={handleCloseModal}
+                            >
+                                Cancel
+                            </button>
+
+                            <button
+                                disabled={false}
+                                className='rounded-md bg-primary px-4 py-2 text-white transition-all duration-200 ease-in-out hover:bg-harvest-gold-600 active:bg-harvest-gold-700'
+                                type='submit'
+                            >
+                                {modalDiscountState.isUpdate
+                                    ? 'Update'
+                                    : 'Create'}
+                            </button>
+                        </ModalFooter>
+                    </form>
+                </Form>
+            </Card>
         </Modal>
     );
 };
