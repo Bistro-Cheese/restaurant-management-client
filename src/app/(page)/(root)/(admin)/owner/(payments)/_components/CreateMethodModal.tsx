@@ -10,9 +10,10 @@ import {
     EWallet,
     TransferMethodEnum,
     TransferMethodEnumValue
-} from '@/constants/enum';
+} from '@/enums/Payment';
 import { PaymentMessage } from '@/constants/message';
 import { CustomToastOptions } from '@/constants/toast';
+import { ModalStyles } from '@/constants/modalStyle';
 
 // Redux
 import { useAppDispatch } from '@/hooks/redux-hook';
@@ -21,31 +22,6 @@ import {
     useCreatePaymentMutation,
     useUpdatePaymentMutation
 } from '@/redux/services/payment-api';
-
-const customModalStyles: Styles = {
-    overlay: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
-        zIndex: 100,
-        cursor: ''
-    },
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        transform: 'translate(-50%, -50%)',
-        borderRadius: '10px',
-        padding: '0',
-        border: 'none',
-        outline: 'none',
-        zIndex: 101
-    }
-};
 
 interface IProps {
     isOpen: boolean;
@@ -158,11 +134,7 @@ export default function CreateMethodModal({ isOpen, payment }: IProps) {
     };
 
     return (
-        <Modal
-            isOpen={isOpen}
-            onRequestClose={handleClose}
-            style={customModalStyles}
-        >
+        <Modal isOpen={isOpen} onRequestClose={handleClose} style={ModalStyles}>
             <div className='p-4'>
                 <h1 className='text-3xl font-bold'>Transfer Method</h1>
                 <div className=''>

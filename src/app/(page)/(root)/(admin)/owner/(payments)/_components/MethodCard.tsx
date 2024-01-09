@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { Pencil, Trash2 } from 'lucide-react';
 
 // Constants
-import { TransferMethodEnum, TransferMethodEnumValue } from '@/constants/enum';
+import { TransferMethodEnum, TransferMethodEnumValue } from '@/enums/Payment';
 
 import { cn } from '@/lib/utils';
 import PaymentType from '@/types/PaymentType';

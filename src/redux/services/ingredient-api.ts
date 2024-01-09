@@ -37,11 +37,50 @@ export const ingredientApi = apiSlice.injectEndpoints({
                       ]
                     : [{ type: 'Ingredient', id: 'LIST' }]
             // highlight-end
+        }),
+
+        getIngredientByName: builder.mutation({
+            query: (name) => ({
+                url: `/ingredients/${name}`,
+                method: 'GET'
+            })
+        }),
+
+        createIngredient: builder.mutation({
+            query: (body) => ({
+                url: '/ingredients',
+                method: 'POST',
+                body
+            }),
+            invalidatesTags: ['Inventory', 'Ingredient']
+        }),
+
+        updateIngredient: builder.mutation({
+            query: ({ id, body }) => ({
+                url: `/ingredients/${id}`,
+                method: 'PUT',
+                body
+            }),
+            invalidatesTags: ['Inventory', 'Ingredient']
+        }),
+
+        deleteIngredient: builder.mutation({
+            query: (id) => ({
+                url: `/ingredients/${id}`,
+                method: 'DELETE'
+            }),
+            invalidatesTags: ['Inventory', 'Ingredient']
         })
     })
 });
 
-export const { useGetIngredientsQuery } = ingredientApi;
+export const {
+    useGetIngredientsQuery,
+    useGetIngredientByNameMutation,
+    useCreateIngredientMutation,
+    useUpdateIngredientMutation,
+    useDeleteIngredientMutation
+} = ingredientApi;
 
 // returns the query result object
 export const selectIngredientResult =

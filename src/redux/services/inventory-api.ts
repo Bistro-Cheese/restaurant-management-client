@@ -5,6 +5,7 @@ import {
 } from '@reduxjs/toolkit';
 import { apiSlice } from './base-api';
 import { InventoryType } from '@/types';
+import OperationType from '@/types/OperationType';
 
 const inventoryAdapter = createEntityAdapter<InventoryType>({
     // Assume IDs are stored in a field other than `book.id`
@@ -13,7 +14,15 @@ const inventoryAdapter = createEntityAdapter<InventoryType>({
     sortComparer: (a, b) => a.ingredientName.localeCompare(b.ingredientName)
 });
 
-const initialState = inventoryAdapter.getInitialState();
+const operationAdapter = createEntityAdapter<OperationType>({
+    // Assume IDs are stored in a field other than `book.id`
+    selectId: (Operation) => Operation.id,
+    // Keep the "all IDs" array sorted based on book titles
+    sortComparer: (a, b) => a.createdAt.localeCompare(b.createdAt)
+});
+
+const initialInventoryState = inventoryAdapter.getInitialState();
+const initialOperationState = operationAdapter.getInitialState();
 
 export const inventoryApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
@@ -23,9 +32,11 @@ export const inventoryApi = apiSlice.injectEndpoints({
                 pageable: Object;
                 content: InventoryType[];
             }) {
-                return inventoryAdapter.setAll(initialState, response.content);
+                return inventoryAdapter.setAll(
+                    initialInventoryState,
+                    response.content
+                );
             },
-            // highlight-start
             providesTags: (result) => {
                 return result
                     ? [
@@ -37,27 +48,45 @@ export const inventoryApi = apiSlice.injectEndpoints({
                       ]
                     : [{ type: 'Inventory', id: 'LIST' }];
             }
-
-            // highlight-end
         }),
-        importInventory: builder.mutation<
-            any,
-            { ingredient_id: number; payload: { quantity: number } }
-        >({
-            query: ({ ingredient_id, payload }) => ({
-                url: `/inventory/${ingredient_id}`,
+
+        updateStock: builder.mutation({
+            query: (body) => ({
+                url: '/inventory/stock',
                 method: 'POST',
-                body: {
-                    ...payload
-                }
+                body
             }),
             invalidatesTags: [{ type: 'Inventory', id: 'LIST' }]
+        }),
+
+        getOperations: builder.query<EntityState<OperationType>, void>({
+            query: () => '/inventory/operations',
+            transformResponse(response: { data: OperationType[] }) {
+                return operationAdapter.setAll(
+                    initialOperationState,
+                    response.data
+                );
+            },
+            providesTags: (result) => {
+                return result
+                    ? [
+                          ...result.ids.map((id) => ({
+                              type: 'Inventory' as const,
+                              id
+                          })),
+                          { type: 'Inventory', id: 'LIST' }
+                      ]
+                    : [{ type: 'Inventory', id: 'LIST' }];
+            }
         })
     })
 });
 
-export const { useGetInventoryQuery, useImportInventoryMutation } =
-    inventoryApi;
+export const {
+    useGetInventoryQuery,
+    useUpdateStockMutation,
+    useGetOperationsQuery
+} = inventoryApi;
 
 // returns the query result object
 export const selectInventoryResult =
@@ -71,5 +100,18 @@ const selectInventoryData = createSelector(
 
 export const { selectAll: selectInventory, selectById: selectInventoryById } =
     inventoryAdapter.getSelectors(
-        (state: any) => selectInventoryData(state) ?? initialState
+        (state: any) => selectInventoryData(state) ?? initialInventoryState
+    );
+
+export const selectOperationsResult =
+    inventoryApi.endpoints.getOperations.select();
+
+const selectOperationsData = createSelector(
+    selectOperationsResult,
+    (operationsResult) => operationsResult.data
+);
+
+export const { selectAll: selectOperations, selectById: selectOperationById } =
+    operationAdapter.getSelectors(
+        (state: any) => selectOperationsData(state) ?? initialOperationState
     );

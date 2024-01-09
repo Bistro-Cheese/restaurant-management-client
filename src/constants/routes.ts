@@ -22,8 +22,10 @@ export const paths = {
         discount: '/owner/discounts'
     },
     manager: {
-        timekeeping: '/manager/timekeeping',
-        inventory: '/manager/inventory'
+        // timekeeping: '/manager/timekeeping',
+        inventory: '/manager/inventory',
+        logs: '/manager/inventory/logs',
+        tables: '/manager/tables'
     },
     staff: {
         orders: '/staff/orders',
