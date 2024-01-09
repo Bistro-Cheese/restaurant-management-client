@@ -376,7 +376,7 @@ const ModalDiscount: React.FC<IProps> = (props) => {
                                         <FormControl>
                                             <Input
                                                 disabled={false}
-                                                placeholder='Enter start date of discount'
+                                                placeholder='dd/MM/yyyy hh:mm:ss'
                                                 {...field}
                                                 className='bg-white'
                                             />
@@ -394,7 +394,7 @@ const ModalDiscount: React.FC<IProps> = (props) => {
                                         <FormControl>
                                             <Input
                                                 disabled={false}
-                                                placeholder='Enter end date of discount'
+                                                placeholder='dd/MM/yyyy hh:mm:ss'
                                                 {...field}
                                                 className='bg-white'
                                             />
