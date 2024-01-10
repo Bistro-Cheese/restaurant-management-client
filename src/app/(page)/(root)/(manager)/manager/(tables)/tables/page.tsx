@@ -31,7 +31,9 @@ export const initialModalState: ModalType = {
 export default function TablesPage() {
     const [modalState, setModalState] = useState<ModalType>(initialModalState);
 
-    const { tables, isTablesError, isTablesLoading } = useGetAllTables();
+    const { getTablesData, isTablesError, isTablesLoading } = useGetAllTables();
+
+    const tables = Object.values(getTablesData?.entities || {}) as TableType[];
 
     const handleOpenCreateModal = () => {
         setModalState({
@@ -70,15 +72,13 @@ export default function TablesPage() {
                         </div>
                     </div>
 
-                    {(Object.values(tables?.entities || {}) as TableType[]).map(
-                        (table) => (
-                            <TableCard
-                                key={table.id}
-                                table={table}
-                                setModalState={setModalState}
-                            />
-                        )
-                    )}
+                    {tables.map((table) => (
+                        <TableCard
+                            key={table.id}
+                            table={table}
+                            setModalState={setModalState}
+                        />
+                    ))}
                 </div>
             </div>
 
