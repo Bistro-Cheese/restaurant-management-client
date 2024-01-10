@@ -52,7 +52,7 @@ export const ModalContent: React.FC<{
     const { children, className } = props;
     return (
         <>
-            <Separator className='w-full bg-mediumSilver' />
+            <Separator className='h-[0.5px] w-full bg-gray-300' />
             <div
                 className={cn(
                     'flex max-h-[70vh] w-full grow flex-col overflow-y-auto overflow-x-hidden py-4',
@@ -61,7 +61,7 @@ export const ModalContent: React.FC<{
             >
                 {children}
             </div>
-            <Separator className='w-full bg-mediumSilver' />
+            <Separator className='h-[0.5px] w-full bg-gray-300' />
         </>
     );
 };

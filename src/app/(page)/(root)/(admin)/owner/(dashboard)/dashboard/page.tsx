@@ -5,6 +5,7 @@ import TotalReport from '../_components/TotalReport';
 import TotalCustomers from '../_components/TotalCustomers';
 import InventoryWarehouse from '../_components/InventoryWarehouse';
 import TotalRevenue from '../_components/TotalRevenue';
+import useGetAllInventoryReports from '@/hooks/inventory-report/use-get-inventory-reports';
 
 const DashboardPage: React.FC = () => {
     return (
