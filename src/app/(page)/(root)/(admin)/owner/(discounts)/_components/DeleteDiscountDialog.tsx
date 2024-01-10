@@ -61,7 +61,7 @@ export default function DeleteDiscountDialog({
             <DialogButton
                 title='Cancle'
                 handleClick={handleClose}
-                backgroundColor='bg-gray-500'
+                backgroundColor='bg-gray-400'
             />
             <DialogButton
                 title='Delete'

@@ -6,3 +6,9 @@ export type {
 } from './InventoryType';
 export type { default as TableType } from './TableType';
 export type { default as DiscountType } from './DiscountType';
+export type { default as InventoryReportType } from './InventoryReportType';
+export type {
+    DailyReportType,
+    MonthlyReportType,
+    YearlyReportType
+} from './ReportType';

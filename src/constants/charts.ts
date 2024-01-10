@@ -4,7 +4,10 @@ import abbrNum from '@/utils/abbreviator-number';
 export const barChartDataTotalCustomers = [
     {
         name: 'Customers',
-        data: [2024, 2235, 2210, 2341, 2298, 2490, 2579]
+        data: [
+            3231, 3232, 1132, 1032, 2062, 2262, 3262, 2532, 2432, 2332, 2332,
+            2332
+        ]
     }
 ];
 
@@ -29,7 +32,20 @@ export const barChartOptionsTotalCustomers = {
         theme: 'dark'
     },
     xaxis: {
-        categories: ['Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan'],
+        categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ],
         show: false,
         labels: {
             show: true,
@@ -274,8 +290,8 @@ export const lineAreaChartDataTotalRevenue = [
     {
         name: 'Revenue',
         data: [
-            2374137222, 3374137222, 2874137222, 3874137222, 3374137222,
-            4374137222
+            120389000, 220479000, 90479000, 80479000, 120479000, 130479000,
+            230479000, 180479000, 170479000, 165479000, 365479000, 265479000
         ],
         color: '#D9BB65'
     }
@@ -452,7 +468,20 @@ export const lineAreaChartOptionsTotalRevenue = {
         },
         type: 'text',
         range: undefined,
-        categories: ['Aug', 'Sep', 'Oct', 'Nov', 'Dec', 'Jan']
+        categories: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+        ]
     },
 
     yaxis: {
