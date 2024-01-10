@@ -2,6 +2,7 @@ import { EntityId } from '@reduxjs/toolkit';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { FC } from 'react';
+import { motion } from 'framer-motion';
 
 type EmployeeCardProps = {
     id: EntityId;
@@ -11,6 +12,7 @@ type EmployeeCardProps = {
     role: string;
     email: string;
     status: number;
+    index: number;
 };
 
 const EmployeeCard: FC<EmployeeCardProps> = ({
@@ -20,7 +22,8 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
     phoneNumber,
     role,
     status,
-    email
+    email,
+    index
 }): JSX.Element => {
     const router = useRouter();
 
@@ -30,7 +33,17 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
     };
 
     return (
-        <tr className='group hover:bg-gray-50' key={id}>
+        <motion.tr
+            initial={{ y: 30, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{
+                duration: 0.35,
+                delay: 0.1 + Number(index) * 0.075,
+                ease: 'easeInOut'
+            }}
+            className='group w-full hover:bg-gray-50'
+            key={id}
+        >
             <th className='flex items-center gap-3 px-6 py-4 font-normal text-gray-900'>
                 <div className='relative h-10 w-10'>
                     <img
@@ -69,7 +82,7 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
             </td>
             <td className='px-6 py-4'>
                 <div className='flex justify-end'>
-                    <a
+                    {/* <a
                         x-data="{ tooltip: 'View' }"
                         href='#'
                         className=' flex h-12 w-12 rounded-full transition duration-150 ease-linear hover:bg-gray-200'
@@ -88,11 +101,12 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
                             <path d='M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z'></path>
                             <circle cx='12' cy='12' r='3'></circle>
                         </svg>
-                    </a>
+                    </a> */}
                     <a
                         x-data="{ tooltip: 'Edite' }"
                         href='#'
                         className=' flex h-12 w-12 rounded-full transition duration-150 ease-linear hover:bg-gray-200'
+                        onClick={() => handleClickEdit(id)}
                     >
                         <svg
                             xmlns='http://www.w3.org/2000/svg'
@@ -109,7 +123,7 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
                             <polygon points='18 2 22 6 12 16 8 16 8 12 18 2'></polygon>
                         </svg>
                     </a>
-                    <a
+                    {/* <a
                         x-data="{ tooltip: 'Delete' }"
                         href='#'
                         className=' flex h-12 w-12 rounded-full transition duration-150 ease-linear hover:bg-gray-200'
@@ -130,10 +144,10 @@ const EmployeeCard: FC<EmployeeCardProps> = ({
                             <line x1='10' y1='11' x2='10' y2='17'></line>
                             <line x1='14' y1='11' x2='14' y2='17'></line>
                         </svg>
-                    </a>
+                    </a> */}
                 </div>
             </td>
-        </tr>
+        </motion.tr>
     );
 };
 
