@@ -1,9 +1,10 @@
-import { OrderLineType } from '.';
-
-type Order = {
+export type OrderType = {
     id: string;
-    tableId: number;
-    orderLines: OrderLineType[];
+    cusIn: string;
+    deposit: number;
+    numberOfCustomer: number;
+    status: number;
+    subTotal: number;
+    tableNumber: number;
+    total: number;
 };
-
-export default Order;

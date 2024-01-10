@@ -83,6 +83,7 @@ export const apiSlice = createApi({
         'Table',
         'Payment',
         'Discount',
+        'Bill',
         'InventoryReport',
         'DailyReport',
         'MonthlyReport',

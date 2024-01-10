@@ -1,21 +1,19 @@
 import { Separator } from '@/components/ui/separator';
 import { TbShoppingCartCheck } from 'react-icons/tb';
 import { MdOutlineDiscount } from 'react-icons/md';
-import { useDispatch, useSelector } from 'react-redux';
-import { OrderLineType, OrderType } from '@/types';
+import { OrderLineType } from '@/types';
 import { RootState } from '@/redux/store';
 import { convertPriceToString } from '@/utils';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
-import { useEffect } from 'react';
-import { createTableOrder } from '@/redux/features/table-order-slice';
 import { useCreateOrder } from '@/hooks/order/use-create-order';
 import { useUpdateOrder } from '@/hooks/order/use-update-order';
-
-interface OrderLineRequest {
-    food_id: string;
-    quantity: number;
-}
+import { CustomToastOptions } from '@/constants/toast';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
+import {
+    initialOrderState,
+    resetOrderState
+} from '@/redux/features/order-slice';
 
 const getSubTotal = (orderLines: OrderLineType[]) => {
     let totalQuantity = 0;
@@ -30,39 +28,26 @@ const getSubTotal = (orderLines: OrderLineType[]) => {
 };
 
 const convertToOrderLinesRequestType = (orderLines: OrderLineType[]) => {
-    let orderLinesRequest: OrderLineRequest[] = [];
-
-    orderLines.forEach((orderLine) => {
-        orderLinesRequest.push({
-            food_id: orderLine.id,
-            quantity: orderLine.quantity
-        });
-    });
-
-    return orderLinesRequest;
+    return orderLines.map((orderLine) => ({
+        food_id: orderLine.id,
+        quantity: orderLine.quantity
+    }));
 };
 
 const OrderTotal: React.FC = () => {
     const router = useRouter();
-    const dispatch = useDispatch();
-    const tableOrders = useSelector(
-        (state: RootState) => state.reducer.tableOrder.tableOrders
-    );
 
-    const order = useSelector((state: RootState) => state.reducer.order);
+    const dispatch = useAppDispatch();
 
-    const quantity = getSubTotal(order.orderLines).totalQuantity;
+    const order = useAppSelector((state: RootState) => state.reducer.order);
+
+    // const quantity = getSubTotal(order.orderLines).totalQuantity;
+
     const subTotalPrice = convertPriceToString(
         getSubTotal(order.orderLines).subTotalPrice
     );
 
-    const {
-        createOrder,
-        isCreatingLoading,
-        isCreatedSuccess,
-        isCreatingError,
-        creatingError
-    } = useCreateOrder();
+    const { createOrder, isCreatingLoading } = useCreateOrder();
 
     const {
         updateOrder,
@@ -72,36 +57,44 @@ const OrderTotal: React.FC = () => {
         updatedError
     } = useUpdateOrder();
 
-    useEffect(() => {
-        if (isCreatedSuccess || isUpdatedSuccess) {
-            router.refresh();
-            router.push('/staff/tables');
-            toast.success('Create new order successfully!');
+    const handleCreateOrder = () => {
+        if (order.orderLines.length === 0) {
+            toast.error('At least one item to place order', CustomToastOptions);
+            return;
         }
-    }, [isCreatedSuccess, isUpdatedSuccess]);
 
-    const handleCreateNewOrder = async () => {
-        if (order.orderLines.length > 0) {
-            dispatch(createTableOrder(order));
+        createOrder({
+            table_id: order.tableId,
+            customer_name: order.customerName,
+            phone_number: order.phoneNumber,
+            number_of_customer: order.numberOfCustomer,
+            status: order.status,
+            cus_in: order.checkInTime,
+            order_lines: convertToOrderLinesRequestType(order.orderLines)
+        })
+            .unwrap()
+            .then((res) => {
+                toast.success(res.message, CustomToastOptions);
+                dispatch(resetOrderState());
+                router.push('/staff/tables');
+            })
+            .catch((err) => {
+                toast.error(err.data.message, CustomToastOptions);
+            });
 
-            let orderLinesDataRequest: OrderLineRequest[] =
-                convertToOrderLinesRequestType(order.orderLines);
-
-            let orderDataRequest = {
-                table_id: order.tableId,
-                order_lines: orderLinesDataRequest
-            };
-
-            tableOrders.find(
-                (tableOrder) => tableOrder.tableId === order.tableId
-            )
-                ? await updateOrder(orderDataRequest)
-                : await createOrder(orderDataRequest);
-
-            console.log('order created already:::', orderDataRequest);
-        } else {
-            alert('Please add at least one item to place order!');
-        }
+        //     dispatch(createTableOrder(order));
+        //     let orderLinesDataRequest: OrderLineRequest[] =
+        //         convertToOrderLinesRequestType(order.orderLines);
+        //     let orderDataRequest = {
+        //         table_id: order.tableId,
+        //         order_lines: orderLinesDataRequest
+        //     };
+        //     tableOrders.find(
+        //         (tableOrder) => tableOrder.tableId === order.tableId
+        //     )
+        //         ? await updateOrder(orderDataRequest)
+        //         : await createOrder(orderDataRequest);
+        //     console.log('order created already:::', orderDataRequest);
     };
 
     return (
@@ -125,7 +118,7 @@ const OrderTotal: React.FC = () => {
                         </span>
 
                         <span className='text-base font-bold text-green-500'>
-                            200.000
+                            0
                         </span>
                     </div>
                 </div>
@@ -151,13 +144,15 @@ const OrderTotal: React.FC = () => {
 
                 <div className='group mt-4 cursor-pointer'>
                     <button
-                        onClick={() => handleCreateNewOrder()}
+                        onClick={handleCreateOrder}
                         className=' inline-flex min-w-full items-center justify-center rounded-md bg-harvest-gold-500 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-harvest-gold-400 group-active:scale-95 group-active:opacity-70'
                     >
                         <span className='flex items-center justify-center gap-4 text-lg '>
                             <TbShoppingCartCheck className='h-7 w-7 text-white' />
                             <span className='font-bold uppercase text-white'>
-                                Place Order
+                                {isCreatingLoading
+                                    ? 'Loading...'
+                                    : 'Place Order'}
                             </span>
                         </span>
                     </button>

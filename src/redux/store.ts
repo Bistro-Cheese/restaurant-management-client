@@ -5,7 +5,6 @@ import {
     persistStore,
     persistReducer,
     FLUSH,
-    REHYDRATE,
     PAUSE,
     PERSIST,
     PURGE,
@@ -16,13 +15,11 @@ import { reducers } from './features';
 import { userKey } from './features/user-slice';
 import { authKey } from './features/auth-slice';
 import { apiSlice } from './services/base-api';
-import { orderKey } from './features/order-slice';
-import { tableOrderKey } from './features/table-order-slice';
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: [authKey, userKey, orderKey, tableOrderKey]
+    whitelist: [authKey, userKey]
 };
 
 const combinedReducer = combineReducers({

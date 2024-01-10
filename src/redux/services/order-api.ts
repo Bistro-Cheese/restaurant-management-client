@@ -4,7 +4,7 @@ import {
     createSelector
 } from '@reduxjs/toolkit';
 import { apiSlice } from './base-api';
-import { OrderLineType, OrderType } from '@/types';
+import { OrderType } from '@/types/OrderType';
 
 const ordersAdapter = createEntityAdapter<OrderType>({
     selectId: (order) => order.id,
@@ -16,14 +16,10 @@ const initialState = ordersAdapter.getInitialState();
 export const ordersApi = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
         getOrders: builder.query<EntityState<OrderType>, void>({
-            query: () => '/orders',
-            transformResponse(response: {
-                message: string;
-                data: OrderType[];
-            }) {
-                return ordersAdapter.setAll(initialState, response.data);
+            query: () => '/orders/search',
+            transformResponse(data: OrderType[]) {
+                return ordersAdapter.setAll(initialState, data);
             },
-            // highlight-start
             providesTags: (result) =>
                 result
                     ? [
@@ -34,15 +30,13 @@ export const ordersApi = apiSlice.injectEndpoints({
                           { type: 'Order', id: 'LIST' }
                       ]
                     : [{ type: 'Order', id: 'LIST' }]
-            // highlight-end
         }),
+
         createOrder: builder.mutation({
-            query: (initialOrderData) => ({
+            query: (body) => ({
                 url: '/orders',
                 method: 'POST',
-                body: {
-                    ...initialOrderData
-                }
+                body
             }),
             invalidatesTags: [{ type: 'Order', id: 'LIST' }]
         }),
