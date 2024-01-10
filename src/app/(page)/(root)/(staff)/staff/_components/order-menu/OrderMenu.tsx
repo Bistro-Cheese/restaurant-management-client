@@ -1,13 +1,12 @@
-import { FoodsFilter } from '@/components/food/foods-filter';
 import FoodCard from './common/FoodCard';
-import React from 'react';
+import { FC } from 'react';
 import { motion } from 'framer-motion';
 
 interface OrderMenuProps {
     foods: any;
 }
 
-const OrderMenu: React.FC<OrderMenuProps> = ({ foods }) => {
+const OrderMenu: FC<OrderMenuProps> = ({ foods }) => {
     return (
         <div className='float-left w-full px-12 py-4 xmdl:w-4/6 xl:w-3/4'>
             {/* <FoodsFilter /> */}

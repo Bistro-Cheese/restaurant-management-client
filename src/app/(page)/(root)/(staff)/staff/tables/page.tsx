@@ -1,66 +1,57 @@
 'use client';
+import { useEffect, useState } from 'react';
+import Modal from 'react-modal';
+
 import { TableType } from '@/types';
-import TableCard from './_components/common/TableCard';
-import TableList from './_components/TableList';
-import { useGetTablesQuery } from '@/redux/services/table-api';
+
 import { useGetAllTables } from '@/hooks/table/use-get-table';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteTableOrder } from '@/redux/features/table-order-slice';
-import { RootState } from '@/redux/store';
-
-// Mảng TableData cứng với 16 object, trong đó giá trị của key status là 0, 1 hoặc 2
-// const TableData: TableType[] = [
-//     { id: '1', seatNumber: 4, tableNumber: 1, status: { id: '' } },
-//     { id: '2', seatNumber: 4, tableNumber: 2, status: 1 },
-//     { id: '3', seatNumber: 4, tableNumber: 4, status: 0 },
-//     { id: '4', seatNumber: 4, tableNumber: 5, status: 1 },
-//     { id: '5', seatNumber: 4, tableNumber: 7, status: 0 },
-//     { id: '6', seatNumber: 4, tableNumber: 8, status: 1 },
-//     { id: '7', seatNumber: 4, tableNumber: 10, status: 0 },
-//     { id: '8', seatNumber: 4, tableNumber: 11, status: 1 },
-//     { id: '9', seatNumber: 4, tableNumber: 13, status: 0 },
-//     { id: '10', seatNumber: 4, tableNumber: 14, status: 1 },
-//     { id: '11', seatNumber: 4, tableNumber: 16, status: 0 }
-// ];
-
-const getCountTableStatus = (tables: any) => {
-    let numberOfEmptyTable = 0;
-    let numberOfOccupiedTable = 0;
-
-    Object.keys(tables).forEach((table) => {
-        switch (tables[table].tableStatus) {
-            case 'EMPTY':
-                numberOfEmptyTable++;
-                break;
-            case 'OCCUPIED':
-                numberOfOccupiedTable++;
-                break;
-            default:
-        }
-    });
-
-    return { numberOfEmptyTable, numberOfOccupiedTable };
-};
+import CustomerModal from './_components/CustomerModal';
+import TableCard from './_components/TableCard';
+import { useAppSelector } from '@/hooks/redux-hook';
 
 const TablePage: React.FC = () => {
-    const { tables, isTablesLoading, isTablesSuccess } = useGetAllTables();
+    Modal.setAppElement('body');
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const { getTablesData, isTablesLoading } = useGetAllTables();
+
+    const state = useAppSelector((state) => state.reducer.order);
+
+    useEffect(() => {
+        console.log('order state', state);
+    }, [state]);
+
+    const tables = Object.values(getTablesData?.entities || {}) as TableType[];
 
     if (isTablesLoading) {
         return <div>Loading tables...</div>;
     }
 
-    if (isTablesSuccess) {
-        console.log('tables:::', tables);
+    const getCountTableStatus = (tables: TableType[]) => {
+        let numberOfEmptyTable = 0;
+        let numberOfOccupiedTable = 0;
 
-        const numberOfEmptyTable = getCountTableStatus(
-            tables?.entities
-        ).numberOfEmptyTable;
-        const numberOfOccupiedTable = getCountTableStatus(
-            tables?.entities
-        ).numberOfOccupiedTable;
+        tables.forEach((table) => {
+            switch (table.tableStatus) {
+                case 'EMPTY':
+                    numberOfEmptyTable++;
+                    break;
+                case 'OCCUPIED':
+                    numberOfOccupiedTable++;
+                    break;
+                default:
+            }
+        });
 
-        return (
+        return { numberOfEmptyTable, numberOfOccupiedTable };
+    };
+
+    const { numberOfEmptyTable, numberOfOccupiedTable } =
+        getCountTableStatus(tables);
+
+    return (
+        <>
             <div className='px-10 py-5'>
                 {/* Overview */}
                 <div className='flex justify-center'>
@@ -83,10 +74,18 @@ const TablePage: React.FC = () => {
                     </div>
                 </div>
 
-                <TableList tables={tables?.entities} />
+                <ul className='mt-6 grid grid-flow-row gap-10 sm:grid-cols-2 mdl:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6'>
+                    {tables.map((table) => (
+                        <li key={table.id}>
+                            <TableCard table={table} setIsOpen={setIsOpen} />
+                        </li>
+                    ))}
+                </ul>
             </div>
-        );
-    }
+
+            <CustomerModal isOpen={isOpen} setIsOpen={setIsOpen} />
+        </>
+    );
 };
 
 export default TablePage;

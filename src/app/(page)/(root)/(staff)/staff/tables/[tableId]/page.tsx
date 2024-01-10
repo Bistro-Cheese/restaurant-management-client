@@ -1,6 +1,8 @@
 'use client';
 
-import OrderPage from '../../_components/OrderPage';
+import { useGetAllFoods } from '@/hooks/food/use-get-foods';
+import OrderMenu from '../../_components/order-menu/OrderMenu';
+import OrderSummary from '../../_components/order-summary/OrderSummary';
 
 interface OrderTableProps {
     params: {
@@ -8,8 +10,19 @@ interface OrderTableProps {
     };
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ params }) => {
-    return <OrderPage />;
+const OrderPage: React.FC<OrderTableProps> = () => {
+    const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
+
+    if (isFoodsLoading) {
+        return <div>Loading All Foods...</div>;
+    }
+
+    return (
+        <>
+            <OrderMenu foods={foods?.entities} />
+            <OrderSummary />
+        </>
+    );
 };
 
-export default OrderTable;
+export default OrderPage;

@@ -3,7 +3,7 @@ import { useGetTablesQuery } from '@/redux/services/table-api';
 
 export const useGetAllTables = () => {
     const {
-        data: tables,
+        data: getTablesData,
         isLoading: isTablesLoading,
         isSuccess: isTablesSuccess,
         isError: isTablesError
@@ -14,7 +14,7 @@ export const useGetAllTables = () => {
     });
 
     return {
-        tables,
+        getTablesData,
         isTablesLoading,
         isTablesSuccess,
         isTablesError

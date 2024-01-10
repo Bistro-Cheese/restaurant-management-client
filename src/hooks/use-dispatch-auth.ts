@@ -4,7 +4,6 @@ import { setCredentials, removeCredentials } from '@/redux/features/auth-slice';
 import { redirect, useRouter } from 'next/navigation';
 import { removeProfile } from '@/redux/features/user-slice';
 import { resetOrderState } from '@/redux/features/order-slice';
-import { resetTableState } from '@/redux/features/table-order-slice';
 
 export const useDispatchLogin = () => {
     const dispatch = useAppDispatch();
@@ -52,7 +51,6 @@ export const useDispatchLogout = () => {
                     dispatch(removeCredentials());
                     dispatch(removeProfile());
                     dispatch(resetOrderState());
-                    dispatch(resetTableState());
                     redirect('/');
                 });
         } catch (err) {

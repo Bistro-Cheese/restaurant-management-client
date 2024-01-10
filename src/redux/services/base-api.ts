@@ -82,7 +82,8 @@ export const apiSlice = createApi({
         'Order',
         'Table',
         'Payment',
-        'Discount'
+        'Discount',
+        'Bill'
     ],
     endpoints: (builder) => ({})
 });
