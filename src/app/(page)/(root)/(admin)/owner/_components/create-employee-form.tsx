@@ -42,6 +42,7 @@ import {
 import { useUpdateFoodMutation } from '@/redux/services/food-api';
 import { removeUnwantedKeys } from '@/utils';
 import Card from '@/components/common/Card';
+import { CustomToastOptions } from '@/constants/toast';
 
 const formSchema = z.object({
     username: z.string().min(1),
@@ -69,7 +70,7 @@ interface UserFormProps {
 }
 
 export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
-    console.log('ID USER FORM EDIT:::', userId);
+    // console.log('ID USER FORM EDIT:::', userId);
 
     const router = useRouter();
 
@@ -115,6 +116,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
     ] = useDeleteUserMutation();
 
     const isCreate = userId !== 'create';
+    // console.log('isCreate:::', isCreate);
 
     const title = isCreate ? 'Edit User' : 'Create User';
     const description = isCreate ? 'Edit an User.' : 'Add a new User';
@@ -164,36 +166,67 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
         defaultValues
     });
 
-    useEffect(() => {
-        if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
-            setLoading(true);
-        } else {
-            setLoading(false);
-        }
-    }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading]);
+    // useEffect(() => {
+    //     if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
+    //         setLoading(true);
+    //     } else {
+    //         setLoading(false);
+    //     }
+    // }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading]);
 
-    useEffect(() => {
-        if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
-            console.log('isDeletedSuccess:::', isDeletedSuccess);
-            router.refresh();
-            router.push('/owner/employees');
-            toast.success(toastMessage);
-        }
+    // useEffect(() => {
+    //     if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
+    //         console.log('isDeletedSuccess:::', isDeletedSuccess);
+    //         router.refresh();
+    //         router.push('/owner/employees');
+    //         toast.success(toastMessage);
+    //     }
 
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCreatedSuccess, isUpdatedSuccess, isDeletedSuccess]);
+    //     // eslint-disable-next-line react-hooks/exhaustive-deps
+    // }, [isCreatedSuccess, isUpdatedSuccess, isDeletedSuccess]);
 
     const onSubmit = async (data: UserFormValues) => {
         if (data) {
             let removedKeysData = removeUnwantedKeys(data, unwantedKeys);
-            console.log('data user submitted:::', removedKeysData);
+            // console.log('data user submitted:::', removedKeysData);
 
             isCreate
                 ? await updateUser({
                       user_id: userId,
                       data: { ...removedKeysData }
                   })
-                : await addNewUser({ ...removedKeysData });
+                      .unwrap()
+                      .then(() => {
+                          toast.success(
+                              'Update user successfully',
+                              CustomToastOptions
+                          );
+                          setLoading(true);
+                          router.push('/owner/employees');
+                      })
+                      .catch((err) => {
+                          toast.error(
+                              (err as any).data.message,
+                              CustomToastOptions
+                          );
+                      })
+                      .finally(() => setLoading(false))
+                : await addNewUser({ ...removedKeysData })
+                      .unwrap()
+                      .then(() => {
+                          toast.success(
+                              'Add user successfully',
+                              CustomToastOptions
+                          );
+                          router.push('/owner/employees');
+                      })
+                      .catch((err) => {
+                          toast.error(
+                              (err as any).data.message,
+                              CustomToastOptions
+                          );
+                      })
+                      .finally(() => setLoading(false));
         } else {
             console.log('create user:::', data);
         }
@@ -201,13 +234,36 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
     const onDelete = async () => {
         console.log('userId:::', userId);
-        try {
-            await deleteUser({ user_id: userId });
-        } catch (err) {
-            console.log('err:::', err);
-        }
-        setLoading(false);
-        setOpen(false);
+        // try {
+        //     await deleteUser({ user_id: userId });
+        // } catch (err) {
+        //     console.log('err:::', err);
+        // }
+        // setLoading(false);
+        // setOpen(false);
+
+        await deleteUser({ user_id: userId })
+            .unwrap()
+            .then(() => {
+                toast.success('Delete user successfully', CustomToastOptions);
+                setLoading(true);
+                router.push('/owner/employees');
+            })
+            .catch((err) => {
+                console.log('err:::', err);
+                if ((err as any).data.title === 'Forbidden') {
+                    toast.error(
+                        `${(err as any).data.title}`,
+                        CustomToastOptions
+                    );
+                } else {
+                    toast.error(
+                        `${(err as any).data.message}`,
+                        CustomToastOptions
+                    );
+                }
+            })
+            .finally(() => setLoading(false));
     };
 
     const handleChangeRole = (value: string) => {
@@ -382,7 +438,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                         <FormControl>
                                             <Input
                                                 disabled={loading}
-                                                placeholder='Birthday'
+                                                placeholder='dd-MM-yyyy'
                                                 {...field}
                                                 className='bg-white'
                                             />
@@ -627,7 +683,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                             className='ml-auto bg-primary transition-all duration-200 ease-in-out hover:bg-harvest-gold-600 active:bg-harvest-gold-700'
                             type='submit'
                         >
-                            {action}
+                            {loading ? 'Loading...' : action}
                         </Button>
                     </form>
                 </Form>

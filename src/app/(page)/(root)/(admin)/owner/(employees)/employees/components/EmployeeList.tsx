@@ -1,6 +1,7 @@
 'use client';
 
 import EmployeeCard from './common/EmployeeCard';
+import { motion } from 'framer-motion';
 
 interface EmployeeListProps {
     employees: any;
@@ -48,7 +49,7 @@ const EmployeeList = ({ employees }: EmployeeListProps) => {
                             {Object.keys(employees).map((item, id) => {
                                 return (
                                     <EmployeeCard
-                                        key={employees[item].id}
+                                        index={id}
                                         role={employees[item].role}
                                         id={employees[item].id}
                                         lastName={employees[item].lastName}
