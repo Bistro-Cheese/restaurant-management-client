@@ -65,10 +65,11 @@ const InventoryTable: React.FC<{ date: string }> = ({ date }) => {
                                 {Object.values(inventoryReports!.entities).map(
                                     (item, id) => {
                                         const valuePercentage =
-                                            (item!.quantity /
-                                                item!.importQuantity) *
-                                            100;
-
+                                            item!.importQuantity === 0
+                                                ? 0
+                                                : (item!.exportQuantity /
+                                                      item!.importQuantity) *
+                                                  100;
                                         return (
                                             <tr
                                                 key={item!.id}

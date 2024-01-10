@@ -11,7 +11,7 @@ export const Logo = () => {
         >
             <div className='relative h-10 w-10 shrink-0'>
                 <Image
-                    src='/cheese-logo.png'
+                    src='/images/cheese-logo.png'
                     alt='cheese-logo'
                     fill
                     className=' object-cover object-center'

@@ -516,10 +516,10 @@ export const radialBarChartOptionsInventory = {
             startAngle: 0,
             endAngle: 360,
             offsetX: 0,
-            offsetY: -10,
+            offsetY: -18,
             hollow: {
                 margin: 5,
-                size: '30%',
+                size: '40%',
                 background: 'transparent',
                 // image: undefined,
                 // imageWidth: 150,
@@ -570,7 +570,7 @@ export const radialBarChartOptionsInventory = {
                     color: '#70798a',
                     offsetY: 4,
                     formatter: function (val: number) {
-                        return Math.round(val);
+                        return Math.round(val) + '%';
                     }
                 }
             }
