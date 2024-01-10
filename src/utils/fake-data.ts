@@ -83,6 +83,21 @@ export const discountType = [
     }
 ];
 
+export const timeRange = [
+    {
+        id: '0',
+        name: 'Daily'
+    },
+    {
+        id: '1',
+        name: 'Monthly'
+    },
+    {
+        id: '2',
+        name: 'Yearly'
+    }
+];
+
 export const discountStatus = [
     {
         id: '0',

@@ -8,34 +8,46 @@ import { GoPeople } from 'react-icons/go';
 import { IoFastFoodOutline } from 'react-icons/io5';
 import { TbBrandAirtable } from 'react-icons/tb';
 import { HiOutlineUserGroup } from 'react-icons/hi2';
+import useGetMonthlyReport from '@/hooks/monthly-report/use-get-monthly-report';
 
 interface IProps {}
 
 export default function TotalReport({}: IProps) {
+    const {
+        monthlyReports,
+        isMonthlyReportError,
+        isMonthlyReportsLoading,
+        isMonthlyReportsSuccess,
+        monthlyReportError
+    } = useGetMonthlyReport({ year: '2023' });
+
+    console.log('monthlyReports:::', monthlyReports);
     return (
         <div className='grid grid-cols-1 gap-4 md:grid-cols-2 lgl:grid-cols-3'>
             {/* Total Revenue */}
             <Widget
                 icon={<MdAttachMoney className='text-3xl' />}
                 title='Total Revenue'
-                value={convertPriceToString(4374137222) + ' VNĐ'}
+                value={convertPriceToString(265479000) + ' VNĐ'}
             />
 
             {/* Total Orders */}
             <Widget
                 icon={<MdOutlineReceiptLong className='text-3xl' />}
                 title='Total Orders'
-                value={convertPriceToString(43421987) + ' orders'}
+                value={convertPriceToString(2119) + ' orders'}
             />
 
             {/* Vistors */}
-            <Widget
-                icon={<GoPeople className='text-3xl' />}
-                title='Customers'
-                value={convertPriceToString(142587) + ' customers'}
-            />
+            <div className='grid columns-auto md:col-span-2 lgl:col-auto '>
+                <Widget
+                    icon={<GoPeople className='text-3xl' />}
+                    title='Customers'
+                    value={convertPriceToString(2332) + ' customers'}
+                />
+            </div>
 
-            <Widget
+            {/* <Widget
                 icon={<IoFastFoodOutline className='text-3xl' />}
                 title='Foods'
                 value={`${convertPriceToString(7204)} foods`}
@@ -51,7 +63,7 @@ export default function TotalReport({}: IProps) {
                 icon={<HiOutlineUserGroup className='text-3xl' />}
                 title='Staffs'
                 value={`${convertPriceToString(137)} staffs`}
-            />
+            /> */}
         </div>
     );
 }
