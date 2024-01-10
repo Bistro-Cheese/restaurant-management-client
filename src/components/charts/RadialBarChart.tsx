@@ -18,8 +18,8 @@ const RadialBarChart: React.FC<{
         <Chart
             options={chartOptions}
             type='radialBar'
-            width={dimensions ? dimensions : 100}
-            height={dimensions ? dimensions : 100}
+            width={dimensions ? dimensions : 120}
+            height={dimensions ? dimensions : 120}
             series={chartData}
         />
     );
