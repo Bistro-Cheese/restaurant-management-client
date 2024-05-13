@@ -8,8 +8,8 @@ import { FoodType, InventoryReportType } from '@/types';
 import { RootState } from '../store';
 
 const inventoryReportsAdapter = createEntityAdapter<InventoryReportType>({
-    selectId: (inventoryReport) => inventoryReport.id,
-    sortComparer: (a, b) => a.id.localeCompare(b.id)
+    selectId: (inventoryReport) => inventoryReport.ingredientName,
+    sortComparer: (a, b) => a.ingredientName.localeCompare(b.ingredientName)
 });
 
 const initialState = inventoryReportsAdapter.getInitialState();
