@@ -1,11 +1,13 @@
 import Image from 'next/image';
+import toast from 'react-hot-toast';
 import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { EntityId } from '@reduxjs/toolkit';
+
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import { useRouter } from 'next/navigation';
-import { EntityId } from '@reduxjs/toolkit';
 import { AlertModal } from '../modal/alert-modal';
-import { useEffect, useState } from 'react';
 import { useDeleteFoodMutation } from '@/redux/services/food-api';
 import { convertPriceToString } from '@/utils';
 
@@ -60,7 +62,6 @@ export const FoodCard = ({
     }, [isSuccess]);
 
     const handleClickEdit = (id: EntityId) => {
-        console.log('FoodId:::', id);
         router.push(`/owner/foods/${id}`);
     };
 
@@ -69,9 +70,9 @@ export const FoodCard = ({
     };
 
     const onDelete = async (id: EntityId) => {
-        console.log('FOODCARD ID DELETE:::', id);
         try {
             await deleteFood(id);
+            toast.success('Delete food successfully');
         } catch (err) {
             console.log('err:::', err);
         }
@@ -91,8 +92,9 @@ export const FoodCard = ({
                         fill
                         className='object-content'
                         alt={name}
-                        sizes='100vw'
+                        sizes='(min-width: 1024px) 400px,'
                         src={image}
+                        priority
                     />
                 </div>
                 <div className='flex flex-col p-3'>

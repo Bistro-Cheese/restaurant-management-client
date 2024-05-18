@@ -5,7 +5,8 @@ const nextConfig = {
             'thucphamsieuthi.vn',
             'res.cloudinary.com',
             'files.cults3d.com',
-            'dompet.dexignlab.com'
+            'dompet.dexignlab.com',
+            'cdn-icons-png.flaticon.com'
         ]
     }
 };

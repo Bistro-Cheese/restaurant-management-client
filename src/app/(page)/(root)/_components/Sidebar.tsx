@@ -52,6 +52,7 @@ export const Sidebar: React.FC<SideBarProps> = (props) => {
                                 alt='cheese-logo'
                                 fill
                                 className=' object-cover object-center'
+                                sizes='(min-width: 1024px) 400px,'
                             />
                         </div>
                         {isSidebarOpen && (

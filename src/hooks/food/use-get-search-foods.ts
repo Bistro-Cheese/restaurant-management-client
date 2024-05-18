@@ -8,7 +8,6 @@ import qs from 'query-string';
 
 export const useGetSearchFoods = () => {
     const [requestParams, setRequestParams] = useState<string>('');
-    console.log('requestParams:::', requestParams);
 
     const {
         searchParams,
@@ -20,8 +19,6 @@ export const useGetSearchFoods = () => {
         toPrice
     } = useGetParams();
 
-    console.log('searchParams:::', searchParams.size);
-
     const {
         data: searchFoods,
         error: searchFoodsError,
@@ -31,7 +28,6 @@ export const useGetSearchFoods = () => {
         isSuccess: isSearchFoodsSuccess,
         refetch: refetchSearchFoods
     } = useSearchFoodsQuery(requestParams);
-    console.log('searchFoods:::', searchFoods);
 
     useEffect(() => {
         if (searchParams.size > 0) {
@@ -49,9 +45,9 @@ export const useGetSearchFoods = () => {
                 },
                 { skipNull: true, skipEmptyString: true }
             );
-            console.log('url:::', url);
             setRequestParams(url);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
 
     return {

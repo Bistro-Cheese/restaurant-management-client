@@ -32,8 +32,9 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
                         loader={() => food.image}
                         src={food.image}
                         className='rounded-3xl object-cover object-center md:rounded-t-3xl md:rounded-bl-none md:rounded-br-none'
-                        fill={true}
+                        fill
                         alt={food.description}
+                        sizes='(min-width: 1024px) 400px,'
                     />
                 </div>
             )}

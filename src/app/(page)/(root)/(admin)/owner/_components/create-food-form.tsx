@@ -1,13 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
-import { toast } from 'react-hot-toast';
-import { set, useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { Trash } from 'lucide-react';
-
+import { toast } from 'react-hot-toast';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -31,110 +30,91 @@ import { Separator } from '@/components/ui/separator';
 import { Heading } from '@/components/heading';
 import { AlertModal } from '@/components/modal/alert-modal';
 import ImageUpload from '@/components/image-upload';
+
 import { categories, foodStatus } from '@/utils/fake-data';
+
 import {
-    selectFoodById,
     useAddNewFoodMutation,
     useDeleteFoodMutation,
     useUpdateFoodMutation
 } from '@/redux/services/food-api';
-import { EntityId } from '@reduxjs/toolkit';
-import { RootState } from '@/redux/store';
-import { useSelector } from 'react-redux';
-import { FoodType } from '@/types';
+import { useGetFoodById } from '@/hooks/food/use-get-food-by-id';
 
 const formSchema = z.object({
-    name: z.string().min(1),
-    description: z.string().min(1),
-    category: z.string().min(1),
-    image: z.string().min(0),
-    price: z.coerce.number().min(1),
-    status: z.string()
+    name: z.string().min(2).default(''),
+    category: z.string().default('1'),
+    image: z
+        .string()
+        .optional()
+        .default('https://cdn-icons-png.flaticon.com/512/135/135161.png'),
+    price: z.coerce.number().min(10000).default(0),
+    status: z.string().default('1'),
+    description: z.string().optional().default('')
 });
 
 type FoodFormValues = z.infer<typeof formSchema>;
 
 interface FoodFormProps {
-    foodId: string | null;
+    foodId: string;
 }
 
-export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
-
+export const FoodForm: React.FC<FoodFormProps> = ({
+    foodId
+}: FoodFormProps) => {
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const food = useSelector((state: RootState) =>
-        selectFoodById(state, foodId as EntityId)
-    );
-
-    useEffect(() => {
-        console.log('FOOD FORM EDIT:::', food);
-    }, [food]);
-
+    const { food, isGetFoodByIdLoading, isGetFoodByIdSuccess } =
+        useGetFoodById(foodId);
 
     const [
         addNewFood,
-        {
-            isLoading: isCreatingLoading,
-            isSuccess: isCreatedSuccess,
-            isError: isCreatingError,
-            error: creatingError
-        }
+        { isLoading: isCreatingLoading, isSuccess: isCreatedSuccess }
     ] = useAddNewFoodMutation();
 
     const [
         updateFood,
-        {
-            isLoading: isUpdatingLoading,
-            isSuccess: isUpdatedSuccess,
-            isError: isUpdatedError,
-            error: updatedError
-        }
+        { isLoading: isUpdatingLoading, isSuccess: isUpdatedSuccess }
     ] = useUpdateFoodMutation();
 
     const [
         deleteFood,
-        {
-            isLoading: isDeletingLoading,
-            isSuccess: isDeletedSuccess,
-            isError: isDeletedError,
-            error: deletedError
-        }
+        { isLoading: isDeletingLoading, isSuccess: isDeletedSuccess }
     ] = useDeleteFoodMutation();
 
-    const isCreate = foodId !== 'create';
+    const isCreate = foodId === 'create';
 
-    const title = isCreate ? 'Edit Food' : 'Create Food';
-    const description = isCreate ? 'Edit a food.' : 'Add a new food';
-    const toastMessage = isCreate ? 'Food updated.' : 'Food created.';
-    const action = isCreate ? 'Save changes' : 'Create';
+    const title = !isCreate ? 'Edit Food' : 'Create Food';
+    const description = !isCreate ? 'Edit a food.' : 'Add a new food';
+    const toastMessage = !isCreate ? 'Food updated.' : 'Food created.';
+    const action = !isCreate ? 'Save changes' : 'Create';
 
-    const defaultValues = isCreate
-        ? {
-            name: food?.name,
-            description: food?.description,
-            image: food?.image,
-            category: JSON.stringify(food?.category.id),
-            price: parseFloat(String(food?.price)),
-            status: JSON.stringify(food?.status)
-        }
-        : {
-            name: '',
-            description: '',
-            image: '',
-            category: '',
-            price: 0,
-            status: ''
-        };
-
-    console.log('defaultValues Image:::', defaultValues.image);
+    const defaultValues = {
+        name: '',
+        description: '',
+        image: '',
+        category: '1',
+        price: 0,
+        status: '1'
+    };
 
     const form = useForm<FoodFormValues>({
         resolver: zodResolver(formSchema),
         defaultValues
     });
+
+    useEffect(() => {
+        if (isGetFoodByIdSuccess) {
+            form.setValue('name', food?.name);
+            form.setValue('description', food?.description);
+            form.setValue('image', food?.productImage);
+            form.setValue('category', food?.category.id.toString());
+            form.setValue('price', food?.price);
+            form.setValue('status', food?.status.toString());
+        }
+    }, [isGetFoodByIdSuccess, food, form]);
 
     useEffect(() => {
         if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
@@ -145,36 +125,49 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
     }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading]);
 
     useEffect(() => {
-        if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
-            console.log('isUpdatedSuccess:::', isUpdatedSuccess);
-            router.refresh();
+        if (isCreatedSuccess || isUpdatedSuccess) {
             router.push('/owner/foods/menu');
             toast.success(toastMessage);
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isCreatedSuccess, isUpdatedSuccess, isDeletedSuccess]);
+    }, [isCreatedSuccess, isUpdatedSuccess]);
 
     const onSubmit = async (data: FoodFormValues) => {
         if (data) {
-            isCreate
-                ? await updateFood({ food_id: foodId, data: { ...data } })
-                : await addNewFood({ ...data });
+            !isCreate
+                ? await updateFood({
+                      food_id: foodId,
+                      data: {
+                          ...data,
+                          category: parseInt(data.category),
+                          status: parseInt(data.status)
+                      }
+                  })
+                : await addNewFood({
+                      ...data,
+                      category: parseInt(data.category),
+                      status: parseInt(data.status)
+                  });
         } else {
             console.log('create food:::', data);
         }
     };
 
     const onDelete = async () => {
-        console.log('foodId:::', foodId);
         try {
-            await deleteFood({ food_id: foodId });
+            await deleteFood(foodId);
         } catch (err) {
             console.log('err:::', err);
         }
         setLoading(false);
         setOpen(false);
+        router.push('/owner/foods/menu');
+        toast.success('Food deleted.');
     };
+
+    if (isGetFoodByIdLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <>
@@ -184,6 +177,7 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                 onConfirm={onDelete}
                 loading={loading}
             />
+
             <div className='flex items-center justify-between'>
                 <Heading title={title} description={description} />
                 {food && (
@@ -197,7 +191,9 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                     </Button>
                 )}
             </div>
+
             <Separator />
+
             <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
@@ -247,14 +243,15 @@ export const FoodForm: React.FC<FoodFormProps> = ({ foodId }) => {
                                     <FormLabel>Price</FormLabel>
                                     <FormControl>
                                         <Input
-                                            onChangeCapture={e => {
-                                                const value = e.currentTarget.value;
-                                                console.log('value:::', value);
-                                                // if (value.length === 0 && value === '0') {
-                                                //     e.currentTarget.value = '';
-                                                // }
+                                            onChangeCapture={(e) => {
+                                                const value =
+                                                    e.currentTarget.value;
+
                                                 if (value[0] === '0') {
-                                                    e.currentTarget.value = e.currentTarget.value.slice(1);
+                                                    e.currentTarget.value =
+                                                        e.currentTarget.value.slice(
+                                                            1
+                                                        );
                                                 }
                                             }}
                                             inputMode='numeric'

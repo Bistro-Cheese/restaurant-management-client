@@ -10,12 +10,7 @@ import Link from 'next/link';
 const FoodMenu = () => {
     const { foods, isFoodsLoading, isFoodsSuccess } = useGetAllFoods();
 
-    const {
-        searchParams,
-        searchFoods,
-        isSearchFoodsLoading,
-        isSearchFoodsSuccess
-    } = useGetSearchFoods();
+    const { searchParams, searchFoods } = useGetSearchFoods();
 
     if (isFoodsLoading) {
         return <div>Loading All Foods...</div>;
@@ -44,7 +39,6 @@ const FoodMenu = () => {
     }
 
     if (isFoodsSuccess) {
-        console.log('foods:::', foods);
         return (
             <div>
                 <div className='p-6'>
@@ -54,7 +48,7 @@ const FoodMenu = () => {
                             href='/owner/foods/create'
                             className='ml-4 hidden justify-end md:block'
                         >
-                            <Button className='bg-harvest-gold-500 '>
+                            <Button className='bg-harvest-gold-500'>
                                 Add Food
                             </Button>
                         </Link>

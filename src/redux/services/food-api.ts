@@ -34,6 +34,15 @@ export const foodsApi = apiSlice.injectEndpoints({
                       ]
                     : [{ type: 'Food', id: 'LIST' }]
         }),
+        getFoodById: builder.query<any, string>({
+            query: (food_id) => `/foods/${food_id}`,
+            transformResponse(response: any) {
+                return response;
+            },
+            providesTags: (result, error, food_id) => [
+                { type: 'Food', id: food_id }
+            ]
+        }),
         addNewFood: builder.mutation({
             query: (initialFoodData) => ({
                 url: '/foods',
@@ -70,6 +79,7 @@ export const foodsApi = apiSlice.injectEndpoints({
 
 export const {
     useSearchFoodsQuery,
+    useGetFoodByIdQuery,
     useAddNewFoodMutation,
     useUpdateFoodMutation,
     useDeleteFoodMutation

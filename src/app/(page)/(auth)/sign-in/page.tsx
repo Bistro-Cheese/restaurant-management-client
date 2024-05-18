@@ -14,6 +14,7 @@ const SignIn: React.FC = () => {
                         alt='cheese logo'
                         fill
                         className='object-contain object-center'
+                        sizes='(min-width: 1024px) 400px,'
                     />
                 </div>
                 <span className='ml-4 font-primary text-2xl font-bold text-tertiary sm:text-4xl mdl:text-5xl'>

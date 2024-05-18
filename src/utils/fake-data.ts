@@ -9,11 +9,11 @@ export const categories = [
     },
     {
         id: '3',
-        name: 'Drink'
+        name: 'Dessert'
     },
     {
         id: '4',
-        name: 'Dessert'
+        name: 'Drink'
     }
 ];
 
