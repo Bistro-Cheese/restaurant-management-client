@@ -1,13 +1,13 @@
 'use client';
 
-import React, { Dispatch, FC, SetStateAction, useEffect } from 'react';
+import { Dispatch, FC, SetStateAction } from 'react';
+import toast from 'react-hot-toast';
 
 import { cn } from '@/lib/utils';
 
 import { TableType } from '@/types';
 import { useAppDispatch } from '@/hooks/redux-hook';
 import { setTableId } from '@/redux/features/order-slice';
-import toast from 'react-hot-toast';
 
 interface TableCardProps {
     table: TableType;

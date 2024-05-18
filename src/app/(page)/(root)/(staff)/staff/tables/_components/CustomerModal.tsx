@@ -1,16 +1,14 @@
 import Modal from 'react-modal';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { ModalStyles } from '@/constants/modalStyle';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { Heading } from '@/components/heading';
 import { Button } from '@/components/ui/button';
+
+import { setCustomer, setTableId } from '@/redux/features/order-slice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
-import {
-    setCustomer,
-    setOrder,
-    setTableId
-} from '@/redux/features/order-slice';
-import { useRouter } from 'next/navigation';
+import toast from 'react-hot-toast';
 
 interface IProps {
     isOpen: boolean;
@@ -42,10 +40,6 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
 
     const { tableId } = useAppSelector((state) => state.reducer.order);
 
-    useEffect(() => {
-        console.log('order state', tableId);
-    }, [tableId]);
-
     const handleClose = () => {
         dispatch(setTableId(-1));
         setModalState(initialModalState);
@@ -53,6 +47,21 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
     };
 
     const handleConfirm = () => {
+        if (modalState.name === '') {
+            toast.error('Name is required');
+            return;
+        }
+
+        if (modalState.phoneNumber === '') {
+            toast.error('Phone number is required');
+            return;
+        }
+
+        if (modalState.numberOfCustomer === 0) {
+            toast.error('Number of customer is required');
+            return;
+        }
+
         dispatch(
             setCustomer({
                 customerName: modalState.name,
@@ -62,8 +71,22 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
                 checkInTime: modalState.checkin
             })
         );
+
         setIsOpen(false);
+
         router.push(`/staff/tables/${tableId}`);
+    };
+
+    const handleChangeDate = (e: ChangeEvent<HTMLInputElement>) => {
+        const newDate = e.target.value
+            .split('T')
+            .join(' ')
+            .replaceAll('-', '/');
+
+        setModalState({
+            ...modalState,
+            checkin: newDate + ':00'
+        });
     };
 
     return (
@@ -92,6 +115,10 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
                         <input
                             value={modalState.phoneNumber}
                             onChange={(e) => {
+                                if (isNaN(Number(e.target.value))) return;
+
+                                if (e.target.value.length > 10) return;
+
                                 setModalState({
                                     ...modalState,
                                     phoneNumber: e.target.value
@@ -138,16 +165,12 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
                         {modalState.reversed && (
                             <div className='mt-4'>
                                 <p>Check-in time: </p>
+
                                 <input
-                                    value={modalState.checkin}
-                                    onChange={(e) => {
-                                        setModalState({
-                                            ...modalState,
-                                            checkin: e.target.value
-                                        });
-                                    }}
-                                    placeholder='dd/MM/yyyy hh:mm:ss'
-                                    className='mt-2 w-full rounded p-2 outline outline-1 outline-gray-300 focus:outline-2 focus:outline-harvest-gold-300'
+                                    type='datetime-local'
+                                    className='w-full rounded px-3 py-1 text-tertiary outline outline-1 outline-gray-400'
+                                    placeholder='mm/DD/yyyy hh:mm:ss'
+                                    onChange={handleChangeDate}
                                 />
                             </div>
                         )}
