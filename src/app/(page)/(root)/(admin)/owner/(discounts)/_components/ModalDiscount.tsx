@@ -86,8 +86,8 @@ const formSchema = z.object({
     discount_type: z.string().min(1),
     value: z.coerce.number().min(1),
     uses_max: z.coerce.number().min(1),
-    start_date: z.string().min(1),
-    end_date: z.string().min(1).min(1),
+    start_date: z.string().optional(),
+    end_date: z.string().optional(),
     is_active: z.string().min(1)
 });
 
@@ -120,18 +120,25 @@ const ModalDiscount: React.FC<IProps> = (props) => {
         selectDiscountById(state, modalDiscountState.discountId as EntityId)
     );
 
-    const isCreate = modalDiscountState.discountId !== '';
+    const [startDate, setStartDate] = useState<string>();
+    const [endDate, setEndDate] = useState<string>(
+        discount?.endDate.split(' ')[0].split('-').reverse().join('-') +
+            'T' +
+            discount?.endDate.split(' ')[1]
+    );
 
-    const title = isCreate ? 'Edit discount' : 'Create new discount';
+    const isCreate = modalDiscountState.discountId === '';
 
-    const defaultValues = isCreate
+    const title = !isCreate ? 'Edit discount' : 'Create new discount';
+
+    const defaultValues = !isCreate
         ? {
               name: discount?.name,
               discount_type: discount?.type,
               value: discount?.value,
               uses_max: discount?.usesMax,
-              start_date: discount?.startDate,
-              end_date: discount?.endDate,
+              start_date: startDate,
+              end_date: endDate,
               is_active: discount?.isActive === true ? 'Active' : 'Inactive'
           }
         : {
@@ -149,17 +156,33 @@ const ModalDiscount: React.FC<IProps> = (props) => {
 
     useEffect(() => {
         if (modalDiscountState.discountId !== '') {
-            console.log('discount:::', discount);
+            setStartDate(
+                discount?.startDate
+                    .split(' ')[0]
+                    .split('-')
+                    .reverse()
+                    .join('-') +
+                    'T' +
+                    discount?.startDate.split(' ')[1]
+            );
+
+            setEndDate(
+                discount?.endDate.split(' ')[0].split('-').reverse().join('-') +
+                    'T' +
+                    discount?.endDate.split(' ')[1]
+            );
+
             form.reset({
                 name: discount?.name,
                 discount_type: JSON.stringify(discount?.type),
                 value: discount?.value,
                 uses_max: discount?.usesMax,
-                start_date: discount?.startDate,
-                end_date: discount?.endDate,
+                start_date: startDate,
+                end_date: endDate,
                 is_active: discount?.isActive === true ? '0' : '1'
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [modalDiscountState]);
 
     const handleSubmit = async (data: DiscountFormValues) => {
@@ -167,10 +190,20 @@ const ModalDiscount: React.FC<IProps> = (props) => {
             const discountData = {
                 ...data,
                 is_active: data.is_active === '0' ? true : false,
-                discount_type: parseInt(data.discount_type, 10)
+                discount_type: parseInt(data.discount_type, 10),
+                start_date:
+                    startDate?.split('T')[0].split('-').reverse().join('-') +
+                    ' ' +
+                    startDate?.split('T')[1] +
+                    ':00',
+                end_date:
+                    endDate?.split('T')[0].split('-').reverse().join('-') +
+                    ' ' +
+                    endDate?.split('T')[1] +
+                    ':00'
             };
 
-            modalDiscountState.isUpdate === false
+            isCreate
                 ? await createNewDiscount({ ...discountData })
                       .unwrap()
                       .then(() => {
@@ -375,10 +408,16 @@ const ModalDiscount: React.FC<IProps> = (props) => {
                                         <FormLabel>Date start</FormLabel>
                                         <FormControl>
                                             <Input
+                                                type='datetime-local'
                                                 disabled={false}
-                                                placeholder='dd/MM/yyyy hh:mm:ss'
                                                 {...field}
                                                 className='bg-white'
+                                                value={startDate}
+                                                onChange={(e) => {
+                                                    setStartDate(
+                                                        e.target.value
+                                                    );
+                                                }}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -393,10 +432,14 @@ const ModalDiscount: React.FC<IProps> = (props) => {
                                         <FormLabel>Date end</FormLabel>
                                         <FormControl>
                                             <Input
+                                                type='datetime-local'
                                                 disabled={false}
-                                                placeholder='dd/MM/yyyy hh:mm:ss'
                                                 {...field}
                                                 className='bg-white'
+                                                value={endDate}
+                                                onChange={(e) => {
+                                                    setEndDate(e.target.value);
+                                                }}
                                             />
                                         </FormControl>
                                         <FormMessage />

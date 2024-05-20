@@ -20,11 +20,11 @@ export const categories = [
 export const userRoles = [
     {
         id: '1',
-        name: 'Manager'
+        name: 'manager'
     },
     {
         id: '2',
-        name: 'Staff'
+        name: 'staff'
     }
 ];
 

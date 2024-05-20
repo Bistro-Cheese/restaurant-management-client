@@ -27,173 +27,137 @@ import {
     SelectTrigger,
     SelectValue
 } from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
+import Card from '@/components/common/Card';
 import { Heading } from '@/components/heading';
+import { Separator } from '@/components/ui/separator';
 import { AlertModal } from '@/components/modal/alert-modal';
+
 import { userRoles, userStatus } from '@/utils/fake-data';
-import { useSelector } from 'react-redux';
-import { EntityId } from '@reduxjs/toolkit';
 import {
-    selectUserById,
     useAddNewUserMutation,
     useDeleteUserMutation,
+    useGetUserByIdQuery,
     useUpdateUserMutation
 } from '@/redux/services/user-api';
-import { useUpdateFoodMutation } from '@/redux/services/food-api';
 import { removeUnwantedKeys } from '@/utils';
-import Card from '@/components/common/Card';
 import { CustomToastOptions } from '@/constants/toast';
 
 const formSchema = z.object({
     username: z.string().min(1),
     first_name: z.string().min(1),
     last_name: z.string().min(1),
-    date_of_birth: z.string().min(1),
-    password: z.string().min(1),
+    date_of_birth: z.string(),
     phone_number: z.string().min(1).max(11),
+    password: z.string().min(8),
     role: z.string().min(1),
     status: z.string().min(0),
     address_line: z.string().min(1),
     city: z.string().min(1),
     region: z.string().min(1),
     email: z.string().min(1).email(),
-    experienced_year: z.string().min(0),
-    certification_management: z.string().min(0),
-    foreign_language: z.string().min(0),
-    academic_level: z.string().min(0)
+    experienced_year: z.string().min(0).optional(),
+    certification_management: z.string().min(0).optional(),
+    foreign_language: z.string().min(0).optional(),
+    academic_level: z.string().min(0).optional()
 });
 
 export type UserFormValues = z.infer<typeof formSchema>;
 
 interface UserFormProps {
-    userId: string | null;
+    userId: string;
 }
 
 export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
-    // console.log('ID USER FORM EDIT:::', userId);
-
     const router = useRouter();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [role, setRole] = useState<string | undefined>('');
+    const [role, setRole] = useState<string>('manager');
+    const [date, setDate] = useState<string>('');
     const [unwantedKeys, setUnwantedKeys] = useState<string[]>([]);
 
-    const user = useSelector((state) =>
-        selectUserById(state, userId as EntityId)
-    );
-
-    console.log('USER FORM EDIT:::', user);
-
-    const [
-        addNewUser,
-        {
-            isLoading: isCreatingLoading,
-            isSuccess: isCreatedSuccess,
-            isError: isCreatingError,
-            error: creatingError
-        }
-    ] = useAddNewUserMutation();
-
-    const [
-        updateUser,
-        {
-            isLoading: isUpdatingLoading,
-            isSuccess: isUpdatedSuccess,
-            isError: isUpdatedError,
-            error: updatedError
-        }
-    ] = useUpdateUserMutation();
-
-    const [
-        deleteUser,
-        {
-            isLoading: isDeletingLoading,
-            isSuccess: isDeletedSuccess,
-            isError: isDeletedError,
-            error: deletedError
-        }
-    ] = useDeleteUserMutation();
-
-    const isCreate = userId !== 'create';
-    // console.log('isCreate:::', isCreate);
-
-    const title = isCreate ? 'Edit User' : 'Create User';
-    const description = isCreate ? 'Edit an User.' : 'Add a new User';
-    const toastMessage = isCreate ? 'User updated.' : 'User created.';
-    const action = isCreate ? 'Save changes' : 'Create';
-
-    const defaultValues = isCreate
-        ? {
-              username: user?.username,
-              first_name: user?.firstName,
-              last_name: user?.lastName,
-              date_of_birth: user?.dateOfBirth,
-              password: user?.password,
-              phone_number: user?.phoneNumber,
-              role: JSON.stringify(user?.role),
-              status: JSON.stringify(user?.status),
-              address_line: user?.address?.addressLine,
-              city: user?.address?.city,
-              region: user?.address?.region,
-              email: user?.email,
-              experienced_year: user?.experiencedYear,
-              certification_management: user?.certificationManagement,
-              foreign_language: user?.foreignLanguage,
-              academic_level: user?.academicLevel
-          }
-        : {
-              username: '',
-              firstName: '',
-              lastName: '',
-              dateOfBirth: '',
-              password: '',
-              phoneNumber: '',
-              role: '',
-              status: '',
-              addressLine: '',
-              city: '',
-              region: '',
-              email: '',
-              experienced_year: '',
-              certification_management: '',
-              foreign_language: '',
-              academic_level: ''
-          };
-
-    const form = useForm<UserFormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues
+    const {
+        data,
+        isSuccess: isGetUserByIdSuccess,
+        isLoading: isGetUserByIdLoading
+    } = useGetUserByIdQuery(userId, {
+        pollingInterval: 120000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
     });
 
-    // useEffect(() => {
-    //     if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
-    //         setLoading(true);
-    //     } else {
-    //         setLoading(false);
-    //     }
-    // }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading]);
+    const [addNewUser, { isLoading: isCreatingLoading }] =
+        useAddNewUserMutation();
 
-    // useEffect(() => {
-    //     if (isCreatedSuccess || isUpdatedSuccess || isDeletedSuccess) {
-    //         console.log('isDeletedSuccess:::', isDeletedSuccess);
-    //         router.refresh();
-    //         router.push('/owner/employees');
-    //         toast.success(toastMessage);
-    //     }
+    const [updateUser, { isLoading: isUpdatingLoading }] =
+        useUpdateUserMutation();
 
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isCreatedSuccess, isUpdatedSuccess, isDeletedSuccess]);
+    const [deleteUser, { isLoading: isDeletingLoading }] =
+        useDeleteUserMutation();
+
+    const isCreate = userId === 'create';
+
+    const title = !isCreate ? 'Edit User' : 'Create User';
+    const description = !isCreate ? 'Edit an User.' : 'Add a new User';
+    const action = !isCreate ? 'Save changes' : 'Create';
+
+    const form = useForm<UserFormValues>({
+        resolver: zodResolver(formSchema)
+    });
+
+    useEffect(() => {
+        if (isGetUserByIdSuccess) {
+            const user = data?.data;
+
+            setRole(user?.role.toLowerCase());
+            setDate(user?.dateOfBirth.split('-').reverse().join('-'));
+
+            form.setValue('username', user?.username);
+            form.setValue('first_name', user?.firstName);
+            form.setValue('last_name', user?.lastName);
+            form.setValue('email', user?.email);
+            form.setValue('date_of_birth', date);
+            form.setValue('phone_number', user?.phoneNumber);
+            form.setValue('password', user?.password);
+            form.setValue('role', user?.role.toLowerCase());
+            form.setValue('status', user?.status.toString());
+            form.setValue('address_line', user?.address.addressLine);
+            form.setValue('city', user?.address.city);
+            form.setValue('region', user?.address.region);
+            form.setValue('experienced_year', user?.experiencedYear);
+            form.setValue(
+                'certification_management',
+                user?.certificationManagement
+            );
+            form.setValue('foreign_language', user?.foreignLanguage);
+            form.setValue('academic_level', user?.academicLevel);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isGetUserByIdSuccess, form]);
+
+    useEffect(() => {
+        if (isCreatingLoading || isUpdatingLoading || isDeletingLoading) {
+            setLoading(true);
+        } else {
+            setLoading(false);
+        }
+    }, [isCreatingLoading, isUpdatingLoading, isDeletingLoading]);
 
     const onSubmit = async (data: UserFormValues) => {
         if (data) {
             let removedKeysData = removeUnwantedKeys(data, unwantedKeys);
-            // console.log('data user submitted:::', removedKeysData);
 
-            isCreate
+            const formattedDate = date.split('-').reverse().join('-');
+
+            !isCreate
                 ? await updateUser({
                       user_id: userId,
-                      data: { ...removedKeysData }
+                      data: {
+                          ...removedKeysData,
+                          role: removedKeysData.role === 'manager' ? 1 : 2,
+                          status: parseInt(removedKeysData.status),
+                          date_of_birth: formattedDate
+                      }
                   })
                       .unwrap()
                       .then(() => {
@@ -205,13 +169,15 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                           router.push('/owner/employees');
                       })
                       .catch((err) => {
-                          toast.error(
-                              (err as any).data.message,
-                              CustomToastOptions
-                          );
+                          console.log('err:::', err);
                       })
                       .finally(() => setLoading(false))
-                : await addNewUser({ ...removedKeysData })
+                : await addNewUser({
+                      ...removedKeysData,
+                      role: removedKeysData.role === 'manager' ? 1 : 2,
+                      status: parseInt(removedKeysData.status),
+                      date_of_birth: formattedDate
+                  })
                       .unwrap()
                       .then(() => {
                           toast.success(
@@ -233,15 +199,6 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
     };
 
     const onDelete = async () => {
-        console.log('userId:::', userId);
-        // try {
-        //     await deleteUser({ user_id: userId });
-        // } catch (err) {
-        //     console.log('err:::', err);
-        // }
-        // setLoading(false);
-        // setOpen(false);
-
         await deleteUser({ user_id: userId })
             .unwrap()
             .then(() => {
@@ -266,24 +223,23 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
             .finally(() => setLoading(false));
     };
 
-    const handleChangeRole = (value: string) => {
-        setRole(value);
-
-        switch (role) {
-            case '1':
-                setUnwantedKeys(['foreign_language', 'academic_level']);
-                break;
-            case '2':
-                setUnwantedKeys([
-                    'experienced_year',
-                    'certification_management'
-                ]);
-                break;
-            default:
-        }
-
-        console.log('Role:::', role);
+    const handleChangeRole = (role: string) => {
+        setRole(role);
+        setUnwantedKeys(getUnwantedKeys(role));
     };
+
+    const getUnwantedKeys = (role: string) => {
+        switch (role) {
+            case 'staff':
+                return ['experienced_year', 'certification_management'];
+            case 'manager':
+                return ['academic_level'];
+            default:
+                return [];
+        }
+    };
+
+    if (isGetUserByIdLoading) return <div>Loading...</div>;
 
     return (
         <div className='pb-4'>
@@ -301,7 +257,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                         title={title}
                         description={description}
                     />
-                    {user && (
+                    {data && (
                         <Button
                             disabled={loading}
                             variant='destructive'
@@ -324,6 +280,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                             <FormField
                                 control={form.control}
                                 name='first_name'
+                                defaultValue={data?.data?.firstName}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>First name</FormLabel>
@@ -331,17 +288,19 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                             <Input
                                                 disabled={loading}
                                                 placeholder='First name'
-                                                {...field}
                                                 className='bg-white'
+                                                {...field}
                                             />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='last_name'
+                                defaultValue={data?.data?.lastName}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Last name</FormLabel>
@@ -357,9 +316,11 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='email'
+                                defaultValue={data?.data?.email}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Email</FormLabel>
@@ -375,9 +336,11 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='username'
+                                defaultValue={data?.data?.username}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Username</FormLabel>
@@ -393,27 +356,11 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name='password'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Password</FormLabel>
-                                        <FormControl>
-                                            <Input
-                                                disabled={loading}
-                                                placeholder='Password'
-                                                {...field}
-                                                className='bg-white'
-                                            />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
+
                             <FormField
                                 control={form.control}
                                 name='phone_number'
+                                defaultValue={data?.data?.phoneNumber}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Phone number</FormLabel>
@@ -429,6 +376,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='date_of_birth'
@@ -438,9 +386,13 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                         <FormControl>
                                             <Input
                                                 disabled={loading}
-                                                placeholder='dd-MM-yyyy'
+                                                type='date'
                                                 {...field}
                                                 className='bg-white'
+                                                value={date}
+                                                onChange={(e) => {
+                                                    setDate(e.target.value);
+                                                }}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -450,49 +402,121 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
 
                             <FormField
                                 control={form.control}
-                                name='role'
+                                name='password'
+                                defaultValue={data?.data?.password}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Role</FormLabel>
-                                        <Select
-                                            disabled={loading}
-                                            onValueChange={(value) => {
-                                                field.onChange(value);
-                                                handleChangeRole(value);
-                                            }}
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger className='w-[180px] bg-white'>
-                                                    <SelectValue
-                                                        defaultValue={
-                                                            field.value
-                                                        }
-                                                        placeholder='Select a role'
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {userRoles.map((role) => (
-                                                        <SelectItem
-                                                            key={role.id}
-                                                            value={role.id}
-                                                        >
-                                                            {role.name}
-                                                        </SelectItem>
-                                                    ))}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
+                                        <FormLabel>Password</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                type='password'
+                                                disabled={loading}
+                                                placeholder='Password'
+                                                {...field}
+                                                className='bg-white'
+                                            />
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}
                             />
 
-                            {role === '2' && (
-                                <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
+                            <div className='grid-cols-2 gap-8 md:grid md:grid-cols-2'>
+                                <FormField
+                                    control={form.control}
+                                    name='role'
+                                    defaultValue={data?.data?.role}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Role</FormLabel>
+                                            <Select
+                                                disabled={loading}
+                                                value={field.value}
+                                                onValueChange={(value) => {
+                                                    field.onChange(value);
+                                                    handleChangeRole(value);
+                                                }}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger className='bg-white'>
+                                                        <SelectValue placeholder='Select a role' />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {userRoles.map(
+                                                            (role) => (
+                                                                <SelectItem
+                                                                    key={
+                                                                        role.id
+                                                                    }
+                                                                    value={
+                                                                        role.name
+                                                                    }
+                                                                >
+                                                                    {role.name}
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name='status'
+                                    defaultValue={data?.data?.status}
+                                    render={({ field }) => (
+                                        <FormItem>
+                                            <FormLabel>Status</FormLabel>
+                                            <Select
+                                                disabled={loading}
+                                                onValueChange={field.onChange}
+                                                value={field.value}
+                                            >
+                                                <FormControl>
+                                                    <SelectTrigger className='bg-white'>
+                                                        <SelectValue
+                                                            defaultValue={
+                                                                field.value
+                                                            }
+                                                            placeholder='Select a status'
+                                                        />
+                                                    </SelectTrigger>
+                                                </FormControl>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        {userStatus.map(
+                                                            (status) => (
+                                                                <SelectItem
+                                                                    key={
+                                                                        status.id
+                                                                    }
+                                                                    value={
+                                                                        status.id
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        status.name
+                                                                    }
+                                                                </SelectItem>
+                                                            )
+                                                        )}
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                            </div>
+
+                            {role === 'staff' && (
+                                <div className='grid-cols-2 gap-8 md:grid md:grid-cols-2'>
                                     <FormField
                                         control={form.control}
                                         name='foreign_language'
@@ -513,6 +537,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                             </FormItem>
                                         )}
                                     />
+
                                     <FormField
                                         control={form.control}
                                         name='academic_level'
@@ -535,8 +560,9 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     />
                                 </div>
                             )}
-                            {role === '1' && (
-                                <div className='grid-cols-1 gap-8 md:grid md:grid-cols-1'>
+
+                            {role === 'manager' && (
+                                <div className='grid-cols-3 gap-8 md:grid md:grid-cols-3'>
                                     <FormField
                                         control={form.control}
                                         name='experienced_year'
@@ -547,6 +573,7 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                                 </FormLabel>
                                                 <FormControl>
                                                     <Input
+                                                        type='number'
                                                         disabled={loading}
                                                         placeholder='Experienced year'
                                                         {...field}
@@ -577,12 +604,34 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                             </FormItem>
                                         )}
                                     />
+
+                                    <FormField
+                                        control={form.control}
+                                        name='foreign_language'
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>
+                                                    Foreign language
+                                                </FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        disabled={loading}
+                                                        placeholder='Foreign language'
+                                                        {...field}
+                                                        className='bg-white'
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                 </div>
                             )}
 
                             <FormField
                                 control={form.control}
                                 name='address_line'
+                                defaultValue={data?.data?.address.addressLine}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Address line</FormLabel>
@@ -598,9 +647,11 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='city'
+                                defaultValue={data?.data?.address.city}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>City</FormLabel>
@@ -616,9 +667,11 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
+
                             <FormField
                                 control={form.control}
                                 name='region'
+                                defaultValue={data?.data?.address.region}
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Region</FormLabel>
@@ -634,50 +687,8 @@ export const UserForm: React.FC<UserFormProps> = ({ userId }) => {
                                     </FormItem>
                                 )}
                             />
-                            <FormField
-                                control={form.control}
-                                name='status'
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Status</FormLabel>
-                                        <Select
-                                            disabled={loading}
-                                            onValueChange={field.onChange}
-                                            value={field.value}
-                                            defaultValue={field.value}
-                                        >
-                                            <FormControl>
-                                                <SelectTrigger className='w-[180px] bg-white'>
-                                                    <SelectValue
-                                                        defaultValue={
-                                                            field.value
-                                                        }
-                                                        placeholder='Select a status'
-                                                    />
-                                                </SelectTrigger>
-                                            </FormControl>
-                                            <SelectContent>
-                                                <SelectGroup>
-                                                    {userStatus.map(
-                                                        (status) => (
-                                                            <SelectItem
-                                                                key={status.id}
-                                                                value={
-                                                                    status.id
-                                                                }
-                                                            >
-                                                                {status.name}
-                                                            </SelectItem>
-                                                        )
-                                                    )}
-                                                </SelectGroup>
-                                            </SelectContent>
-                                        </Select>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
                         </div>
+
                         <Button
                             disabled={loading}
                             className='ml-auto bg-primary transition-all duration-200 ease-in-out hover:bg-harvest-gold-600 active:bg-harvest-gold-700'

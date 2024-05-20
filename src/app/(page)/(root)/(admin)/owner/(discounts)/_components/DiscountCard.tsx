@@ -43,16 +43,14 @@ const DiscountCard: React.FC<DiscountCardProps> = ({
 
     return (
         <>
-            <Card
-                className={cn(
-                    'h-full flex-col rounded-md p-4',
-                    discount?.isActive === true
-                        ? ''
-                        : 'pointer-events-none opacity-50 drop-shadow-none'
-                )}
-            >
+            <Card className={cn('h-full flex-col rounded-md p-4')}>
                 <div className='block grow'>
-                    <p className='line-clamp-2  text-lg font-bold'>
+                    <p
+                        className={cn(
+                            'line-clamp-2  text-lg font-bold',
+                            discount?.isActive === false && 'text-gray-400'
+                        )}
+                    >
                         {discount?.name}
                     </p>
                 </div>

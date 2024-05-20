@@ -18,15 +18,12 @@ const Employees = () => {
         refetchOnMountOrArgChange: true
     });
 
-    console.log('USERDATA:::', users);
-
     if (isLoading) {
         return <div>Loading All Employees...</div>;
     }
 
     if (isSuccess) {
         const { entities } = users;
-        console.log('entities:::', entities);
         return (
             <div className='max-h-full overflow-hidden pb-4'>
                 <div className='mb-4 flex justify-between'>
