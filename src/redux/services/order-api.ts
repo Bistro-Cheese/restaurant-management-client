@@ -32,6 +32,10 @@ export const ordersApi = apiSlice.injectEndpoints({
                     : [{ type: 'Order', id: 'LIST' }]
         }),
 
+        getOrderByTableId: builder.mutation<any, any>({
+            query: (table_id: string) => `/orders/tables/${table_id}`
+        }),
+
         createOrder: builder.mutation({
             query: (body) => ({
                 url: '/orders',
@@ -40,18 +44,18 @@ export const ordersApi = apiSlice.injectEndpoints({
             }),
             invalidatesTags: [{ type: 'Order', id: 'LIST' }]
         }),
+
         updateOrder: builder.mutation({
-            query: (data) => ({
+            query: (body) => ({
                 url: `/orders`,
                 method: 'PUT',
-                body: {
-                    ...data
-                }
+                body
             }),
             invalidatesTags: (result, error, arg) => [
                 { type: 'Order', id: arg.id }
             ]
         }),
+
         deleteOrder: builder.mutation({
             query: ({ order_id }) => ({
                 url: `/orders/${order_id}`,
@@ -66,6 +70,7 @@ export const ordersApi = apiSlice.injectEndpoints({
 
 export const {
     useGetOrdersQuery,
+    useGetOrderByTableIdMutation,
     useCreateOrderMutation,
     useUpdateOrderMutation,
     useDeleteOrderMutation

@@ -23,8 +23,6 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
 
     const dispatch = useDispatch();
 
-    const handleOnBlur = () => {};
-
     const handleIncreaseQuantity = () => {
         dispatch(increaseQuantity({ foodId: orderLine.id }));
     };
@@ -51,11 +49,16 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
             {/* Image */}
             <div className='relative h-20 w-20'>
                 <Image
-                    loader={() => orderLine.image}
+                    priority
                     src={orderLine.image}
                     className='rounded-lg object-cover object-center'
-                    fill={true}
-                    alt={orderLine.description}
+                    fill
+                    alt={orderLine.name}
+                    sizes='
+                        (min-width: 1024px) 200px,
+                        (min-width: 768px) 150px,
+                        100px
+                    '
                 />
             </div>
 
@@ -98,7 +101,6 @@ const OrderLineCard: React.FC<OrderLineCardProps> = ({ orderLine }) => {
                                 }
                                 className='w-7 rounded-md bg-transparent bg-white p-1 text-center text-sm shadow-md lg:text-base'
                                 onChange={(event) => handleSetQuantity(event)}
-                                onBlur={handleOnBlur}
                             />
                         </li>
 

@@ -7,7 +7,8 @@ import { cn } from '@/lib/utils';
 
 import { TableType } from '@/types';
 import { useAppDispatch } from '@/hooks/redux-hook';
-import { setTableId } from '@/redux/features/order-slice';
+import { setIsUpdate, setTableId } from '@/redux/features/order-slice';
+import { useRouter } from 'next/navigation';
 
 interface TableCardProps {
     table: TableType;
@@ -15,6 +16,8 @@ interface TableCardProps {
 }
 
 const TableCard: FC<TableCardProps> = ({ table, setIsOpen }) => {
+    const router = useRouter();
+
     const dispatch = useAppDispatch();
 
     const handleClickTable = () => {
@@ -24,7 +27,8 @@ const TableCard: FC<TableCardProps> = ({ table, setIsOpen }) => {
                 setIsOpen(true);
                 break;
             case 'OCCUPIED':
-                toast.error('This table is occupied');
+                dispatch(setIsUpdate(true));
+                router.push(`/staff/tables/${table.id}`);
                 break;
             case 'RESERVED':
                 toast.error('This table is reserved');

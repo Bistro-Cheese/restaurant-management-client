@@ -1,4 +1,3 @@
-import { OrderLineType } from '@/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 export const orderKey = 'order';
@@ -10,7 +9,16 @@ export type OrderStateType = {
     phoneNumber: string;
     status: number;
     checkInTime: string;
-    orderLines: OrderLineType[];
+    orderLines: {
+        id: string;
+        food_id: string;
+        name: string;
+        image: string;
+        price: number;
+        quantity: number;
+    }[];
+    discountId: number | null;
+    isUpdate: boolean;
 };
 
 type setCustomerPayload = Omit<OrderStateType, 'tableId' | 'orderLines'>;
@@ -22,7 +30,9 @@ export const initialOrderState: OrderStateType = {
     phoneNumber: '',
     status: 1,
     checkInTime: '01/01/2000 00:00:00',
-    orderLines: []
+    orderLines: [],
+    discountId: null,
+    isUpdate: false
 };
 
 export const orderSlice = createSlice({
@@ -39,6 +49,7 @@ export const orderSlice = createSlice({
             } else {
                 state.orderLines.push({
                     ...action.payload,
+                    food_id: action.payload.id,
                     quantity: 1
                 });
             }
@@ -102,7 +113,14 @@ export const orderSlice = createSlice({
         },
 
         setOrder: (state, action: PayloadAction<OrderStateType>) => {
-            state = action.payload;
+            state.tableId = action.payload.tableId;
+            state.customerName = action.payload.customerName;
+            state.numberOfCustomer = action.payload.numberOfCustomer;
+            state.phoneNumber = action.payload.phoneNumber;
+            state.status = action.payload.status;
+            state.checkInTime = action.payload.checkInTime;
+            state.orderLines = action.payload.orderLines;
+            state.discountId = action.payload.discountId;
         },
 
         setTableId: (state, action: PayloadAction<number>) => {
@@ -124,6 +142,16 @@ export const orderSlice = createSlice({
             state.status = 1;
             state.checkInTime = '01/01/2000 00:00:00';
             state.orderLines = [];
+            state.discountId = null;
+            state.isUpdate = false;
+        },
+
+        setDiscountId: (state, action: PayloadAction<number>) => {
+            state.discountId = action.payload;
+        },
+
+        setIsUpdate: (state, action: PayloadAction<boolean>) => {
+            state.isUpdate = action.payload;
         }
     }
 });
@@ -137,5 +165,7 @@ export const {
     setOrder,
     setTableId,
     setCustomer,
+    setDiscountId,
+    setIsUpdate,
     resetOrderState
 } = orderSlice.actions;

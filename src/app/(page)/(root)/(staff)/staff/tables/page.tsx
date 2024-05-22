@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Modal from 'react-modal';
 
 import { TableType } from '@/types';
@@ -7,7 +7,6 @@ import { TableType } from '@/types';
 import { useGetAllTables } from '@/hooks/table/use-get-table';
 import CustomerModal from './_components/CustomerModal';
 import TableCard from './_components/TableCard';
-import { useAppSelector } from '@/hooks/redux-hook';
 
 const TablePage: React.FC = () => {
     Modal.setAppElement('body');
@@ -15,12 +14,6 @@ const TablePage: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const { getTablesData, isTablesLoading } = useGetAllTables();
-
-    const state = useAppSelector((state) => state.reducer.order);
-
-    useEffect(() => {
-        console.log('order state', state);
-    }, [state]);
 
     const tables = Object.values(getTablesData?.entities || {}) as TableType[];
 

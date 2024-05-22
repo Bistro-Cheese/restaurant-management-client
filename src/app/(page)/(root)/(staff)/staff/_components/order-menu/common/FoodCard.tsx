@@ -29,8 +29,8 @@ const FoodCard: React.FC<FoodCardProps> = ({ food }) => {
             {food.image && (
                 <div className='relative h-full w-32 md:h-56 md:w-full lg:h-60 xl:h-64 2xl:h-80'>
                     <Image
-                        loader={() => food.image}
                         src={food.image}
+                        priority
                         className='rounded-3xl object-cover object-center md:rounded-t-3xl md:rounded-bl-none md:rounded-br-none'
                         fill
                         alt={food.description}

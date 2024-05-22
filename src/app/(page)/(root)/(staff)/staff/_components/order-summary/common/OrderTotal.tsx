@@ -1,47 +1,31 @@
-import { Separator } from '@/components/ui/separator';
-import { TbShoppingCartCheck } from 'react-icons/tb';
-import { MdOutlineDiscount } from 'react-icons/md';
-import { OrderLineType } from '@/types';
-import { RootState } from '@/redux/store';
-import { convertPriceToString } from '@/utils';
-import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { Dispatch, SetStateAction } from 'react';
+
+import { MdOutlineDiscount } from 'react-icons/md';
+import { TbShoppingCartCheck } from 'react-icons/tb';
+
+import { OrderLineType } from '@/types';
+import { convertPriceToString } from '@/utils';
+import { Separator } from '@/components/ui/separator';
+import { resetOrderState } from '@/redux/features/order-slice';
+import { CustomToastOptions } from '@/constants/toast';
+
+import { RootState } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
 import { useCreateOrder } from '@/hooks/order/use-create-order';
 import { useUpdateOrder } from '@/hooks/order/use-update-order';
-import { CustomToastOptions } from '@/constants/toast';
-import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
-import {
-    initialOrderState,
-    resetOrderState
-} from '@/redux/features/order-slice';
 
-const getSubTotal = (orderLines: OrderLineType[]) => {
-    let totalQuantity = 0;
-    let subTotalPrice = 0;
+interface IProps {
+    setIsOpenModal: Dispatch<SetStateAction<boolean>>;
+}
 
-    orderLines.forEach((orderLine) => {
-        totalQuantity += orderLine.quantity!;
-        subTotalPrice += Number(orderLine.price)! * orderLine.quantity!;
-    });
-
-    return { subTotalPrice, totalQuantity };
-};
-
-const convertToOrderLinesRequestType = (orderLines: OrderLineType[]) => {
-    return orderLines.map((orderLine) => ({
-        food_id: orderLine.id,
-        quantity: orderLine.quantity
-    }));
-};
-
-const OrderTotal: React.FC = () => {
+const OrderTotal = ({ setIsOpenModal }: IProps) => {
     const router = useRouter();
 
     const dispatch = useAppDispatch();
 
     const order = useAppSelector((state: RootState) => state.reducer.order);
-
-    // const quantity = getSubTotal(order.orderLines).totalQuantity;
 
     const subTotalPrice = convertPriceToString(
         getSubTotal(order.orderLines).subTotalPrice
@@ -49,52 +33,53 @@ const OrderTotal: React.FC = () => {
 
     const { createOrder, isCreatingLoading } = useCreateOrder();
 
-    const {
-        updateOrder,
-        isUpdatingLoading,
-        isUpdatedSuccess,
-        isUpdatedError,
-        updatedError
-    } = useUpdateOrder();
+    const { updateOrder, isUpdatingLoading } = useUpdateOrder();
 
-    const handleCreateOrder = () => {
+    const handleSubmit = () => {
         if (order.orderLines.length === 0) {
             toast.error('At least one item to place order', CustomToastOptions);
             return;
         }
 
-        createOrder({
-            table_id: order.tableId,
-            customer_name: order.customerName,
-            phone_number: order.phoneNumber,
-            number_of_customer: order.numberOfCustomer,
-            status: order.status,
-            cus_in: order.checkInTime,
-            order_lines: convertToOrderLinesRequestType(order.orderLines)
-        })
-            .unwrap()
-            .then((res) => {
-                toast.success(res.message, CustomToastOptions);
-                dispatch(resetOrderState());
-                router.push('/staff/tables');
+        if (order.isUpdate) {
+            // update order
+            updateOrder({
+                table_id: order.tableId,
+                customer_name: order.customerName,
+                phone_number: order.phoneNumber,
+                number_of_customer: order.numberOfCustomer,
+                status: order.status,
+                cus_in: order.checkInTime,
+                order_lines: convertToOrderLinesRequestType(order.orderLines)
             })
-            .catch((err) => {
-                toast.error(err.data.message, CustomToastOptions);
-            });
+                .unwrap()
+                .then((res) => {
+                    toast.success(res.message, CustomToastOptions);
+                    dispatch(resetOrderState());
+                    router.push('/staff/tables');
+                })
+                .catch((err) => {
+                    toast.error(err.data.message, CustomToastOptions);
+                });
+        } else {
+            createOrder({
+                table_id: order.tableId,
+                order_lines: convertToOrderLinesRequestType(order.orderLines)
+            })
+                .unwrap()
+                .then((res) => {
+                    toast.success(res.message, CustomToastOptions);
+                    dispatch(resetOrderState());
+                    router.push('/staff/tables');
+                })
+                .catch((err) => {
+                    toast.error(err.data.message, CustomToastOptions);
+                });
+        }
+    };
 
-        //     dispatch(createTableOrder(order));
-        //     let orderLinesDataRequest: OrderLineRequest[] =
-        //         convertToOrderLinesRequestType(order.orderLines);
-        //     let orderDataRequest = {
-        //         table_id: order.tableId,
-        //         order_lines: orderLinesDataRequest
-        //     };
-        //     tableOrders.find(
-        //         (tableOrder) => tableOrder.tableId === order.tableId
-        //     )
-        //         ? await updateOrder(orderDataRequest)
-        //         : await createOrder(orderDataRequest);
-        //     console.log('order created already:::', orderDataRequest);
+    const handleOpenDiscountModal = () => {
+        setIsOpenModal(true);
     };
 
     return (
@@ -102,7 +87,7 @@ const OrderTotal: React.FC = () => {
             <Separator className='absolute top-0 bg-mediumSilver' />
 
             <div className='flex flex-col px-4 pb-6 pt-4'>
-                <div className=''>
+                {/* <div className=''>
                     <div className='flex justify-between'>
                         <span className='font-medium text-muted-foreground'>
                             Sub Total
@@ -118,19 +103,32 @@ const OrderTotal: React.FC = () => {
                         </span>
 
                         <span className='text-base font-bold text-green-500'>
-                            0
+                            {order.discountId ? 'Applied' : 'Not Applied'}
                         </span>
                     </div>
-                </div>
+                </div> */}
 
-                <div className='group mt-4 inline-flex items-center justify-center gap-4 rounded-md px-4 py-2'>
-                    <button className=' inline-flex min-w-full items-center justify-center'>
-                        <span className='flex items-center justify-center gap-4 text-lg font-semibold text-harvest-gold-600 duration-150 ease-linear group-hover:scale-105 group-active:scale-95 group-active:opacity-70'>
-                            <MdOutlineDiscount />
-                            <span>Available discount</span>
-                        </span>
+                {/* Discount */}
+                {/* <div className='group mt-4 inline-flex items-center justify-center gap-4 rounded-md px-4 py-2'>
+                    <button
+                        className=' inline-flex min-w-full items-center justify-center'
+                        onClick={handleOpenDiscountModal}
+                    >
+                        {order.discountId ? (
+                            <span className='flex items-center justify-center gap-4 text-lg '>
+                                <MdOutlineDiscount className='h-7 w-7 text-green-500' />
+                                <span className='font-bold uppercase text-green-500'>
+                                    Discount Applied
+                                </span>
+                            </span>
+                        ) : (
+                            <span className='flex items-center justify-center gap-4 text-lg font-semibold text-harvest-gold-600 duration-150 ease-linear group-hover:scale-105 group-active:scale-95 group-active:opacity-70'>
+                                <MdOutlineDiscount />
+                                <span>Available discount</span>
+                            </span>
+                        )}
                     </button>
-                </div>
+                </div> */}
 
                 <div className='mt-4 flex justify-between'>
                     <span className='text-xl font-bold'>Total</span>
@@ -144,7 +142,7 @@ const OrderTotal: React.FC = () => {
 
                 <div className='group mt-4 cursor-pointer'>
                     <button
-                        onClick={handleCreateOrder}
+                        onClick={handleSubmit}
                         className=' inline-flex min-w-full items-center justify-center rounded-md bg-harvest-gold-500 px-6 py-3 drop-shadow-lg duration-100 ease-linear group-hover:bg-harvest-gold-400 group-active:scale-95 group-active:opacity-70'
                     >
                         <span className='flex items-center justify-center gap-4 text-lg '>
@@ -152,6 +150,8 @@ const OrderTotal: React.FC = () => {
                             <span className='font-bold uppercase text-white'>
                                 {isCreatingLoading
                                     ? 'Loading...'
+                                    : order.isUpdate
+                                    ? 'Update Order'
                                     : 'Place Order'}
                             </span>
                         </span>
@@ -160,6 +160,28 @@ const OrderTotal: React.FC = () => {
             </div>
         </div>
     );
+};
+
+const getSubTotal = (orderLines: any[]) => {
+    let totalQuantity = 0;
+    let subTotalPrice = 0;
+
+    orderLines.forEach((orderLine) => {
+        totalQuantity += orderLine.quantity!;
+        subTotalPrice += Number(orderLine.price)! * orderLine.quantity!;
+    });
+
+    return { subTotalPrice, totalQuantity };
+};
+
+const convertToOrderLinesRequestType = (orderLines: any[]) => {
+    return orderLines.map((orderLine) => {
+        console.log('orderLine', orderLine);
+        return {
+            food_id: orderLine.food_id,
+            quantity: orderLine.quantity
+        };
+    });
 };
 
 export default OrderTotal;

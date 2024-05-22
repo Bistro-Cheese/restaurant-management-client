@@ -1,6 +1,7 @@
 import Modal from 'react-modal';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 
 import { ModalStyles } from '@/constants/modalStyle';
 import { Heading } from '@/components/heading';
@@ -8,7 +9,6 @@ import { Button } from '@/components/ui/button';
 
 import { setCustomer, setTableId } from '@/redux/features/order-slice';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux-hook';
-import toast from 'react-hot-toast';
 
 interface IProps {
     isOpen: boolean;

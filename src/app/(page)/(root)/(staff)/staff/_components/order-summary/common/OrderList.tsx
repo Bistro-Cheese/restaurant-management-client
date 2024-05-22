@@ -1,15 +1,13 @@
 import OrderLineCard from './OrderLineCard';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/redux/store';
 
-const OrderList: React.FC = () => {
-    const orderLines = useSelector(
-        (state: RootState) => state.reducer.order.orderLines
-    );
+import { useAppSelector } from '@/hooks/redux-hook';
+
+const OrderList = () => {
+    const { orderLines } = useAppSelector((state) => state.reducer.order);
 
     return (
         <ul className='flex grow flex-col space-y-1 overflow-y-auto overflow-x-hidden py-1'>
-            {orderLines?.map((item) => (
+            {orderLines.map((item: any) => (
                 <li key={item.id}>
                     <OrderLineCard orderLine={item} />
                 </li>

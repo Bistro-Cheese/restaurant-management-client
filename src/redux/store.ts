@@ -12,14 +12,16 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import { reducers } from './features';
+import { apiSlice } from './services/base-api';
+
 import { userKey } from './features/user-slice';
 import { authKey } from './features/auth-slice';
-import { apiSlice } from './services/base-api';
+import { orderKey } from './features/order-slice';
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: [authKey, userKey]
+    whitelist: [authKey, userKey, orderKey]
 };
 
 const combinedReducer = combineReducers({

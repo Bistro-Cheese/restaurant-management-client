@@ -3,8 +3,11 @@
 import { useRouter, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import React from 'react';
+import { useAppDispatch } from '@/hooks/redux-hook';
+import { resetOrderState } from '@/redux/features/order-slice';
 
 const Navbar: React.FC = () => {
+    const dispatch = useAppDispatch();
     const router = useRouter();
     const pathname = usePathname();
 
@@ -22,7 +25,10 @@ const Navbar: React.FC = () => {
         <nav className='ml-3 xs:ml-5 sml:ml-10'>
             <ul className='flex items-center space-x-4 text-lg sml:space-x-8'>
                 <div
-                    onClick={() => router.push('/staff/tables')}
+                    onClick={() => {
+                        dispatch(resetOrderState());
+                        router.push('/staff/tables');
+                    }}
                     className={cn(
                         `rounded-full py-2 text-secondary-subtitle duration-200 ease-linear`,
                         isTableActive
@@ -31,7 +37,10 @@ const Navbar: React.FC = () => {
                     Table
                 </div>
                 <div
-                    onClick={() => router.push('/staff/orders')}
+                    onClick={() => {
+                        dispatch(resetOrderState());
+                        router.push('/staff/orders');
+                    }}
                     className={cn(
                         `rounded-full py-2 text-secondary-subtitle duration-200 ease-linear`,
                         isOrderActive

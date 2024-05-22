@@ -1,12 +1,16 @@
-import { Heading } from '@/components/heading';
-import { ModalStyles } from '@/constants/modalStyle';
-import { CustomToastOptions } from '@/constants/toast';
-import { useCreateBill } from '@/hooks/bill/use-create-bill';
-import { useGetAllPayments } from '@/hooks/payment/use-get-payments';
-import PaymentType from '@/types/PaymentType';
+import Modal from 'react-modal';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import Modal from 'react-modal';
+
+import { Heading } from '@/components/heading';
+
+import { ModalStyles } from '@/constants/modalStyle';
+import { CustomToastOptions } from '@/constants/toast';
+
+import { useCreateBill } from '@/hooks/bill/use-create-bill';
+import { useGetAllPayments } from '@/hooks/payment/use-get-payments';
+
+import PaymentType from '@/types/PaymentType';
 
 interface IProps {
     isOpen: boolean;
@@ -26,22 +30,6 @@ const initiaModallState: ModalStateType = {
     paid: 0,
     methodId: ''
 };
-
-// type ModalBillState = {
-//     staff: string;
-//     customerPhoneNumber: string;
-//     total: number;
-//     paid: number;
-//     change: number;
-// };
-
-// const initialState: ModalBillState = {
-//     staff: '',
-//     customerPhoneNumber: '',
-//     total: 0,
-//     paid: 0,
-//     change: 0
-// };
 
 export default function CheckoutModal({
     isOpen,
@@ -129,6 +117,7 @@ export default function CheckoutModal({
                             />
                         </div>
                     )}
+
                     {modalState.paymentType === 1 && (
                         <div>
                             <p>Payment Method: </p>
