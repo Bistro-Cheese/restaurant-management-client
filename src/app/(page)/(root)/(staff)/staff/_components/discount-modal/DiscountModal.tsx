@@ -61,7 +61,7 @@ export default function DiscountModal({ isOpen, setIsOpen, tableId }: IProps) {
                                         </p>
                                         <span>
                                             {convertPriceToString(
-                                                discount.value
+                                                discount.value || 0
                                             )}
                                         </span>
                                         <span>

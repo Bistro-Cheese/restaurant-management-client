@@ -12,6 +12,7 @@ import { useGetOrdersQuery } from '@/redux/services/order-api';
 import DiscountModal from '../_components/discount-modal/DiscountModal';
 import { convertPriceToString } from '@/utils';
 import BillModal from './_components/BillModal';
+import { useGetBillByOrderIdMutation } from '@/redux/services/bill-api';
 
 const OrderListPage: React.FC = () => {
     Modal.setAppElement('body');
@@ -27,6 +28,11 @@ const OrderListPage: React.FC = () => {
     const [total, setTotal] = useState<number>(0);
 
     const orders = Object.values(data?.entities || {}) as OrderType[];
+
+    const [getBill, { data: billData, isLoading }] =
+        useGetBillByOrderIdMutation();
+
+    const [bill, setBill] = useState<any>(null);
 
     return (
         <>
@@ -53,20 +59,22 @@ const OrderListPage: React.FC = () => {
                             </p>
                             <p className='mb-2'>
                                 <strong>Sub Total:</strong>{' '}
-                                {convertPriceToString(order.subTotal)}{' '}
+                                {convertPriceToString(order.subTotal || 0)}{' '}
                                 <span> VND</span>
                             </p>
                             <p className='mb-2'>
                                 <strong>Discount: </strong>
                                 {order.discountType === 0
                                     ? order.discountValue
-                                    : convertPriceToString(order.discountValue)}
+                                    : convertPriceToString(
+                                          order.discountValue || 0
+                                      )}
 
                                 {order.discountType === 0 ? '%' : ' VND'}
                             </p>
                             <p className='mb-2'>
                                 <strong>Total:</strong>{' '}
-                                {convertPriceToString(order.total)}
+                                {convertPriceToString(order.total || 0)}
                                 <span> VND</span>
                             </p>
                             <p className='mb-2'>
@@ -126,11 +134,15 @@ const OrderListPage: React.FC = () => {
                                     className='mt-4'
                                     variant='outline'
                                     onClick={() => {
-                                        setIsOpenBillModal(true);
-                                        setOrderId(order.id);
+                                        getBill(order.id)
+                                            .unwrap()
+                                            .then((res) => {
+                                                setBill(res.data[0]);
+                                                setIsOpenBillModal(true);
+                                            });
                                     }}
                                 >
-                                    Print Bill
+                                    Bill
                                 </Button>
                             )}
                         </div>
@@ -154,6 +166,7 @@ const OrderListPage: React.FC = () => {
             <BillModal
                 isOpen={isOpenBillModal}
                 setIsOpen={setIsOpenBillModal}
+                bill={bill}
             />
         </>
     );

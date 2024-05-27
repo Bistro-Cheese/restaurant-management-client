@@ -9,8 +9,16 @@ export const billApi = apiSlice.injectEndpoints({
                 body
             }),
             invalidatesTags: ['Bill', 'Order']
+        }),
+
+        getBillByOrderId: builder.mutation({
+            query: (orderId) => ({
+                url: `/bills/${orderId}`,
+                method: 'GET'
+            }),
+            invalidatesTags: ['Bill']
         })
     })
 });
 
-export const { useCreateBillMutation } = billApi;
+export const { useCreateBillMutation, useGetBillByOrderIdMutation } = billApi;
