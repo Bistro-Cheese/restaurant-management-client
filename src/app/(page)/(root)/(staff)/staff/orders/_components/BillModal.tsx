@@ -16,8 +16,6 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
         <Modal
             isOpen={isOpen}
             onRequestClose={() => setIsOpen(false)}
-            // title='Bill'
-            // description={`Bill for order at table ${bill?.tableNumber}`}
             style={ModalStyles}
         >
             <div className='p-5'>
