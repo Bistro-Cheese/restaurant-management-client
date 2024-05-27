@@ -33,7 +33,7 @@ const OrderTotal = ({ setIsOpenModal }: IProps) => {
 
     const { createOrder, isCreatingLoading } = useCreateOrder();
 
-    const { updateOrder, isUpdatingLoading } = useUpdateOrder();
+    const { updateOrder } = useUpdateOrder();
 
     const handleSubmit = () => {
         if (order.orderLines.length === 0) {
@@ -53,26 +53,31 @@ const OrderTotal = ({ setIsOpenModal }: IProps) => {
                 order_lines: convertToOrderLinesRequestType(order.orderLines)
             })
                 .unwrap()
-                .then((res) => {
+                .then((res: any) => {
                     toast.success(res.message, CustomToastOptions);
                     dispatch(resetOrderState());
                     router.push('/staff/tables');
                 })
-                .catch((err) => {
+                .catch((err: any) => {
                     toast.error(err.data.message, CustomToastOptions);
                 });
         } else {
             createOrder({
                 table_id: order.tableId,
+                customer_name: order.customerName,
+                phone_number: order.phoneNumber,
+                number_of_customer: order.numberOfCustomer,
+                status: order.status,
+                cus_in: order.checkInTime,
                 order_lines: convertToOrderLinesRequestType(order.orderLines)
             })
                 .unwrap()
-                .then((res) => {
+                .then((res: any) => {
                     toast.success(res.message, CustomToastOptions);
                     dispatch(resetOrderState());
                     router.push('/staff/tables');
                 })
-                .catch((err) => {
+                .catch((err: any) => {
                     toast.error(err.data.message, CustomToastOptions);
                 });
         }

@@ -6,5 +6,8 @@ export type OrderType = {
     status: number;
     subTotal: number;
     tableNumber: number;
+    tableId: number;
     total: number;
+    discountValue: number;
+    discountType: number;
 };

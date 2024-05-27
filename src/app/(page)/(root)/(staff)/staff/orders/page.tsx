@@ -1,18 +1,28 @@
 'use client';
+
 import Modal from 'react-modal';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { useGetOrdersQuery } from '@/redux/services/order-api';
-import { OrderType } from '@/types/OrderType';
-import CheckoutModal from './_components/CheckoutModal';
 import { useState } from 'react';
+
+import { Button } from '@/components/ui/button';
+import CheckoutModal from './_components/CheckoutModal';
+
+import { cn } from '@/lib/utils';
+import { OrderType } from '@/types/OrderType';
+import { useGetOrdersQuery } from '@/redux/services/order-api';
+import DiscountModal from '../_components/discount-modal/DiscountModal';
+import { convertPriceToString } from '@/utils';
+import BillModal from './_components/BillModal';
 
 const OrderListPage: React.FC = () => {
     Modal.setAppElement('body');
 
     const { data } = useGetOrdersQuery();
 
-    const [isOpenModal, setIsOpenModal] = useState(false);
+    const [isOpenCheckoutModal, setIsOpenCheckoutModal] = useState(false);
+    const [isOpenDiscountModal, setIsOpenDiscountModal] = useState(false);
+    const [isOpenBillModal, setIsOpenBillModal] = useState(false);
+
+    const [tableId, setTableId] = useState<number>();
     const [orderId, setOrderId] = useState<string>('');
     const [total, setTotal] = useState<number>(0);
 
@@ -30,12 +40,10 @@ const OrderListPage: React.FC = () => {
                             'bg-green-200': order?.status === 2
                         })}
                     >
-                        <h1 className='mb-4 text-2xl font-bold'>Order</h1>
+                        <h1 className='mb-4 text-2xl font-bold'>
+                            Order Table {order.tableNumber}
+                        </h1>
                         <div>
-                            <p className='mb-2'>
-                                <strong>Table Number:</strong>{' '}
-                                {order.tableNumber}
-                            </p>
                             <p className='mb-2'>
                                 <strong>Number of Customers:</strong>{' '}
                                 {order.numberOfCustomer}
@@ -44,15 +52,28 @@ const OrderListPage: React.FC = () => {
                                 <strong>Deposit:</strong> {order.deposit}
                             </p>
                             <p className='mb-2'>
-                                <strong>Sub Total:</strong> {order.subTotal}
+                                <strong>Sub Total:</strong>{' '}
+                                {convertPriceToString(order.subTotal)}{' '}
+                                <span> VND</span>
                             </p>
                             <p className='mb-2'>
-                                <strong>Total:</strong> {order.total}
+                                <strong>Discount: </strong>
+                                {order.discountType === 0
+                                    ? order.discountValue
+                                    : convertPriceToString(order.discountValue)}
+
+                                {order.discountType === 0 ? '%' : ' VND'}
+                            </p>
+                            <p className='mb-2'>
+                                <strong>Total:</strong>{' '}
+                                {convertPriceToString(order.total)}
+                                <span> VND</span>
                             </p>
                             <p className='mb-2'>
                                 <strong>Check-in time:</strong> {order.cusIn}
                             </p>
                         </div>
+
                         <div className='flex justify-center gap-4'>
                             {order?.status === 0 && (
                                 <>
@@ -79,7 +100,18 @@ const OrderListPage: React.FC = () => {
                                         className='mt-4'
                                         variant='outline'
                                         onClick={() => {
-                                            setIsOpenModal(true);
+                                            setTableId(order.tableId);
+                                            setIsOpenDiscountModal(true);
+                                        }}
+                                    >
+                                        Apply Discount
+                                    </Button>
+
+                                    <Button
+                                        className='mt-4'
+                                        variant='outline'
+                                        onClick={() => {
+                                            setIsOpenCheckoutModal(true);
                                             setTotal(order.total);
                                             setOrderId(order.id);
                                         }}
@@ -88,16 +120,40 @@ const OrderListPage: React.FC = () => {
                                     </Button>
                                 </>
                             )}
+
+                            {order?.status === 2 && (
+                                <Button
+                                    className='mt-4'
+                                    variant='outline'
+                                    onClick={() => {
+                                        setIsOpenBillModal(true);
+                                        setOrderId(order.id);
+                                    }}
+                                >
+                                    Print Bill
+                                </Button>
+                            )}
                         </div>
                     </div>
                 ))}
             </div>
 
             <CheckoutModal
-                isOpen={isOpenModal}
-                setIsOpen={setIsOpenModal}
+                isOpen={isOpenCheckoutModal}
+                setIsOpen={setIsOpenCheckoutModal}
                 orderId={orderId}
                 total={total}
+            />
+
+            <DiscountModal
+                isOpen={isOpenDiscountModal}
+                setIsOpen={setIsOpenDiscountModal}
+                tableId={tableId}
+            />
+
+            <BillModal
+                isOpen={isOpenBillModal}
+                setIsOpen={setIsOpenBillModal}
             />
         </>
     );

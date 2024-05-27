@@ -21,7 +21,10 @@ export type OrderStateType = {
     isUpdate: boolean;
 };
 
-type setCustomerPayload = Omit<OrderStateType, 'tableId' | 'orderLines'>;
+type setCustomerPayload = Omit<
+    OrderStateType,
+    'tableId' | 'orderLines' | 'discountId' | 'isUpdate'
+>;
 
 export const initialOrderState: OrderStateType = {
     tableId: -1,

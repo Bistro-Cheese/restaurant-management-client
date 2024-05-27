@@ -7,30 +7,35 @@ import { Heading } from '@/components/heading';
 import { useGetDiscountsQuery } from '@/redux/services/discount-api';
 
 import { cn } from '@/lib/utils';
-import { useAppDispatch } from '@/hooks/redux-hook';
-import { setDiscountId } from '@/redux/features/order-slice';
+import { useUpdateOrder } from '@/hooks/order/use-update-order';
+import toast from 'react-hot-toast';
+import { convertPriceToString } from '@/utils';
 
 interface IProps {
     isOpen: boolean;
     setIsOpen: Dispatch<SetStateAction<boolean>>;
+    tableId?: number;
 }
 
-export default function DiscountModal({ isOpen, setIsOpen }: IProps) {
-    const dispatch = useAppDispatch();
+export default function DiscountModal({ isOpen, setIsOpen, tableId }: IProps) {
+    const { data, isLoading: isGetDiscountsLoading } = useGetDiscountsQuery();
 
-    const {
-        data,
-        isSuccess,
-        isLoading: isGetDiscountsLoading
-    } = useGetDiscountsQuery();
+    const { updateOrder } = useUpdateOrder();
 
     const handleClose = () => {
         setIsOpen(false);
     };
 
     const handleApplyDiscount = (discountId: number) => {
-        dispatch(setDiscountId(discountId));
-        setIsOpen(false);
+        updateOrder({
+            table_id: tableId,
+            discount_id: discountId
+        })
+            .unwrap()
+            .then((res) => {
+                toast.success('Apply discount successfully');
+                setIsOpen(false);
+            });
     };
 
     if (isGetDiscountsLoading) return <div>Loading...</div>;
@@ -54,7 +59,11 @@ export default function DiscountModal({ isOpen, setIsOpen }: IProps) {
                                         <p className='text-xl font-semibold'>
                                             {discount.name}
                                         </p>
-                                        <span>{discount.value}</span>
+                                        <span>
+                                            {convertPriceToString(
+                                                discount.value
+                                            )}
+                                        </span>
                                         <span>
                                             {discount.type === 1 ? ' VND' : '%'}
                                         </span>
