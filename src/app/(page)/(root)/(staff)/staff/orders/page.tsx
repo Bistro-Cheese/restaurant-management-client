@@ -175,7 +175,7 @@ const OrderListPage: React.FC = () => {
                 <div className='mt-4 w-1/2 outline outline-1 outline-black'></div>
             </div>
 
-            <div className=''>
+            <div className='pb-8'>
                 <div className='flex items-center justify-between px-4'>
                     <h1 className='text-2xl font-bold'>Order List</h1>
                 </div>

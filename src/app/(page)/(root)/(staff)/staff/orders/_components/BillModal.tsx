@@ -18,7 +18,7 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
             onRequestClose={() => setIsOpen(false)}
             style={ModalStyles}
         >
-            <div className='h-[10px] overflow-y-scroll p-5'>
+            <div className='p-5'>
                 <h1 className='text-center text-2xl font-bold'>Bill</h1>
 
                 <div className='mt-4 flex justify-center gap-10'>
