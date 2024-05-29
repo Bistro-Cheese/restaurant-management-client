@@ -10,6 +10,7 @@ import { cn } from '@/lib/utils';
 import { useUpdateOrder } from '@/hooks/order/use-update-order';
 import toast from 'react-hot-toast';
 import { convertPriceToString } from '@/utils';
+import { CustomToastOptions } from '@/constants/toast';
 
 interface IProps {
     isOpen: boolean;
@@ -29,12 +30,19 @@ export default function DiscountModal({ isOpen, setIsOpen, tableId }: IProps) {
     const handleApplyDiscount = (discountId: number) => {
         updateOrder({
             table_id: tableId,
-            discount_id: discountId
+            discount_id: discountId,
+            status: 1
         })
             .unwrap()
             .then((res) => {
-                toast.success('Apply discount successfully');
+                toast.success(
+                    'Apply discount successfully',
+                    CustomToastOptions
+                );
                 setIsOpen(false);
+            })
+            .catch((err) => {
+                toast.error(err.data.message, CustomToastOptions);
             });
     };
 

@@ -101,15 +101,9 @@ export default function CheckoutModal({
                             <input
                                 value={modalState.paid}
                                 onChange={(e) => {
-                                    if (!isNaN(Number(e.target.value))) {
-                                        setModalState({
-                                            ...modalState,
-                                            paid: 0
-                                        });
-                                    }
                                     setModalState({
                                         ...modalState,
-                                        paid: Number(e.target.value)
+                                        paid: Number(e.target.value) || 0
                                     });
                                 }}
                                 placeholder='Enter amount paid'

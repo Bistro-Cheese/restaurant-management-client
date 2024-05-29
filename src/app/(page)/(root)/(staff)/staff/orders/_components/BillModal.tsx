@@ -1,6 +1,6 @@
 import { ModalStyles } from '@/constants/modalStyle';
 import { convertPriceToString } from '@/utils';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Modal from 'react-modal';
 
 interface IProps {
@@ -18,22 +18,22 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
             onRequestClose={() => setIsOpen(false)}
             style={ModalStyles}
         >
-            <div className='p-5'>
+            <div className='h-[10px] overflow-y-scroll p-5'>
                 <h1 className='text-center text-2xl font-bold'>Bill</h1>
 
-                <div className='mt-4 flex justify-evenly gap-10'>
+                <div className='mt-4 flex justify-center gap-10'>
                     <div>
                         <div className=''>
                             <strong>Table: </strong>
                             <span>{bill?.tableNumber}</span>
                         </div>
                         <div className=''>
-                            <strong>Deposit: </strong>
-                            <span>0</span>
-                        </div>
-                        <div className=''>
                             <strong>Check-in: </strong>
                             <span>{bill?.cusIn}</span>
+                        </div>
+                        <div className=''>
+                            <strong>Check-out: </strong>
+                            <span>{bill?.cusOut}</span>
                         </div>
                     </div>
                     <div>
@@ -45,14 +45,10 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
                             <strong>Customer&apos;s Name: </strong>
                             <span>{bill?.customerName}</span>
                         </div>
-                        <div className=''>
-                            <strong>Check-out: </strong>
-                            <span>{bill?.cusOut}</span>
-                        </div>
                     </div>
                 </div>
 
-                <table className='mt-4'>
+                <table className='mt-4 w-full'>
                     <thead>
                         <tr className='outline outline-1 outline-black'>
                             <th scope='col' className='px-1'>
@@ -76,7 +72,7 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
                         {bill?.orderLines.map((item: any, index: number) => (
                             <tr key={index} className='text-center'>
                                 <th>{index + 1}</th>
-                                <td className='text-left text-sm'>
+                                <td className='w-40 text-left text-sm'>
                                     {item.name}
                                 </td>
                                 <td className='text-sm'>{item.quantity}</td>
@@ -127,8 +123,20 @@ export default function BillModal({ isOpen, setIsOpen, bill }: IProps) {
 
                 <div className='mt-8'>
                     <div className='flex justify-between'>
+                        <strong>Deposit: </strong>
+                        <span>
+                            {convertPriceToString(bill?.deposit || 0)} VND
+                        </span>
+                    </div>
+
+                    <div className='flex justify-between'>
                         <strong>Paid: </strong>
-                        <span>{convertPriceToString(bill?.paid || 0)} VND</span>
+                        <span>
+                            {convertPriceToString(
+                                bill?.paid - bill?.deposit || 0
+                            )}{' '}
+                            VND
+                        </span>
                     </div>
 
                     <div className='flex justify-between'>

@@ -24,6 +24,7 @@ const TablePage: React.FC = () => {
     const getCountTableStatus = (tables: TableType[]) => {
         let numberOfEmptyTable = 0;
         let numberOfOccupiedTable = 0;
+        let numberOfReversedTable = 0;
 
         tables.forEach((table) => {
             switch (table.tableStatus) {
@@ -34,13 +35,19 @@ const TablePage: React.FC = () => {
                     numberOfOccupiedTable++;
                     break;
                 default:
+                    numberOfReversedTable++;
+                    break;
             }
         });
 
-        return { numberOfEmptyTable, numberOfOccupiedTable };
+        return {
+            numberOfEmptyTable,
+            numberOfOccupiedTable,
+            numberOfReversedTable
+        };
     };
 
-    const { numberOfEmptyTable, numberOfOccupiedTable } =
+    const { numberOfEmptyTable, numberOfOccupiedTable, numberOfReversedTable } =
         getCountTableStatus(tables);
 
     return (
@@ -63,11 +70,17 @@ const TablePage: React.FC = () => {
                                 <div className='h-5 border' />
                                 <span>{numberOfOccupiedTable}</span>
                             </li>
+                            <li className='flex items-center gap-2'>
+                                <div className='h-2 w-2 rounded-full outline outline-4 outline-[#F87171]' />
+                                <span>Reserved</span>
+                                <div className='h-5 border' />
+                                <span>{numberOfReversedTable}</span>
+                            </li>
                         </ul>
                     </div>
                 </div>
 
-                <ul className='mt-6 grid grid-flow-row gap-10 sm:grid-cols-2 mdl:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6'>
+                <ul className='mt-10 grid grid-flow-row gap-10 sm:grid-cols-2 mdl:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 xxl:grid-cols-6'>
                     {tables.map((table) => (
                         <li key={table.id}>
                             <TableCard table={table} setIsOpen={setIsOpen} />

@@ -56,13 +56,24 @@ export const ordersApi = apiSlice.injectEndpoints({
             ]
         }),
 
+        updateOrderStatus: builder.mutation({
+            query: ({ order_id, status }) => ({
+                url: `/orders/${order_id}?status=${status}`,
+                method: 'PUT'
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Order', id: arg.id }
+            ]
+        }),
+
         deleteOrder: builder.mutation({
             query: ({ order_id }) => ({
                 url: `/orders/${order_id}`,
                 method: 'DELETE'
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Order', id: arg.id }
+                { type: 'Order', id: arg.id },
+                { type: 'Table', id: 'LIST' }
             ]
         })
     })
@@ -73,6 +84,7 @@ export const {
     useGetOrderByTableIdMutation,
     useCreateOrderMutation,
     useUpdateOrderMutation,
+    useUpdateOrderStatusMutation,
     useDeleteOrderMutation
 } = ordersApi;
 // returns the query result object

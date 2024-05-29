@@ -18,7 +18,6 @@ export const useDispatchLogin = () => {
                 username: username,
                 password: password
             }).unwrap();
-            console.log('userData:::', userData);
             if (userData) {
                 dispatch(
                     setCredentials({
@@ -26,7 +25,6 @@ export const useDispatchLogin = () => {
                     })
                 );
                 router.push('/auth');
-                console.log(userData?.data);
                 // router.push('/owner/foods/menu');
             }
         } catch (err) {

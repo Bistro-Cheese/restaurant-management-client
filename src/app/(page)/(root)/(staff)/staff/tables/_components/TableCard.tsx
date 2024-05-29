@@ -9,6 +9,7 @@ import { TableType } from '@/types';
 import { useAppDispatch } from '@/hooks/redux-hook';
 import { setIsUpdate, setTableId } from '@/redux/features/order-slice';
 import { useRouter } from 'next/navigation';
+import { CustomToastOptions } from '@/constants/toast';
 
 interface TableCardProps {
     table: TableType;
@@ -31,7 +32,7 @@ const TableCard: FC<TableCardProps> = ({ table, setIsOpen }) => {
                 router.push(`/staff/tables/${table.id}`);
                 break;
             case 'RESERVED':
-                toast.error('This table is reserved');
+                toast.error('This table is reserved', CustomToastOptions);
                 break;
             default:
                 break;
@@ -47,7 +48,9 @@ const TableCard: FC<TableCardProps> = ({ table, setIsOpen }) => {
                     'bg-lightSilver outline outline-mediumSilver':
                         table.tableStatus === 'EMPTY',
                     'bg-harvest-gold-50 outline outline-harvest-gold':
-                        table.tableStatus === 'OCCUPIED'
+                        table.tableStatus === 'OCCUPIED',
+                    'bg-red-50 outline outline-red-500':
+                        table.tableStatus === 'RESERVED'
                 }
             )}
         >
@@ -60,10 +63,13 @@ const TableCard: FC<TableCardProps> = ({ table, setIsOpen }) => {
             <span
                 className={cn('font-primary text-lg font-bold', {
                     'text-slate-600': table.tableStatus === 'EMPTY',
-                    'text-harvest-gold-700': table.tableStatus === 'OCCUPIED'
+                    'text-harvest-gold-700': table.tableStatus === 'OCCUPIED',
+                    'text-red-500': table.tableStatus === 'RESERVED'
                 })}
             >
-                {table.tableStatus === 'EMPTY' ? 'Free to use' : 'Pending'}
+                {table.tableStatus === 'EMPTY' && 'Empty'}
+                {table.tableStatus === 'OCCUPIED' && 'Occupied'}
+                {table.tableStatus === 'RESERVED' && 'Reserved'}
             </span>
         </div>
     );

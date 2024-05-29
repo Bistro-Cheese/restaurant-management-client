@@ -28,7 +28,7 @@ const initialModalState: ModalType = {
     phoneNumber: '',
     numberOfCustomer: 0,
     reversed: false,
-    checkin: '01/01/2000 00:00:00'
+    checkin: ''
 };
 
 export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
@@ -59,6 +59,11 @@ export default function CustomerModal({ isOpen, setIsOpen }: IProps) {
 
         if (modalState.numberOfCustomer === 0) {
             toast.error('Number of customer is required');
+            return;
+        }
+
+        if (modalState.reversed && modalState.checkin === '') {
+            toast.error('Check-in time is required');
             return;
         }
 

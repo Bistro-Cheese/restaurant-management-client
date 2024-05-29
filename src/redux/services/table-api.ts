@@ -52,15 +52,17 @@ export const tablesApi = apiSlice.injectEndpoints({
         }),
 
         updateTable: builder.mutation({
-            query: ({ id, seats }) => ({
+            query: ({ id, seats, status }) => ({
                 url: `/tables/${id}`, // pass the id parameter into the URL
                 method: 'PUT',
                 body: {
-                    seats
+                    seats,
+                    status
                 }
             }),
             invalidatesTags: (result, error, arg) => [
-                { type: 'Table', id: arg.id }
+                { type: 'Table', id: arg.id },
+                { type: 'Order', id: 'LIST' }
             ]
         }),
 
